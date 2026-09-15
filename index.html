@@ -1,11 +1,284 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Il mio sito web</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DonutFlip</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #0d1216;
+            color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* Header / Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: #151c22;
+            border-bottom: 1px solid #202b34;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            font-style: italic;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-box {
+            display: flex;
+            align-items: center;
+            background-color: #1e2730;
+            padding: 6px 12px;
+            border-radius: 8px;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid #2b3744;
+        }
+
+        .add-btn {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .add-btn:hover {
+            background-color: #16a34a;
+        }
+
+        .sign-in-btn {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .sign-in-btn:hover {
+            background-color: #16a34a;
+        }
+
+        /* Container Principale */
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        /* Card Banner */
+        .banners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .banner-card {
+            background: linear-gradient(135deg, #1b242c 0%, #12181e 100%);
+            border: 1px solid #28343f;
+            border-radius: 14px;
+            padding: 24px;
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .banner-card h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .banner-card p {
+            font-size: 0.75rem;
+            color: #8a9ba8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sezione Giochi */
+        .games-section {
+            margin-top: 20px;
+        }
+
+        .games-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .games-subtitle {
+            font-size: 0.9rem;
+            color: #6c7d8c;
+            margin-bottom: 20px;
+            margin-top: 4px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 14px;
+        }
+
+        .game-card {
+            background-color: #172027;
+            border: 1px solid #23303a;
+            border-radius: 12px;
+            padding: 22px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: #22c55e;
+            background-color: #1c2730;
+        }
+
+        .game-icon {
+            font-size: 2.2rem;
+        }
+
+        .game-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
- <h1>Benvenuto sul mio nuovo sito!</h1>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="logo">
+            🎲 DONUT <span>FLIP</span>
+        </div>
+        <div class="user-actions">
+            <div class="balance-box">
+                <span>🪙 0.00</span>
+            </div>
+            <button class="add-btn">+</button>
+            <button class="sign-in-btn">➜] Sign In</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <h1 class="page-title">DonutFlip</h1>
+
+        <!-- Top Banners -->
+        <div class="banners-grid">
+            <div class="banner-card">
+                <h3>RACE</h3>
+                <p>CLIMB THE BOARD, WIN THE POT</p>
+            </div>
+            <div class="banner-card">
+                <h3>REFERRALS</h3>
+                <p>INVITE FRIENDS, EARN COMMISSION</p>
+            </div>
+            <div class="banner-card">
+                <h3>DISCORD</h3>
+                <p>JOIN THE COMMUNITY</p>
+            </div>
+        </div>
+
+        <!-- Games Grid -->
+        <div class="games-section">
+            <h2 class="games-title">Games</h2>
+            <p class="games-subtitle">Play using site balance</p>
+
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-icon">📦</div>
+                    <div class="game-title">Cases</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">⚔️</div>
+                    <div class="game-title">Case Battles</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">💣</div>
+                    <div class="game-title">Mines</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🚀</div>
+                    <div class="game-title">Towers</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🪙</div>
+                    <div class="game-title">Coinflip</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🃏</div>
+                    <div class="game-title">Blackjack</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
