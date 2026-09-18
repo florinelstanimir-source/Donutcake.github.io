@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloxdash Casino Dashboard</title>
+    <title>Bloxdash Casino Dashboard - Tutti i Giochi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -33,7 +33,7 @@
     <header class="bg-cardBg border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
         <div class="flex items-center space-x-3">
             <span class="text-2xl font-black bg-gradient-to-r from-accentPurple to-accentPink bg-clip-text text-transparent">BLOXDASH</span>
-            <span class="text-xs px-2 py-0.5 bg-purple-900/50 text-purple-300 border border-purple-700/50 rounded-full font-semibold">PROTOTYPE</span>
+            <span class="text-xs px-2 py-0.5 bg-purple-900/50 text-purple-300 border border-purple-700/50 rounded-full font-semibold">ULTIMATE FIXED</span>
         </div>
         <div class="flex items-center space-x-4">
             <div class="bg-slate-900/80 border border-slate-700/60 px-4 py-2 rounded-xl flex items-center space-x-2">
@@ -50,7 +50,7 @@
     <main class="flex-1 max-w-7xl w-full mx-auto p-6">
         <div class="mb-6">
             <h1 class="text-2xl font-black tracking-tight">Dashboard Mini-Giochi</h1>
-            <p class="text-slate-400 text-sm">Clicca su un gioco della griglia 3x3 per aprirlo e iniziare a giocare.</p>
+            <p class="text-slate-400 text-sm">Tutti i giochi sono stati corretti e ottimizzati. Clicca su uno per iniziare.</p>
         </div>
 
         <!-- 3x3 GRID -->
@@ -449,7 +449,7 @@
             }, 100);
         }
 
-        // TOWERS LOGIC FIXED
+        // TOWERS LOGIC
         let towerState = { active: false, currentFloor: 0, bet: 0, multipliers: [1.4, 2.0, 3.2, 5.5] };
         function startTowers() {
             const bet = parseFloat(document.getElementById('towerBet').value);
@@ -499,8 +499,6 @@
         function chooseTowerCell(floor, col, btnElement) {
             if(!towerState.active) return;
             const status = document.getElementById('towersStatus');
-            
-            // Simula il piazzamento della mina (es. 1 colonna su 3 è una trappola)
             const trapCol = Math.floor(Math.random() * 3);
             
             if(col === trapCol) {
@@ -518,7 +516,6 @@
                     status.innerText = `Piano ${floor+1} superato! Passa al Piano ${towerState.currentFloor+1}.`;
                     renderTowersBoard();
                 } else {
-                    // Vittoria cima torre
                     const win = towerState.bet * towerState.multipliers[3];
                     updateBalance(win);
                     status.innerText = `🏆 Torre completata! Hai vinto ${win.toFixed(2)} monete!`;
