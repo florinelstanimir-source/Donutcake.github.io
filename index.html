@@ -253,8 +253,8 @@
         if(id === 'towers') initTowersBoard();
     }
 
-    /* --- MINES --- */
-    let minesState = { active: false, bet: 0, minesCount: 3, gemsFound: 0, multiplier: 1.0 };
+    /* --- MINES CORRETTO (GRIGLIA FISSA) --- */
+    let minesState = { active: false, bet: 0, minesCount: 3, gemsFound: 0, multiplier: 1.0, grid: [] };
 
     function initMinesBoard() {
         const board = document.getElementById('mines-board');
@@ -266,6 +266,19 @@
             cell.onclick = () => clickMineCell(i);
             board.appendChild(cell);
         }
+    }
+
+    function generateMinesGrid(count) {
+        let grid = new Array(25).fill('gem');
+        let placed = 0;
+        while(placed < count) {
+            let randomIndex = Math.floor(Math.random() * 25);
+            if(grid[randomIndex] !== 'bomb') {
+                grid[randomIndex] = 'bomb';
+                placed++;
+            }
+        }
+        return grid;
     }
 
     function handleMinesBtn() {
@@ -280,13 +293,21 @@
 
             setBalance(userBalance - bet);
             
-            minesState = { active: true, bet: bet, minesCount: minesCount, gemsFound: 0, multiplier: 1.0 };
+            minesState = { 
+                active: true, 
+                bet: bet, 
+                minesCount: minesCount, 
+                gemsFound: 0, 
+                multiplier: 1.0,
+                grid: generateMinesGrid(minesCount)
+            };
+            
             document.getElementById('mines-count').disabled = true;
             initMinesBoard();
             
             btn.textContent = "INCASSA (0.00 🪙)";
             btn.classList.add('btn-cashout');
-            document.getElementById('mines-msg').textContent = `Seleziona le caselle! (${minesCount} mine nel campo)`;
+            document.getElementById('mines-msg').textContent = `Seleziona le caselle! (${minesCount} mina/e nel campo)`;
             document.getElementById('mines-msg').style.color = "#ffffff";
         } else {
             if(minesState.gemsFound === 0) return;
@@ -294,6 +315,7 @@
             setBalance(userBalance + win);
             document.getElementById('mines-msg').textContent = `🎉 INCASSATO +${win.toFixed(2)} 🪙!`;
             document.getElementById('mines-msg').style.color = "#22c55e";
+            revealAllMines();
             resetMinesGame();
         }
     }
@@ -303,40 +325,48 @@
         const cell = document.querySelector(`.mine-cell[data-index='${idx}']`);
         if(cell.classList.contains('revealed-gem') || cell.classList.contains('revealed-bomb')) return;
 
-        let riskThreshold = 0.45 + (minesState.minesCount * 0.02);
-        let forceBomb = false;
-
-        if(minesState.gemsFound >= (25 - minesState.minesCount - 1) || Math.random() < riskThreshold) {
-            forceBomb = true;
-        }
-
-        if(forceBomb) {
+        if(minesState.grid[idx] === 'bomb') {
             cell.classList.add('revealed-bomb');
             cell.textContent = '💣';
             document.getElementById('mines-msg').textContent = "💥 BOOM! Hai beccato la bomba!";
             document.getElementById('mines-msg').style.color = "#ef4444";
-            revealAllMines(idx);
+            revealAllMines();
             resetMinesGame();
         } else {
             cell.classList.add('revealed-gem');
             cell.textContent = '💎';
             minesState.gemsFound++;
             
-            let stepMult = 0.15 + (minesState.minesCount * 0.08);
+            let stepMult = 0.05 + (minesState.minesCount * 0.12);
             minesState.multiplier += stepMult;
             const currentWin = minesState.bet * minesState.multiplier;
             
             const btn = document.getElementById('mines-btn');
             btn.textContent = `INCASSA (${currentWin.toFixed(2)} 🪙)`;
             document.getElementById('mines-msg').textContent = `Trovato! Moltiplicatore: x${minesState.multiplier.toFixed(2)}`;
+
+            if(minesState.gemsFound === (25 - minesState.minesCount)) {
+                setBalance(userBalance + currentWin);
+                document.getElementById('mines-msg').textContent = `🏆 VITTORIA TOTALE! +${currentWin.toFixed(2)} 🪙!`;
+                document.getElementById('mines-msg').style.color = "#22c55e";
+                revealAllMines();
+                resetMinesGame();
+            }
         }
     }
 
-    function revealAllMines(hitIdx) {
+    function revealAllMines() {
         document.querySelectorAll('.mine-cell').forEach((c, i) => {
-            if(i !== hitIdx && !c.classList.contains('revealed-gem')) {
-                c.textContent = Math.random() < (minesState.minesCount / 25) ? '💣' : '💎';
-                c.style.opacity = '0.6';
+            if(minesState.grid[i] === 'bomb') {
+                c.textContent = '💣';
+                if(!c.classList.contains('revealed-bomb')) {
+                    c.style.opacity = '0.7';
+                }
+            } else {
+                c.textContent = '💎';
+                if(!c.classList.contains('revealed-gem')) {
+                    c.style.opacity = '0.5';
+                }
             }
         });
     }
