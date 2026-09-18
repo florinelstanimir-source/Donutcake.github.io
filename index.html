@@ -13,7 +13,6 @@
             --accent-cyan: #00f0ff;
             --accent-purple: #7928ca;
             --accent-orange: #ff7300;
-            --accent-yellow: #ffb700;
             --gold: #ffd700;
             --text-main: #ffffff;
             --text-muted: #9ca3af;
@@ -24,6 +23,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -164,11 +164,12 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            user-select: none;
         }
 
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.2);
+        .game-card:hover, .game-card:active {
+            transform: translateY(-3px);
+            border-color: rgba(255,255,255,0.3);
             box-shadow: 0 12px 30px rgba(0,0,0,0.5);
         }
 
@@ -191,7 +192,7 @@
 
         .game-card-name {
             font-weight: 800;
-            font-size: 0.95krem;
+            font-size: 0.95rem;
             text-align: center;
             letter-spacing: 0.5px;
         }
@@ -232,7 +233,7 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--panel-border);
             color: white;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 8px;
             font-size: 0.8rem;
             cursor: pointer;
@@ -313,10 +314,11 @@
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-radius: 6px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             cursor: pointer;
+            user-select: none;
         }
         .q-btn:hover { background: rgba(255,255,255,0.2); }
 
@@ -336,7 +338,7 @@
         .btn-action-game:hover { filter: brightness(1.15); }
         .btn-action-game:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Chat Panel laterale stile streaming */
+        /* Chat Panel laterale */
         .chat-panel {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
@@ -429,7 +431,6 @@
             <div class="logo">DonutSMP VIP</div>
             <div class="nav-links">
                 <button class="nav-link active" onclick="showLobby()">Lobby</button>
-                <button class="nav-link" onclick="showLobby()">Classifica</button>
             </div>
         </div>
         <div class="nav-right">
@@ -443,7 +444,7 @@
     <!-- CONTAINER PRINCIPALE -->
     <div class="main-container">
         
-        <!-- CONTENUTO CENTRALE -->
+        <!-- LOBBY GIOCHI -->
         <div id="lobbyView">
             <div class="section-title">Giochi Popolari</div>
             <div class="games-grid">
@@ -470,10 +471,10 @@
             </div>
         </div>
 
-        <!-- AREA GIOCO SINGOLO (DINAMICA) -->
+        <!-- AREA GIOCO SINGOLO -->
         <div id="gameView" class="active-game-container">
             <div class="game-header-bar">
-                <button class="back-to-lobby" onclick="showLobby()">← Torna alla Lobby</button>
+                <button class="back-to-lobby" onclick="showLobby()">← Lobby</button>
                 <span id="currentGameTitle" style="font-weight: 800; font-size: 1rem; color: var(--gold);">Crash Game</span>
             </div>
 
@@ -518,7 +519,7 @@
                             </div>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-                            <button class="q-btn active-side" id="sidePink" onclick="setFlipSide('pink')" style="padding: 10px; font-weight: 700; background: rgba(255,42,133,0.3); border-color: var(--accent-pink);">Pink (🍩)</button>
+                            <button class="q-btn" id="sidePink" onclick="setFlipSide('pink')" style="padding: 10px; font-weight: 700; background: rgba(255,42,133,0.3); border-color: var(--accent-pink);">Pink (🍩)</button>
                             <button class="q-btn" id="sideCyan" onclick="setFlipSide('cyan')" style="padding: 10px; font-weight: 700;">Cyan (💎)</button>
                         </div>
                         <button class="btn-action-game" id="btnFlipAction" onclick="playFlip()">Lancia Moneta</button>
@@ -553,7 +554,7 @@
             <div id="g-mines" class="game-subview" style="display:none;">
                 <div class="game-play-area">
                     <div class="arena-box" id="minesGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 15px;">
-                        <!-- Generate via JS -->
+                        <!-- Generato via JS -->
                     </div>
                     <div class="game-sidebar-controls">
                         <div class="input-group">
@@ -591,7 +592,9 @@
         const navBalance = document.getElementById('navBalance');
         const statusBar = document.getElementById('statusBar');
 
-        function updateBal() { navBalance.textContent = `$${balance.toFixed(2)}`; }
+        function updateBal() { 
+            navBalance.textContent = `$${balance.toFixed(2)}`; 
+        }
 
         function showLobby() {
             document.getElementById('lobbyView').style.display = 'block';
@@ -659,7 +662,9 @@
         function setFlipSide(side) {
             flipSideChoice = side;
             document.getElementById('sidePink').style.background = side === 'pink' ? 'rgba(255,42,133,0.3)' : 'transparent';
+            document.getElementById('sidePink').style.borderColor = side === 'pink' ? 'var(--accent-pink)' : 'rgba(255,255,255,0.1)';
             document.getElementById('sideCyan').style.background = side === 'cyan' ? 'rgba(0,240,255,0.3)' : 'transparent';
+            document.getElementById('sideCyan').style.borderColor = side === 'cyan' ? 'var(--accent-cyan)' : 'rgba(255,255,255,0.1)';
         }
         function playFlip() {
             let bet = parseFloat(document.getElementById('betFlip').value);
@@ -700,7 +705,7 @@
             updateBal();
         }
 
-        // MINES LOGIC (Mini griglia 4x4)
+        // MINES LOGIC
         const minesGrid = document.getElementById('minesGrid');
         let minesActive = false;
         function startMines() {
@@ -720,7 +725,9 @@
                 tile.style.cursor = 'pointer';
                 tile.style.display = 'flex';
                 tile.style.alignItems = 'center';
-                tile.style.justify-content = 'center';
+                tile.style.justifyContent = 'center';
+                tile.style.userSelect = 'none';
+                
                 tile.onclick = () => {
                     if(!minesActive) return;
                     let isWin = Math.random() > 0.3;
