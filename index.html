@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DonutCake - Mines</title>
+    <title>DonutFlip</title>
     <style>
         :root {
             --bg-main: #0c1015;
@@ -29,8 +29,7 @@
             background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding-bottom: 40px;
         }
 
         /* Top Navbar */
@@ -41,88 +40,255 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-weight: 900;
             font-size: 1.1rem;
+            letter-spacing: -0.5px;
             color: var(--text-main);
-            text-transform: uppercase;
+            cursor: pointer;
         }
 
         .nav-logo span {
             color: var(--green);
-            display: block;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .balance-pill {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 4px 12px;
+            padding: 4px 10px;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
+        }
+
+        .balance-pill span {
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--gold);
         }
 
+        .plus-btn {
+            background: var(--green);
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .signin-btn {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px var(--green-glow);
+        }
+
         /* Container */
         .container {
-            max-width: 480px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 12px;
-            width: 100%;
+            padding: 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .section-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        /* Top Banners Carousel */
+        .banners-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            scrollbar-width: none;
+        }
+
+        .banners-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .banner-card {
+            min-width: 240px;
+            height: 120px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-card h3 {
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .banner-card p {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Games Grid (3x3) */
+        .games-section {
+            margin-top: 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .game-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 110px;
+            cursor: pointer;
+            transition: transform 0.1s ease, border-color 0.1s ease;
+        }
+
+        .game-item-card:active {
+            transform: scale(0.95);
+            border-color: var(--green);
+        }
+
+        .game-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .game-name {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Modal / Game Arena View */
+        #gameModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(12, 16, 21, 0.98);
+            z-index: 200;
+            padding: 16px;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .modal-body {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        /* Mines 5x5 Grid */
-        .mines-grid {
+        /* Stile specifico per Mines 5x5 nel modale */
+        .mines-grid-modal {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            gap: 6px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 12px;
+            border-radius: 12px;
+            padding: 10px;
             aspect-ratio: 1;
         }
 
         .mine-cell {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            transition: transform 0.1s ease, background 0.1s ease;
         }
 
-        .mine-cell:active {
-            transform: scale(0.92);
-        }
-
-        /* Controls */
         .control-box {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 16px;
+            border-radius: 10px;
+            padding: 10px 14px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
 
         .control-box label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             text-transform: uppercase;
             font-weight: 800;
@@ -138,188 +304,252 @@
             background: transparent;
             border: none;
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 800;
             width: 100px;
             outline: none;
         }
 
-        .action-btn {
+        .btn-action {
             background: var(--green);
             border: none;
             color: white;
-            padding: 14px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             box-shadow: 0 4px 15px var(--green-glow);
             letter-spacing: 0.5px;
-            font-size: 0.95rem;
-            margin-top: 4px;
+            font-size: 0.9rem;
         }
 
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        .status-msg {
+        .status-text {
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: var(--text-muted);
-            min-height: 20px;
+            min-height: 18px;
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR PRINCIPALE (Uguale all'immagine iniziale) -->
     <nav>
-        <div class="nav-logo">
-            Donut
-            <span>Cake</span>
+        <div class="nav-logo" onclick="location.reload()">
+            🎲 DONUT<span>FLIP</span>
         </div>
-        <div class="balance-pill" id="balanceDisplay">
-            🪙 40.00
+        <div class="nav-right">
+            <div class="balance-pill">
+                <span>🪙</span>
+                <span id="userBalance">40.00</span>
+                <button class="plus-btn" onclick="balance += 50; updateBal()">+</button>
+            </div>
+            <button class="signin-btn" onclick="alert('Accesso effettuato!')">Sign In</button>
         </div>
     </nav>
 
-    <!-- CONTAINER -->
+    <!-- CONTAINER PRINCIPALE -->
     <div class="container">
         
-        <!-- 5x5 GRID -->
-        <div class="mines-grid" id="minesGrid">
-            <!-- Generate dynamically -->
-        </div>
-
-        <!-- INPUTS -->
-        <div class="control-box">
-            <label>Puntata (🪙)</label>
-            <div class="control-row">
-                <input type="number" id="betInput" value="10" min="1">
+        <!-- BANNER SCROLLABILI IN ALTO -->
+        <div class="section-title">DonutFlip</div>
+        <div class="banners-scroll">
+            <div class="banner-card" style="border-color: rgba(147, 51, 234, 0.4);">
+                <h3>Race</h3>
+                <p>Climb the board, win the pot</p>
+            </div>
+            <div class="banner-card" style="border-color: rgba(34, 197, 94, 0.4);">
+                <h3>Referrals</h3>
+                <p>Invite friends, earn commission</p>
+            </div>
+            <div class="banner-card" style="border-color: rgba(59, 130, 246, 0.4);">
+                <h3>Discord</h3>
+                <p>Join the community</p>
             </div>
         </div>
 
-        <div class="control-box">
-            <label>Numero Mine (1-24)</label>
-            <div class="control-row">
-                <input type="number" id="minesCount" value="1" min="1" max="24">
+        <!-- GRIGLIA GIOCHI 3x3 -->
+        <div class="games-section">
+            <div class="section-title">Games</div>
+            <div class="section-sub">Play using site balance</div>
+
+            <div class="games-grid">
+                <div class="game-item-card" onclick="openGame('cases')">
+                    <div class="game-icon">📦</div>
+                    <div class="game-name">Cases</div>
+                </div>
+                <div class="game-item-card" onclick="openGame('battles')">
+                    <div class="game-icon">⚔️</div>
+                    <div class="game-name">Case Battles</div>
+                </div>
+                <div class="game-item-card" onclick="openGame('mines')">
+                    <div class="game-icon">💣</div>
+                    <div class="game-name">Mines</div>
+                </div>
+                <div class="game-item-card" onclick="openGame('towers')">
+                    <div class="game-icon">📈</div>
+                    <div class="game-name">Towers</div>
+                </div>
+                <div class="game-item-card" onclick="openGame('coinflip')">
+                    <div class="game-icon">🪙</div>
+                    <div class="game-name">Coinflip</div>
+                </div>
+                <div class="game-item-card" onclick="openGame('blackjack')">
+                    <div class="game-icon">🃏</div>
+                    <div class="game-name">Blackjack</div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <button class="action-btn" id="playBtn" onclick="toggleGame()">Inizia Partita</button>
-        <div class="status-msg" id="statusMsg">Tocca "Inizia Partita" per giocare</div>
-
+    <!-- MODALE INTERATTIVO PER I GIOCHI -->
+    <div id="gameModal">
+        <div class="modal-header">
+            <h2 id="modalTitle" style="color: var(--green); font-size: 0.95rem;">Game</h2>
+            <button class="close-btn" onclick="closeModal()">Chiudi</button>
+        </div>
+        <div class="modal-body" id="modalBodyContent">
+            <!-- Dinamico -->
+        </div>
     </div>
 
     <script>
         let balance = 40.00;
-        let gameActive = false;
-        let minePositions = [];
-        let revealedCount = 0;
-
-        const gridEl = document.getElementById('minesGrid');
-        const balanceEl = document.getElementById('balanceDisplay');
-        const playBtn = document.getElementById('playBtn');
-        const statusMsg = document.getElementById('statusMsg');
-
-        function updateBalance() {
-            balanceEl.innerHTML = `🪙 ${balance.toFixed(2)}`;
+        function updateBal() {
+            document.getElementById('userBalance').textContent = balance.toFixed(2);
         }
 
-        // Inizializza la griglia vuota 5x5 (25 celle)
-        function initGrid(interactive = false) {
-            gridEl.innerHTML = '';
+        function closeModal() {
+            document.getElementById('gameModal').style.display = 'none';
+        }
+
+        function openGame(type) {
+            document.getElementById('gameModal').style.display = 'flex';
+            document.getElementById('modalTitle').textContent = type.toUpperCase();
+            const body = document.getElementById('modalBodyContent');
+
+            if (type === 'mines') {
+                body.innerHTML = `
+                    <div class="mines-grid-modal" id="minesGrid"></div>
+                    <div class="control-box">
+                        <label>Puntata (🪙)</label>
+                        <div class="control-row"><input type="number" id="betInput" value="10" min="1"></div>
+                    </div>
+                    <div class="control-box">
+                        <label>Numero Mine (1-24)</label>
+                        <div class="control-row"><input type="number" id="minesCount" value="1" min="1" max="24"></div>
+                    </div>
+                    <button class="btn-action" id="playMinesBtn" onclick="toggleMines()">Inizia Partita</button>
+                    <div class="status-text" id="statusMsg">Tocca "Inizia Partita"</div>
+                `;
+                initMinesGrid();
+            } else {
+                body.innerHTML = `
+                    <div style="background:var(--card-bg); border:1px solid var(--border-color); border-radius:12px; height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;">
+                        <div style="font-size:2.5rem;">🎮</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Area di gioco ${type}</div>
+                    </div>
+                    <button class="btn-action" onclick="alert('Funzione attiva!')">Gioca Subito</button>
+                `;
+            }
+        }
+
+        /* LOGICA MINES 5x5 PERFETTA */
+        let minesActive = false;
+        let minePos = [];
+        let gemsFound = 0;
+
+        function initMinesGrid() {
+            const grid = document.getElementById('minesGrid');
+            grid.innerHTML = '';
             for (let i = 0; i < 25; i++) {
                 let cell = document.createElement('div');
                 cell.className = 'mine-cell';
                 cell.textContent = '💎';
-                if (interactive) {
-                    cell.onclick = () => revealCell(i, cell);
-                }
-                gridEl.appendChild(cell);
+                grid.appendChild(cell);
             }
         }
 
-        initGrid(false);
+        function toggleMines() {
+            const btn = document.getElementById('playMinesBtn');
+            const status = document.getElementById('statusMsg');
+            const grid = document.getElementById('minesGrid');
 
-        function toggleGame() {
-            if (!gameActive) {
+            if (!minesActive) {
                 let bet = parseFloat(document.getElementById('betInput').value) || 0;
                 let numMines = parseInt(document.getElementById('minesCount').value) || 1;
 
                 if (bet <= 0 || bet > balance) {
-                    statusMsg.textContent = "Fondi non sufficienti o puntata non valida!";
+                    status.textContent = "Fondi insufficienti!";
                     return;
                 }
 
                 balance -= bet;
-                updateBalance();
+                updateBal();
 
-                // Genera mine casuali
-                minePositions = [];
-                while(minePositions.length < numMines) {
+                minePos = [];
+                while (minePos.length < numMines) {
                     let r = Math.floor(Math.random() * 25);
-                    if(!minePositions.includes(r)) minePositions.push(r);
+                    if (!minePos.includes(r)) minePos.push(r);
                 }
 
-                gameActive = true;
-                revealedCount = 0;
-                playBtn.textContent = "Incassa Vincita";
-                playBtn.style.background = "var(--gold)";
-                statusMsg.textContent = "Partita in corso! Trova le gemme.";
+                minesActive = true;
+                gemsFound = 0;
+                btn.textContent = "Incassa Vincita";
+                btn.style.background = "var(--gold)";
+                status.textContent = "Trova le gemme ed evita le mine!";
 
-                // Reset griglia interattiva coperta
-                gridEl.innerHTML = '';
+                grid.innerHTML = '';
                 for (let i = 0; i < 25; i++) {
                     let cell = document.createElement('div');
                     cell.className = 'mine-cell';
-                    cell.onclick = () => revealCell(i, cell);
-                    gridEl.appendChild(cell);
+                    cell.onclick = () => revealMineCell(i, cell);
+                    grid.appendChild(cell);
                 }
             } else {
-                // Incassa
                 let bet = parseFloat(document.getElementById('betInput').value);
-                let win = bet * (1 + (revealedCount * 0.2));
+                let win = bet * (1 + (gemsFound * 0.25));
                 balance += win;
-                updateBalance();
-                statusMsg.innerHTML = `<span style="color:var(--gold);">Hai incassato $${win.toFixed(2)}!</span>`;
-                endGame();
+                updateBal();
+                status.innerHTML = `<span style="color:var(--gold);">Incassato! Vinti $${win.toFixed(2)}</span>`;
+                endMinesGame();
             }
         }
 
-        function revealCell(index, cell) {
-            if (!gameActive || cell.classList.contains('revealed')) return;
+        function revealMineCell(idx, cell) {
+            if (!minesActive || cell.classList.contains('opened')) return;
+            cell.classList.add('opened');
 
-            cell.classList.add('revealed');
-            if (minePositions.includes(index)) {
-                // Mina trovata!
+            const status = document.getElementById('statusMsg');
+            const grid = document.getElementById('minesGrid');
+
+            if (minePos.includes(idx)) {
                 cell.textContent = '💣';
                 cell.style.background = 'rgba(255, 42, 133, 0.3)';
-                statusMsg.innerHTML = `<span style="color:var(--pink);">Hai calpestato una mina! Hai perso.</span>`;
-                
-                // Rivela tutte le mine
-                Array.from(gridEl.children).forEach((c, idx) => {
-                    if (minePositions.includes(idx)) {
+                status.innerHTML = `<span style="color:var(--pink);">Bomba esplosa! Hai perso.</span>`;
+
+                Array.from(grid.children).forEach((c, i) => {
+                    if (minePos.includes(i)) {
                         c.textContent = '💣';
                         c.style.background = 'rgba(255, 42, 133, 0.2)';
                     }
                 });
-                endGame();
+                endMinesGame();
             } else {
-                // Gemma sicura
                 cell.textContent = '💎';
                 cell.style.background = 'rgba(34, 197, 94, 0.2)';
-                revealedCount++;
-                statusMsg.textContent = `Gemma trovata! Caselle sicure: ${revealedCount}`;
+                gemsFound++;
+                status.textContent = `Gemma trovata! Totale: ${gemsFound}`;
             }
         }
 
-        function endGame() {
-            gameActive = false;
-            playBtn.textContent = "Inizia Partita";
-            playBtn.style.background = "var(--green)";
+        function endMinesGame() {
+            minesActive = false;
+            const btn = document.getElementById('playMinesBtn');
+            btn.textContent = "Inizia Partita";
+            btn.style.background = "var(--green)";
         }
     </script>
 </body>
