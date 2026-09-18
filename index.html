@@ -258,13 +258,13 @@
                     <div class="flex flex-col items-center space-y-4">
                         <div class="flex items-center space-x-3">
                             <input id="towerBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-28 text-white font-bold text-center">
-                            <button onclick="startTowers()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl font-bold text-white text-sm cursor-pointer">Nuova Scalata</button>
+                            <button id="towerStartBtn" onclick="startTowers()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl font-bold text-white text-sm cursor-pointer">Nuova Scalata</button>
+                            <button id="towerCashoutBtn" onclick="cashoutTowers()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-xl font-bold text-white text-sm cursor-pointer hidden">Incassa</button>
                         </div>
                         <div id="towersBoard" class="flex flex-col-reverse space-y-reverse space-y-2 w-full max-w-sm"></div>
-                        <div id="towersStatus" class="text-sm font-bold text-blue-400">Premi nuova scalata</div>
+                        <div id="towersStatus" class="text-sm font-bold text-blue-400">Premi 'Nuova Scalata' per iniziare</div>
                     </div>
                 `;
-                initTowersBoard();
             } else if(gameKey === 'plinko') {
                 title.innerText = "Plinko";
                 body.innerHTML = `
@@ -449,32 +449,95 @@
             }, 100);
         }
 
-        function initTowersBoard() {
+        // TOWERS LOGIC FIXED
+        let towerState = { active: false, currentFloor: 0, bet: 0, multipliers: [1.4, 2.0, 3.2, 5.5] };
+        function startTowers() {
+            const bet = parseFloat(document.getElementById('towerBet').value);
+            const status = document.getElementById('towersStatus');
+            if(isNaN(bet) || bet <= 0 || bet > balance) {
+                status.innerText = "Puntata non valida o saldo insufficiente!";
+                return;
+            }
+            updateBalance(-bet);
+            towerState = { active: true, currentFloor: 0, bet: bet, multipliers: [1.4, 2.0, 3.2, 5.5] };
+            document.getElementById('towerStartBtn').classList.add('hidden');
+            document.getElementById('towerCashoutBtn').classList.remove('hidden');
+            status.innerText = "Scalata avviata! Seleziona una casella al Piano 1.";
+            renderTowersBoard();
+        }
+
+        function renderTowersBoard() {
             const board = document.getElementById('towersBoard');
             if(!board) return;
             board.innerHTML = '';
-            for(let r=0; r<4; r++) {
-                const row = document.createElement('div');
-                row.className = "flex space-x-2 justify-center";
+            
+            for(let r=3; r>=0; r--) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = `flex space-x-3 justify-center items-center p-2 rounded-xl ${r === towerState.currentFloor && towerState.active ? 'bg-blue-950/40 border border-blue-500/50' : 'opacity-60'}`;
+                
+                const label = document.createElement('span');
+                label.className = "text-xs font-bold text-slate-400 w-16 text-right";
+                label.innerText = `P.${r+1} (${towerState.multipliers[r]}x)`;
+                rowDiv.appendChild(label);
+
                 for(let c=0; c<3; c++) {
                     const btn = document.createElement('button');
-                    btn.className = "w-16 h-10 bg-slate-900 border border-slate-700 rounded-lg hover:bg-slate-800 font-bold text-xs text-slate-300 cursor-pointer";
-                    btn.innerText = `Piano ${r+1}`;
-                    btn.onclick = () => {
-                        btn.className = "w-16 h-10 bg-blue-600 rounded-lg font-bold text-xs text-white";
-                        document.getElementById('towersStatus').innerText = "Piano superato! Sali al successivo.";
-                    };
-                    row.appendChild(btn);
+                    btn.className = "w-12 h-10 bg-slate-900 border border-slate-700 rounded-lg font-bold text-xs text-white transition";
+                    btn.innerText = "❓";
+                    if(towerState.active && r === towerState.currentFloor) {
+                        btn.classList.add("hover:bg-blue-600", "cursor-pointer");
+                        btn.onclick = () => chooseTowerCell(r, c, btn);
+                    } else {
+                        btn.disabled = true;
+                    }
+                    rowDiv.appendChild(btn);
                 }
-                board.appendChild(row);
+                board.appendChild(rowDiv);
             }
         }
-        function startTowers() {
-            const bet = parseFloat(document.getElementById('towerBet').value);
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-            initTowersBoard();
-            document.getElementById('towersStatus').innerText = "Scalata avviata! Scegli una casella.";
+
+        function chooseTowerCell(floor, col, btnElement) {
+            if(!towerState.active) return;
+            const status = document.getElementById('towersStatus');
+            
+            // Simula il piazzamento della mina (es. 1 colonna su 3 è una trappola)
+            const trapCol = Math.floor(Math.random() * 3);
+            
+            if(col === trapCol) {
+                btnElement.innerText = "💣";
+                btnElement.className = "w-12 h-10 bg-red-900 border border-red-700 rounded-lg font-bold text-xs text-white";
+                status.innerText = "Hai trovato una trappola! Scalata fallita.";
+                towerState.active = false;
+                document.getElementById('towerStartBtn').classList.remove('hidden');
+                document.getElementById('towerCashoutBtn').classList.add('hidden');
+            } else {
+                btnElement.innerText = "💎";
+                btnElement.className = "w-12 h-10 bg-green-900 border border-green-700 rounded-lg font-bold text-xs text-white";
+                if(floor < 3) {
+                    towerState.currentFloor++;
+                    status.innerText = `Piano ${floor+1} superato! Passa al Piano ${towerState.currentFloor+1}.`;
+                    renderTowersBoard();
+                } else {
+                    // Vittoria cima torre
+                    const win = towerState.bet * towerState.multipliers[3];
+                    updateBalance(win);
+                    status.innerText = `🏆 Torre completata! Hai vinto ${win.toFixed(2)} monete!`;
+                    towerState.active = false;
+                    document.getElementById('towerStartBtn').classList.remove('hidden');
+                    document.getElementById('towerCashoutBtn').classList.add('hidden');
+                }
+            }
+        }
+
+        function cashoutTowers() {
+            if(!towerState.active || towerState.currentFloor === 0) return;
+            const mult = towerState.multipliers[towerState.currentFloor - 1];
+            const win = towerState.bet * mult;
+            updateBalance(win);
+            document.getElementById('towersStatus').innerText = `💰 Incasso effettuato! Hai vinto ${win.toFixed(2)} monete (${mult}x).`;
+            towerState.active = false;
+            document.getElementById('towerStartBtn').classList.remove('hidden');
+            document.getElementById('towerCashoutBtn').classList.add('hidden');
         }
 
         function dropPlinko() {
