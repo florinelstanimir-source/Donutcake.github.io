@@ -1,681 +1,405 @@
 <!DOCTYPE html>
-<html lang="it" class="dark">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloxdash Casino - Ultimate Neon Edition</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#07090e',
-                        cardBg: '#131b2e',
-                    }
-                }
-            }
-        }
-    </script>
+    <title>DonutFlip Deluxe - Casino Experience</title>
     <style>
-        body { background-color: #07090e; color: #f8fafc; font-family: 'Inter', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        .glow-effect:hover { box-shadow: 0 0 25px rgba(139, 92, 246, 0.25); }
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: rgba(17, 24, 39, 0.75);
+            --accent-pink: #ff2a85;
+            --accent-cyan: #00f0ff;
+            --gold: #ffd700;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 42, 133, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .casino-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 16px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .balance-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .balance-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .balance-amount {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* Arena di Gioco / Coin 3D */
+        .arena {
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .coin {
+            width: 130px;
+            height: 130px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 10px 20px rgba(0,0,0,0.4);
+            border: 4px solid var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .coin-front {
+            background: radial-gradient(circle, #ff2a85 0%, #b8004c 100%);
+            color: white;
+        }
+
+        .coin-back {
+            background: radial-gradient(circle, #00f0ff 0%, #0077b6 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Controlli di Puntata */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .bet-input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .bet-input-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bet-controls-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="number"] {
+            background: transparent;
+            border: none;
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 90px;
+            text-align: right;
+            outline: none;
+        }
+
+        .quick-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn-quick {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-quick:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .choice-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 14px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .choice-btn.selected[data-choice="pink"] {
+            border-color: var(--accent-pink);
+            background: rgba(255, 42, 133, 0.2);
+            box-shadow: 0 0 15px rgba(255, 42, 133, 0.4);
+        }
+
+        .choice-btn.selected[data-choice="cyan"] {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-spin {
+            background: linear-gradient(135deg, var(--accent-pink), #8a2be2);
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(255, 42, 133, 0.4);
+            transition: transform 0.1s ease, filter 0.2s ease;
+        }
+
+        .btn-spin:hover:not(:disabled) {
+            filter: brightness(1.1);
+        }
+
+        .btn-spin:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .btn-spin:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            min-height: 24px;
+            color: var(--text-muted);
+        }
+
+        /* Animazione di rotazione 3D dinamica via JS */
+        @keyframes flipAnimation {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(1440deg) rotateY(var(--final-rotation)); }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-    <!-- TOP NAVIGATION BAR -->
-    <header class="bg-cardBg/80 backdrop-blur-md border-b border-slate-800/80 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-lg">
-        <div class="flex items-center space-x-3">
-            <span class="text-2xl font-black bg-gradient-to-r from-purple-400 via-pink-500 to-yellow-400 bg-clip-text text-transparent">BLOXDASH</span>
-            <span class="text-xs px-2.5 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold shadow-md">NEON V2</span>
-        </div>
-        <div class="flex items-center space-x-4">
-            <div class="bg-slate-900/90 border border-slate-700/60 px-4 py-2 rounded-2xl flex items-center space-x-2 shadow-inner">
-                <span class="text-yellow-400 text-lg animate-pulse">🪙</span>
-                <span id="userBalance" class="font-black text-lg text-white">1000.00</span>
+    <div class="casino-container">
+        <header>
+            <div class="logo">DonutFlip</div>
+            <div class="balance-box">
+                <span class="balance-label">Saldo Virtuale</span>
+                <span class="balance-amount" id="balanceDisplay">$1,000.00</span>
             </div>
-            <button onclick="addFreeCoins()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-extrabold px-4 py-2.5 rounded-2xl shadow-lg shadow-green-500/20 transition transform active:scale-95 text-xs cursor-pointer tracking-wide">
-                + RICARICA
-            </button>
-        </div>
-    </header>
+        </header>
 
-    <!-- MAIN CONTAINER (3x3 GRID) -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-6 md:p-8">
-        <div class="mb-8 text-center md:text-left">
-            <h1 class="text-3xl font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Scegli il tuo Mini-Gioco</h1>
-            <p class="text-slate-400 text-sm mt-1">Grafica sfumata, immagini curate e divertimento senza limiti.</p>
-        </div>
-
-        <!-- 3x3 GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <!-- 1. COINFLIP -->
-            <div onclick="openGame('coinflip')" class="bg-cardBg border border-slate-800/80 hover:border-purple-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-purple-600/10 rounded-full blur-2xl group-hover:bg-purple-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=600&q=80" alt="Coinflip" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-purple-500/20 backdrop-blur-md border border-purple-500/30 px-3 py-1 rounded-xl text-purple-300 font-extrabold text-xs">🪙 Coinflip</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-purple-300 transition">Testa o Croce</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Scegli la tua faccia della moneta e raddoppia istantaneamente.</p>
+        <div class="arena">
+            <div class="coin" id="coin">
+                <div class="coin-face coin-front">
+                    <span style="font-size: 2rem;">🍩</span>
+                    <span style="font-size: 0.7rem; margin-top: 4px;">Pink</span>
                 </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-purple-400 bg-purple-950/50 px-2.5 py-1 rounded-lg">Moltiplicatore 2.0x</span>
-                    <span class="text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-purple-500/20">Gioca →</span>
+                <div class="coin-face coin-back">
+                    <span style="font-size: 2rem;">💎</span>
+                    <span style="font-size: 0.7rem; margin-top: 4px;">Cyan</span>
                 </div>
-            </div>
-
-            <!-- 2. MINES -->
-            <div onclick="openGame('mines')" class="bg-cardBg border border-slate-800/80 hover:border-red-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-red-600/10 rounded-full blur-2xl group-hover:bg-red-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Mines" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-red-500/20 backdrop-blur-md border border-red-500/30 px-3 py-1 rounded-xl text-red-300 font-extrabold text-xs">💣 Mines</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-red-300 transition">Campo Minato</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Trova le gemme preziose ed evita le mine esplosive.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-red-400 bg-red-950/50 px-2.5 py-1 rounded-lg">Rischio Modulabile</span>
-                    <span class="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-red-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 3. CRASH -->
-            <div onclick="openGame('crash')" class="bg-cardBg border border-slate-800/80 hover:border-green-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-green-600/10 rounded-full blur-2xl group-hover:bg-green-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Crash" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-green-500/20 backdrop-blur-md border border-green-500/30 px-3 py-1 rounded-xl text-green-300 font-extrabold text-xs">🚀 Crash</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-green-300 transition">Razzo Spaziale</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Incassa la vincita prima che il moltiplicatore precipiti.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-green-400 bg-green-950/50 px-2.5 py-1 rounded-lg">Fino a 100x+</span>
-                    <span class="text-xs bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-green-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 4. TOWERS -->
-            <div onclick="openGame('towers')" class="bg-cardBg border border-slate-800/80 hover:border-blue-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-600/10 rounded-full blur-2xl group-hover:bg-blue-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Towers" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-blue-500/20 backdrop-blur-md border border-blue-500/30 px-3 py-1 rounded-xl text-blue-300 font-extrabold text-xs">🏰 Towers</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-blue-300 transition">Scala la Torre</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Sali i piani della fortezza evitando le trappole mortali.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-blue-400 bg-blue-950/50 px-2.5 py-1 rounded-lg">Scalata 4 Piani</span>
-                    <span class="text-xs bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-blue-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 5. PLINKO -->
-            <div onclick="openGame('plinko')" class="bg-cardBg border border-slate-800/80 hover:border-yellow-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-yellow-600/10 rounded-full blur-2xl group-hover:bg-yellow-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Plinko" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-yellow-500/20 backdrop-blur-md border border-yellow-500/30 px-3 py-1 rounded-xl text-yellow-300 font-extrabold text-xs">🔴 Plinko</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-yellow-300 transition">Plinko Drops</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Lascia cadere la pallina tra i pioli colorati fortunati.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-yellow-400 bg-yellow-950/50 px-2.5 py-1 rounded-lg">Fino a 29x</span>
-                    <span class="text-xs bg-gradient-to-r from-yellow-500 to-amber-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-yellow-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 6. DICE -->
-            <div onclick="openGame('dice')" class="bg-cardBg border border-slate-800/80 hover:border-pink-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-pink-600/10 rounded-full blur-2xl group-hover:bg-pink-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=600&q=80" alt="Dice" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-pink-500/20 backdrop-blur-md border border-pink-500/30 px-3 py-1 rounded-xl text-pink-300 font-extrabold text-xs">🎲 Dice</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-pink-300 transition">Dado Slider</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Imposta la tua soglia di vincita con lo slider interattivo.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-pink-400 bg-pink-950/50 px-2.5 py-1 rounded-lg">Slider Dinamico</span>
-                    <span class="text-xs bg-gradient-to-r from-pink-500 to-rose-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-pink-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 7. WHEEL -->
-            <div onclick="openGame('wheel')" class="bg-cardBg border border-slate-800/80 hover:border-orange-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-orange-600/10 rounded-full blur-2xl group-hover:bg-orange-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80" alt="Wheel" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-orange-500/20 backdrop-blur-md border border-orange-500/30 px-3 py-1 rounded-xl text-orange-300 font-extrabold text-xs">🎡 Wheel</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-orange-300 transition">Ruota della Fortuna</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Gira la ruota scintillante per premi sensazionali.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-orange-400 bg-orange-950/50 px-2.5 py-1 rounded-lg">Fino a 50x</span>
-                    <span class="text-xs bg-gradient-to-r from-orange-500 to-amber-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-orange-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 8. CASES -->
-            <div onclick="openGame('cases')" class="bg-cardBg border border-slate-800/80 hover:border-indigo-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-indigo-600/10 rounded-full blur-2xl group-hover:bg-indigo-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80" alt="Cases" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-indigo-500/20 backdrop-blur-md border border-indigo-500/30 px-3 py-1 rounded-xl text-indigo-300 font-extrabold text-xs">📦 Cases</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-indigo-300 transition">Apri Casse</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Scorri le casse misteriose ed estrai skin leggendarie.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-indigo-400 bg-indigo-950/50 px-2.5 py-1 rounded-lg">Drop Skin Esclusive</span>
-                    <span class="text-xs bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-indigo-500/20">Gioca →</span>
-                </div>
-            </div>
-
-            <!-- 9. JACKPOT -->
-            <div onclick="openGame('jackpot')" class="bg-cardBg border border-slate-800/80 hover:border-teal-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-teal-600/10 rounded-full blur-2xl group-hover:bg-teal-600/20 transition"></div>
-                <div>
-                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
-                        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Jackpot" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 bg-teal-500/20 backdrop-blur-md border border-teal-500/30 px-3 py-1 rounded-xl text-teal-300 font-extrabold text-xs">💰 Jackpot</div>
-                    </div>
-                    <h3 class="text-xl font-black text-white group-hover:text-teal-300 transition">Jackpot Comune</h3>
-                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Piazza la puntata nel piatto comune e sbanca tutto.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
-                    <span class="text-xs font-bold text-teal-400 bg-teal-950/50 px-2.5 py-1 rounded-lg">Piatto Condiviso</span>
-                    <span class="text-xs bg-gradient-to-r from-teal-500 to-emerald-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-teal-500/20">Gioca →</span>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- GAME MODAL OVERLAY -->
-    <div id="gameModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-cardBg border border-slate-700/80 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
-                <h2 id="modalTitle" class="text-xl font-black text-white">Nome Gioco</h2>
-                <button onclick="closeGame()" class="text-slate-400 hover:text-white font-bold text-base px-3 py-1 rounded-xl bg-slate-800/80 hover:bg-slate-700 transition cursor-pointer">✕</button>
-            </div>
-            <!-- Modal Body Content -->
-            <div id="modalBody" class="p-6 overflow-y-auto custom-scrollbar flex-1">
-                <!-- Contenitore dinamico -->
             </div>
         </div>
+
+        <div class="controls">
+            <div class="bet-input-group">
+                <label for="betAmount">Puntata</label>
+                <div class="bet-controls-right">
+                    <input type="number" id="betAmount" value="50" min="1" max="1000">
+                    <div class="quick-btns">
+                        <button class="btn-quick" onclick="setMultiplier(0.5)">1/2</button>
+                        <button class="btn-quick" onclick="setMultiplier(2)">2x</button>
+                        <button class="btn-quick" onclick="setMax()">MAX</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="choice-selection">
+                <button class="choice-btn selected" data-choice="pink" onclick="selectChoice('pink')">Scegli Pink (🍩)</button>
+                <button class="choice-btn" data-choice="cyan" onclick="selectChoice('cyan')">Scegli Cyan (💎)</button>
+            </div>
+
+            <button class="btn-spin" id="spinBtn" onclick="playGame()">Lancia Moneta</button>
+        </div>
+
+        <div class="status-message" id="statusMsg">Seleziona la tua fazione e lancia!</div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
         let balance = 1000.00;
+        let selectedChoice = 'pink';
+        let isPlaying = false;
 
-        function updateBalance(amount) {
-            balance += amount;
-            document.getElementById('userBalance').innerText = balance.toFixed(2);
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const betInput = document.getElementById('betAmount');
+        const coin = document.getElementById('coin');
+        const spinBtn = document.getElementById('spinBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const choiceBtns = document.querySelectorAll('.choice-btn');
+
+        function updateBalance() {
+            balanceDisplay.textContent = `$${balance.toFixed(2)}`;
         }
 
-        function addFreeCoins() {
-            updateBalance(1000);
-            alert("Hai ricevuto 1.000 monete gratuite!");
-        }
-
-        function openGame(gameKey) {
-            const modal = document.getElementById('gameModal');
-            const title = document.getElementById('modalTitle');
-            const body = document.getElementById('modalBody');
-            modal.classList.remove('hidden');
-
-            if(gameKey === 'coinflip') {
-                title.innerText = "Coinflip";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-6">
-                        <div id="coinResult" class="w-24 h-24 rounded-full bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-purple-500/20">🪙</div>
-                        <p class="text-sm text-slate-400 font-medium">Scegli la tua faccia della moneta</p>
-                        <div class="flex space-x-4">
-                            <button onclick="playCoinflip('testa')" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 font-bold rounded-2xl text-white transition shadow-lg shadow-purple-600/30 cursor-pointer">TESTA</button>
-                            <button onclick="playCoinflip('croce')" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 font-bold rounded-2xl text-white transition shadow-lg shadow-pink-600/30 cursor-pointer">CROCE</button>
-                        </div>
-                        <div class="flex items-center space-x-2 mt-4">
-                            <span class="text-sm text-slate-400">Puntata:</span>
-                            <input id="coinBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center focus:outline-none focus:border-purple-500">
-                        </div>
-                        <div id="coinStatus" class="text-sm font-bold text-slate-300"></div>
-                    </div>
-                `;
-            } else if(gameKey === 'mines') {
-                title.innerText = "Mines";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-4">
-                        <div class="flex justify-between w-full max-w-sm items-center">
-                            <span class="text-sm text-slate-400">Puntata: <input id="minesBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-xl w-20 text-white text-center font-bold"></span>
-                            <button onclick="startMines()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 px-4 py-2 rounded-2xl font-bold text-sm text-white shadow-md shadow-green-500/20 cursor-pointer">Inizia Partita</button>
-                        </div>
-                        <div id="minesGrid" class="grid grid-cols-5 gap-2 w-full max-w-sm"></div>
-                        <div id="minesStatus" class="text-sm font-bold text-yellow-400"></div>
-                    </div>
-                `;
-                initMinesGrid();
-            } else if(gameKey === 'crash') {
-                title.innerText = "Crash";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-6">
-                        <div id="crashDisplay" class="text-5xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">1.00x</div>
-                        <div class="flex items-center space-x-3">
-                            <input id="crashBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
-                            <button id="crashBtn" onclick="startCrash()" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-green-500/20 cursor-pointer">Avvia Razzo</button>
-                        </div>
-                    </div>
-                `;
-            } else if(gameKey === 'towers') {
-                title.innerText = "Towers (Scala la Torre)";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-4">
-                        <div class="flex items-center space-x-3">
-                            <input id="towerBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-28 text-white font-bold text-center">
-                            <button id="towerStartBtn" onclick="startTowers()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-4 py-2 rounded-2xl font-bold text-white text-sm shadow-md shadow-blue-600/30 cursor-pointer">Nuova Scalata</button>
-                            <button id="towerCashoutBtn" onclick="cashoutTowers()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 px-4 py-2 rounded-2xl font-bold text-white text-sm shadow-md shadow-green-500/20 cursor-pointer hidden">Incassa</button>
-                        </div>
-                        <div id="towersBoard" class="flex flex-col-reverse space-y-reverse space-y-2 w-full max-w-sm"></div>
-                        <div id="towersStatus" class="text-sm font-bold text-blue-400">Premi 'Nuova Scalata' per iniziare</div>
-                    </div>
-                `;
-            } else if(gameKey === 'plinko') {
-                title.innerText = "Plinko";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-4">
-                        <div class="flex items-center space-x-3">
-                            <input id="plinkoBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-28 text-white font-bold text-center">
-                            <button onclick="dropPlinko()" class="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 px-6 py-2.5 rounded-2xl font-bold text-white text-sm shadow-lg shadow-yellow-500/20 cursor-pointer">Lancia Pallina</button>
-                        </div>
-                        <div class="w-full bg-slate-900/90 p-4 rounded-3xl flex flex-col items-center justify-center h-48 border border-slate-800 relative overflow-hidden shadow-inner">
-                            <div id="plinkoBall" class="w-4 h-4 bg-yellow-400 rounded-full absolute top-2 transition-all duration-700 shadow-[0_0_12px_#facc15]"></div>
-                            <div class="absolute bottom-2 flex space-x-1 w-full justify-around px-2 text-xs font-black text-yellow-300">
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">10x</span>
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">3x</span>
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">1x</span>
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">0.5x</span>
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">1x</span>
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">3x</span>
-                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">10x</span>
-                            </div>
-                        </div>
-                        <div id="plinkoResult" class="text-sm font-bold text-slate-300"></div>
-                    </div>
-                `;
-            } else if(gameKey === 'dice') {
-                title.innerText = "Dice (Dado Interattivo)";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-6">
-                        <div class="w-full max-w-md bg-slate-900/90 p-6 rounded-3xl border border-slate-800 relative shadow-inner">
-                            <div class="flex justify-between text-sm text-slate-400 mb-3">
-                                <span>0</span>
-                                <span id="diceTargetVal" class="text-pink-400 font-black text-xl">50</span>
-                                <span>100</span>
-                            </div>
-                            <input id="diceSlider" type="range" min="1" max="99" value="50" oninput="updateDiceRange(this.value)" class="w-full accent-pink-500 cursor-pointer">
-                            <div id="diceMarker" class="absolute top-6 bottom-6 w-1 bg-white hidden transition-all duration-300 shadow-[0_0_12px_#fff]"></div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <input id="diceBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
-                            <button onclick="rollDice()" class="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-pink-600/30 cursor-pointer">Tira i Dadi</button>
-                        </div>
-                        <div id="diceResult" class="text-base font-bold text-slate-300"></div>
-                    </div>
-                `;
-            } else if(gameKey === 'wheel') {
-                title.innerText = "Wheel (Ruota della Fortuna)";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-6">
-                        <div class="relative w-48 h-48 rounded-full border-4 border-orange-500/80 flex items-center justify-center bg-gradient-to-tr from-slate-900 to-orange-950/40 shadow-2xl overflow-hidden transition-transform duration-1000" id="wheelEl">
-                            <div class="absolute inset-0 flex items-center justify-center text-xs font-black text-orange-400 text-center p-4">🎡 RUOTA</div>
-                            <div class="absolute top-0 w-2 h-6 bg-white z-10 rounded-full shadow-[0_0_8px_#fff]"></div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <input id="wheelBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
-                            <button onclick="spinWheel()" class="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-orange-500/20 cursor-pointer">Gira Ruota</button>
-                        </div>
-                        <div id="wheelResult" class="text-sm font-bold text-slate-300"></div>
-                    </div>
-                `;
-            } else if(gameKey === 'cases') {
-                title.innerText = "Cases (Unboxing)";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-6">
-                        <div class="w-full max-w-md h-28 bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden relative flex items-center shadow-inner">
-                            <div id="caseRoller" class="flex space-x-4 absolute transition-all duration-[2000ms] ease-out px-4">
-                                <div class="w-24 h-20 bg-slate-800/80 rounded-2xl flex flex-col items-center justify-center border border-slate-700/60 shrink-0 shadow"><span class="text-xs text-slate-400 font-semibold">Comune</span><span class="font-black text-white text-sm">1.2x</span></div>
-                                <div class="w-24 h-20 bg-purple-900/40 rounded-2xl flex flex-col items-center justify-center border border-purple-700/60 shrink-0 shadow"><span class="text-xs text-purple-300 font-semibold">Raro</span><span class="font-black text-purple-200 text-sm">2.5x</span></div>
-                                <div class="w-24 h-20 bg-pink-900/40 rounded-2xl flex flex-col items-center justify-center border border-pink-700/60 shrink-0 shadow"><span class="text-xs text-pink-300 font-semibold">Epico</span><span class="font-black text-pink-200 text-sm">5.0x</span></div>
-                                <div class="w-24 h-20 bg-yellow-900/40 rounded-2xl flex flex-col items-center justify-center border border-yellow-700/60 shrink-0 shadow"><span class="text-xs text-yellow-300 font-semibold">Leggendario</span><span class="font-black text-yellow-200 text-sm">20x</span></div>
-                            </div>
-                            <div class="absolute inset-y-0 w-1 bg-yellow-400 left-1/2 -translate-x-1/2 z-10 shadow-[0_0_12px_#facc15]"></div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <input id="caseBet" type="number" value="25" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
-                            <button onclick="openCase()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-indigo-600/30 cursor-pointer">Apri Cassa</button>
-                        </div>
-                        <div id="caseResult" class="text-sm font-bold text-slate-300"></div>
-                    </div>
-                `;
-            } else if(gameKey === 'jackpot') {
-                title.innerText = "Jackpot";
-                body.innerHTML = `
-                    <div class="flex flex-col items-center space-y-6">
-                        <div class="bg-slate-900/90 p-6 rounded-3xl border border-slate-800 text-center w-full max-w-md shadow-inner">
-                            <span class="text-xs text-slate-400 uppercase tracking-widest font-black">Piatto Comune Attuale</span>
-                            <div id="jpPool" class="text-4xl font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent my-2">450.00 🪙</div>
-                            <p class="text-xs text-slate-500 font-medium">La tua probabilità di vincita aumenta con puntate maggiori.</p>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <input id="jpBet" type="number" value="50" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
-                            <button onclick="playJackpot()" class="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-teal-600/30 cursor-pointer">Partecipa</button>
-                        </div>
-                        <div id="jpResult" class="text-sm font-bold text-slate-300"></div>
-                    </div>
-                `;
-            }
-        }
-
-        function closeGame() {
-            document.getElementById('gameModal').classList.add('hidden');
-        }
-
-        // --- MINI-GAMES LOGIC ---
-        function playCoinflip(choice) {
-            const bet = parseFloat(document.getElementById('coinBet').value);
-            const status = document.getElementById('coinStatus');
-            if(isNaN(bet) || bet <= 0 || bet > balance) {
-                status.innerText = "Saldo insufficiente o puntata non valida!";
-                status.className = "text-sm font-semibold text-red-400";
-                return;
-            }
-            updateBalance(-bet);
-            const outcome = Math.random() < 0.5 ? 'testa' : 'croce';
-            if(choice === outcome) {
-                const win = bet * 2;
-                updateBalance(win);
-                status.innerText = `È uscito ${outcome.toUpperCase()}. Hai vinto ${win.toFixed(2)} monete!`;
-                status.className = "text-sm font-bold text-green-400";
-            } else {
-                status.innerText = `È uscito ${outcome.toUpperCase()}. Hai perso!`;
-                status.className = "text-sm font-bold text-red-400";
-            }
-        }
-
-        let minesActive = false;
-        function initMinesGrid() {
-            const grid = document.getElementById('minesGrid');
-            if(!grid) return;
-            grid.innerHTML = '';
-            for(let i=0; i<25; i++) {
-                const cell = document.createElement('div');
-                cell.className = "w-12 h-12 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-center cursor-pointer hover:bg-slate-800 transition font-bold text-lg shadow-sm";
-                cell.innerText = "💎";
-                cell.onclick = () => clickMineCell(cell);
-                grid.appendChild(cell);
-            }
-        }
-        function startMines() {
-            const bet = parseFloat(document.getElementById('minesBet').value);
-            const status = document.getElementById('minesStatus');
-            if(isNaN(bet) || bet <= 0 || bet > balance) {
-                status.innerText = "Puntata non valida!";
-                return;
-            }
-            updateBalance(-bet);
-            minesActive = true;
-            status.innerText = "Partita avviata! Clicca sulle caselle.";
-            initMinesGrid();
-        }
-        function clickMineCell(cell) {
-            if(!minesActive) return;
-            if(Math.random() < 0.2) {
-                cell.innerText = "💣";
-                cell.className = "w-12 h-12 bg-red-950/80 rounded-2xl border border-red-700/80 flex items-center justify-center font-bold text-lg shadow-md";
-                document.getElementById('minesStatus').innerText = "Hai trovato una mina! Hai perso.";
-                minesActive = false;
-            } else {
-                cell.innerText = "✨";
-                cell.className = "w-12 h-12 bg-emerald-950/80 rounded-2xl border border-emerald-700/80 flex items-center justify-center font-bold text-lg shadow-md";
-                document.getElementById('minesStatus').innerText = "Ottimo! Continua.";
-            }
-        }
-
-        let crashInterval = null;
-        function startCrash() {
-            const bet = parseFloat(document.getElementById('crashBet').value);
-            const display = document.getElementById('crashDisplay');
-            const btn = document.getElementById('crashBtn');
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-            btn.disabled = true;
-            let mult = 1.00;
-            const crashPoint = 1.1 + Math.random() * 3.5;
-            crashInterval = setInterval(() => {
-                mult += 0.05;
-                display.innerText = mult.toFixed(2) + "x";
-                if(mult >= crashPoint) {
-                    clearInterval(crashInterval);
-                    display.innerText = "CRASHED (" + crashPoint.toFixed(2) + "x)";
-                    display.className = "text-3xl font-black text-red-500";
-                    btn.disabled = false;
-                }
-            }, 100);
-        }
-
-        // TOWERS LOGIC
-        let towerState = { active: false, currentFloor: 0, bet: 0, multipliers: [1.4, 2.0, 3.2, 5.5] };
-        function startTowers() {
-            const bet = parseFloat(document.getElementById('towerBet').value);
-            const status = document.getElementById('towersStatus');
-            if(isNaN(bet) || bet <= 0 || bet > balance) {
-                status.innerText = "Puntata non valida o saldo insufficiente!";
-                return;
-            }
-            updateBalance(-bet);
-            towerState = { active: true, currentFloor: 0, bet: bet, multipliers: [1.4, 2.0, 3.2, 5.5] };
-            document.getElementById('towerStartBtn').classList.add('hidden');
-            document.getElementById('towerCashoutBtn').classList.remove('hidden');
-            status.innerText = "Scalata avviata! Seleziona una casella al Piano 1.";
-            renderTowersBoard();
-        }
-
-        function renderTowersBoard() {
-            const board = document.getElementById('towersBoard');
-            if(!board) return;
-            board.innerHTML = '';
-            
-            for(let r=3; r>=0; r--) {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = `flex space-x-3 justify-center items-center p-2 rounded-2xl ${r === towerState.currentFloor && towerState.active ? 'bg-blue-950/40 border border-blue-500/50 shadow' : 'opacity-60'}`;
-                
-                const label = document.createElement('span');
-                label.className = "text-xs font-bold text-slate-400 w-16 text-right";
-                label.innerText = `P.${r+1} (${towerState.multipliers[r]}x)`;
-                rowDiv.appendChild(label);
-
-                for(let c=0; c<3; c++) {
-                    const btn = document.createElement('button');
-                    btn.className = "w-12 h-10 bg-slate-900 border border-slate-700/80 rounded-xl font-bold text-xs text-white transition shadow-sm";
-                    btn.innerText = "❓";
-                    if(towerState.active && r === towerState.currentFloor) {
-                        btn.classList.add("hover:bg-blue-600", "cursor-pointer");
-                        btn.onclick = () => chooseTowerCell(r, c, btn);
-                    } else {
-                        btn.disabled = true;
-                    }
-                    rowDiv.appendChild(btn);
-                }
-                board.appendChild(rowDiv);
-            }
-        }
-
-        function chooseTowerCell(floor, col, btnElement) {
-            if(!towerState.active) return;
-            const status = document.getElementById('towersStatus');
-            const trapCol = Math.floor(Math.random() * 3);
-            
-            if(col === trapCol) {
-                btnElement.innerText = "💣";
-                btnElement.className = "w-12 h-10 bg-red-950 border border-red-700 rounded-xl font-bold text-xs text-white shadow";
-                status.innerText = "Hai trovato una trappola! Scalata fallita.";
-                towerState.active = false;
-                document.getElementById('towerStartBtn').classList.remove('hidden');
-                document.getElementById('towerCashoutBtn').classList.add('hidden');
-            } else {
-                btnElement.innerText = "💎";
-                btnElement.className = "w-12 h-10 bg-emerald-950 border border-emerald-700 rounded-xl font-bold text-xs text-white shadow";
-                if(floor < 3) {
-                    towerState.currentFloor++;
-                    status.innerText = `Piano ${floor+1} superato! Passa al Piano ${towerState.currentFloor+1}.`;
-                    renderTowersBoard();
+        function selectChoice(choice) {
+            if (isPlaying) return;
+            selectedChoice = choice;
+            choiceBtns.forEach(btn => {
+                if (btn.dataset.choice === choice) {
+                    btn.classList.add('selected');
                 } else {
-                    const win = towerState.bet * towerState.multipliers[3];
-                    updateBalance(win);
-                    status.innerText = `🏆 Torre completata! Hai vinto ${win.toFixed(2)} monete!`;
-                    towerState.active = false;
-                    document.getElementById('towerStartBtn').classList.remove('hidden');
-                    document.getElementById('towerCashoutBtn').classList.add('hidden');
+                    btn.classList.remove('selected');
                 }
+            });
+        }
+
+        function setMultiplier(mult) {
+            if (isPlaying) return;
+            let currentBet = parseFloat(betInput.value) || 0;
+            let newBet = Math.max(1, Math.floor(currentBet * mult));
+            if (newBet > balance) newBet = balance;
+            betInput.value = newBet;
+        }
+
+        function setMax() {
+            if (isPlaying) return;
+            betInput.value = balance;
+        }
+
+        function playGame() {
+            if (isPlaying) return;
+            
+            let bet = parseFloat(betInput.value);
+            if (isNaN(bet) || bet <= 0) {
+                statusMsg.textContent = "Inserisci una puntata valida!";
+                return;
             }
-        }
+            if (bet > balance) {
+                statusMsg.textContent = "Saldo insufficiente!";
+                return;
+            }
 
-        function cashoutTowers() {
-            if(!towerState.active || towerState.currentFloor === 0) return;
-            const mult = towerState.multipliers[towerState.currentFloor - 1];
-            const win = towerState.bet * mult;
-            updateBalance(win);
-            document.getElementById('towersStatus').innerText = `💰 Incasso effettuato! Hai vinto ${win.toFixed(2)} monete (${mult}x).`;
-            towerState.active = false;
-            document.getElementById('towerStartBtn').classList.remove('hidden');
-            document.getElementById('towerCashoutBtn').classList.add('hidden');
-        }
+            isPlaying = true;
+            spinBtn.disabled = true;
+            balance -= bet;
+            updateBalance();
+            statusMsg.textContent = "La moneta sta girando...";
 
-        function dropPlinko() {
-            const bet = parseFloat(document.getElementById('plinkoBet').value);
-            const ball = document.getElementById('plinkoBall');
-            const res = document.getElementById('plinkoResult');
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-            ball.style.top = "160px";
-            ball.style.left = (20 + Math.random() * 240) + "px";
+            // Determina il risultato casuale (0 = Pink, 1 = Cyan)
+            const outcome = Math.random() < 0.5 ? 'pink' : 'cyan';
+            
+            // Calcola la rotazione finale in gradi per l'asse Y
+            // Pink = 0deg (faccia front), Cyan = 180deg (faccia back) più giri completi
+            const baseRotations = 5 * 360; 
+            const finalYRotation = outcome === 'pink' ? baseRotations : baseRotations + 180;
+
+            coin.style.transition = 'transform 2s cubic-bezier(0.15, 0.85, 0.35, 1)';
+            coin.style.transform = `rotateX(720deg) rotateY(${finalYRotation}deg)`;
+
             setTimeout(() => {
-                const mults = [0.5, 1, 3, 10, 3, 1, 0.5];
-                const selectedMult = mults[Math.floor(Math.random() * mults.length)];
-                const win = bet * selectedMult;
-                updateBalance(win);
-                res.innerText = `Pallina atterrata! Moltiplicatore: ${selectedMult}x (Vincita: ${win.toFixed(2)})`;
-            }, 700);
-        }
+                isPlaying = false;
+                spinBtn.disabled = false;
 
-        function updateDiceRange(val) {
-            document.getElementById('diceTargetVal').innerText = val;
-        }
-        function rollDice() {
-            const bet = parseFloat(document.getElementById('diceBet').value);
-            const target = parseInt(document.getElementById('diceSlider').value);
-            const res = document.getElementById('diceResult');
-            const marker = document.getElementById('diceMarker');
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-
-            marker.classList.remove('hidden');
-            marker.style.left = "0%";
-            setTimeout(() => {
-                const resultVal = Math.floor(Math.random() * 100) + 1;
-                marker.style.left = resultVal + "%";
-                
-                if(resultVal <= target) {
-                    const win = bet * (99 / target);
-                    updateBalance(win);
-                    res.innerText = `Risultato: ${resultVal} (<= ${target}). Hai vinto ${win.toFixed(2)} monete!`;
-                    res.className = "text-base font-bold text-green-400";
-                    marker.className = "absolute top-6 bottom-6 w-1 bg-green-400 shadow-[0_0_12px_#22c55e]";
+                if (selectedChoice === outcome) {
+                    const winAmount = bet * 2;
+                    balance += winAmount;
+                    statusMsg.innerHTML = `<span style="color: var(--gold); font-weight: bold;">Hai vinto $${winAmount.toFixed(2)}!</span>`;
                 } else {
-                    res.innerText = `Risultato: ${resultVal} (> ${target}). Hai perso!`;
-                    res.className = "text-base font-bold text-red-400";
-                    marker.className = "absolute top-6 bottom-6 w-1 bg-red-500 shadow-[0_0_12px_#ef4444]";
+                    statusMsg.innerHTML = `<span style="color: var(--accent-pink);">Hai perso la puntata. Riprova!</span>`;
                 }
-            }, 300);
-        }
-
-        function spinWheel() {
-            const bet = parseFloat(document.getElementById('wheelBet').value);
-            const wheel = document.getElementById('wheelEl');
-            const res = document.getElementById('wheelResult');
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-            const deg = 720 + Math.floor(Math.random() * 360);
-            wheel.style.transform = `rotate(${deg}deg)`;
-            setTimeout(() => {
-                const mults = [1, 2, 5, 10, 0.5, 20];
-                const m = mults[Math.floor(Math.random() * mults.length)];
-                const win = bet * m;
-                updateBalance(win);
-                res.innerText = `La ruota si è fermata su ${m}x! Hai vinto ${win.toFixed(2)}`;
-            }, 1000);
-        }
-
-        function openCase() {
-            const bet = parseFloat(document.getElementById('caseBet').value);
-            const roller = document.getElementById('caseRoller');
-            const res = document.getElementById('caseResult');
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-            roller.style.transform = `translateX(-${Math.floor(Math.random() * 3) * 110}px)`;
-            setTimeout(() => {
-                const mult = [1.2, 2.5, 5.0][Math.floor(Math.random() * 3)];
-                const win = bet * mult;
-                updateBalance(win);
-                res.innerText = `Cassa aperta! Skin trovata: ${mult}x (Vincita: ${win.toFixed(2)})`;
+                updateBalance();
             }, 2000);
-        }
-
-        function playJackpot() {
-            const bet = parseFloat(document.getElementById('jpBet').value);
-            const res = document.getElementById('jpResult');
-            const poolEl = document.getElementById('jpPool');
-            if(isNaN(bet) || bet <= 0 || bet > balance) return;
-            updateBalance(-bet);
-            let pool = 450 + bet;
-            poolEl.innerText = pool.toFixed(2) + " 🪙";
-            if(Math.random() < 0.35) {
-                updateBalance(pool);
-                res.innerText = `🎉 Complimenti! Hai sbancato il Jackpot vincendo ${pool.toFixed(2)} monete!`;
-                res.className = "text-sm font-bold text-green-400";
-            } else {
-                res.innerText = "Il jackpot è stato vinto da un altro giocatore. Riprova!";
-                res.className = "text-sm font-bold text-red-400";
-            }
         }
     </script>
 </body>
