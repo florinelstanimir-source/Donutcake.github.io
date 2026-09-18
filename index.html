@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DonutFlip Deluxe - Casino Experience</title>
+    <title>DonutSMP Deluxe Casino Suite</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --panel-bg: rgba(17, 24, 39, 0.75);
+            --bg-color: #07090e;
+            --panel-bg: rgba(13, 17, 28, 0.85);
+            --panel-border: rgba(255, 255, 255, 0.08);
             --accent-pink: #ff2a85;
             --accent-cyan: #00f0ff;
             --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
             --text-main: #ffffff;
             --text-muted: #9ca3af;
         }
@@ -25,27 +27,27 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(255, 42, 133, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(255, 42, 133, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(0, 240, 255, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
+            padding: 20px;
         }
 
-        .casino-container {
+        .casino-wrapper {
             width: 100%;
-            max-width: 480px;
+            max-width: 600px;
             background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--panel-border);
             border-radius: 24px;
             padding: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
             position: relative;
         }
 
@@ -53,109 +55,120 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--panel-border);
             padding-bottom: 16px;
         }
 
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+        }
+
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan), var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            filter: drop-shadow(0 2px 10px rgba(255,42,133,0.3));
+        }
+
+        .sub-logo {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .balance-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 8px 16px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.1);
+        }
+
+        .balance-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .balance-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 8px 16px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .balance-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
         .balance-amount {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 800;
             color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
         }
 
-        /* Arena di Gioco / Coin 3D */
-        .arena {
-            height: 220px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
+        /* Selettore dei Giochi */
+        .game-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
             margin-bottom: 24px;
-            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px;
+            border-radius: 16px;
+            border: 1px solid var(--panel-border);
         }
 
-        .coin {
-            width: 130px;
-            height: 130px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease;
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .coin-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            backface-visibility: hidden;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 10px 20px rgba(0,0,0,0.4);
-            border: 4px solid var(--gold);
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .coin-front {
-            background: radial-gradient(circle, #ff2a85 0%, #b8004c 100%);
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(255, 42, 133, 0.2), rgba(0, 240, 255, 0.2));
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
-        .coin-back {
-            background: radial-gradient(circle, #00f0ff 0%, #0077b6 100%);
-            color: white;
-            transform: rotateY(180deg);
+        .game-view {
+            display: none;
         }
 
-        /* Controlli di Puntata */
-        .controls {
+        .game-view.active {
+            display: block;
+        }
+
+        /* Controlli Comune Puntata */
+        .controls-section {
             display: flex;
             flex-direction: column;
             gap: 16px;
+            margin-top: 20px;
         }
 
         .bet-input-group {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 14px;
+            padding: 10px 14px;
+            border: 1px solid var(--panel-border);
         }
 
         .bet-input-group label {
             font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 600;
         }
 
         .bet-controls-right {
@@ -168,9 +181,9 @@
             background: transparent;
             border: none;
             color: var(--gold);
-            font-size: 1.1rem;
-            font-weight: bold;
-            width: 90px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            width: 100px;
             text-align: right;
             outline: none;
         }
@@ -186,28 +199,72 @@
             color: white;
             padding: 4px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .btn-quick:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .choice-selection {
+        /* --- GIOCO 1: DONUT FLIP --- */
+        .arena-flip {
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+            position: relative;
+        }
+
+        .coin {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.7), 0 10px 25px rgba(0,0,0,0.5);
+            border: 5px solid var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .coin-front {
+            background: radial-gradient(circle, #ff2a85 0%, #8b0029 100%);
+            color: white;
+        }
+
+        .coin-back {
+            background: radial-gradient(circle, #00f0ff 0%, #005f73 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .choice-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
         .choice-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border: 2px solid rgba(255, 255, 255, 0.1);
             padding: 14px;
-            border-radius: 12px;
+            border-radius: 14px;
             color: white;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
@@ -215,18 +272,128 @@
 
         .choice-btn.selected[data-choice="pink"] {
             border-color: var(--accent-pink);
-            background: rgba(255, 42, 133, 0.2);
-            box-shadow: 0 0 15px rgba(255, 42, 133, 0.4);
+            background: rgba(255, 42, 133, 0.25);
+            box-shadow: 0 0 20px rgba(255, 42, 133, 0.4);
         }
 
         .choice-btn.selected[data-choice="cyan"] {
             border-color: var(--accent-cyan);
-            background: rgba(0, 240, 255, 0.2);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            background: rgba(0, 240, 255, 0.25);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
-        .btn-spin {
-            background: linear-gradient(135deg, var(--accent-pink), #8a2be2);
+        /* --- GIOCO 2: ROULETTE (FIXED & PERFECT ROTATION) --- */
+        .arena-roulette {
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .roulette-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .roulette-pointer {
+            position: absolute;
+            top: -12px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 18px solid var(--gold);
+            z-index: 20;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+        }
+
+        .roulette-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.8);
+            /* Usiamo conic-gradient per i 6 settori: 
+               0-60deg: Rosso (#ff2a85)
+               60-120deg: Nero (#111827)
+               120-180deg: Cyan (#00f0ff)
+               180-240deg: Rosso (#ff2a85)
+               240-300deg: Nero (#111827)
+               300-360deg: Cyan (#00f0ff) */
+            background: conic-gradient(
+                #ff2a85 0deg 60deg,
+                #1f2937 60deg 120deg,
+                #00f0ff 120deg 180deg,
+                #ff2a85 180deg 240deg,
+                #1f2937 240deg 300deg,
+                #00f0ff 300deg 360deg
+            );
+            transition: transform 4s cubic-bezier(0.15, 0.85, 0.15, 1);
+        }
+
+        .roulette-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .roulette-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 8px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .roulette-btn.selected[data-rchoice="red"] { border-color: var(--accent-pink); background: rgba(255,42,133,0.3); }
+        .roulette-btn.selected[data-rchoice="black"] { border-color: #6b7280; background: rgba(107,114,128,0.3); }
+        .roulette-btn.selected[data-rchoice="cyan"] { border-color: var(--accent-cyan); background: rgba(0,240,255,0.3); }
+
+        /* --- GIOCO 3: CRASH --- */
+        .arena-crash {
+            height: 200px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crash-multiplier {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .crash-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Pulsante Principale di Azione */
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent-pink), #7928ca);
             border: none;
             padding: 16px;
             border-radius: 14px;
@@ -235,171 +402,373 @@
             font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 20px rgba(255, 42, 133, 0.4);
+            letter-spacing: 1.5px;
+            box-shadow: 0 8px 25px rgba(255, 42, 133, 0.4);
             transition: transform 0.1s ease, filter 0.2s ease;
+            width: 100%;
+            margin-top: 10px;
         }
 
-        .btn-spin:hover:not(:disabled) {
-            filter: brightness(1.1);
+        .btn-action:hover:not(:disabled) {
+            filter: brightness(1.15);
         }
 
-        .btn-spin:active:not(:disabled) {
+        .btn-action:active:not(:disabled) {
             transform: scale(0.98);
         }
 
-        .btn-spin:disabled {
+        .btn-action:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
         .status-message {
-            margin-top: 16px;
+            margin-top: 14px;
             text-align: center;
             font-size: 0.9rem;
             min-height: 24px;
             color: var(--text-muted);
-        }
-
-        /* Animazione di rotazione 3D dinamica via JS */
-        @keyframes flipAnimation {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(1440deg) rotateY(var(--final-rotation)); }
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div class="casino-container">
+    <div class="casino-wrapper">
         <header>
-            <div class="logo">DonutFlip</div>
+            <div class="logo-area">
+                <div class="logo">DonutSMP Casino</div>
+                <div class="sub-logo">High-Roller Suite</div>
+            </div>
             <div class="balance-box">
-                <span class="balance-label">Saldo Virtuale</span>
+                <span class="balance-label">Saldo VIP</span>
                 <span class="balance-amount" id="balanceDisplay">$1,000.00</span>
             </div>
         </header>
 
-        <div class="arena">
-            <div class="coin" id="coin">
-                <div class="coin-face coin-front">
-                    <span style="font-size: 2rem;">🍩</span>
-                    <span style="font-size: 0.7rem; margin-top: 4px;">Pink</span>
-                </div>
-                <div class="coin-face coin-back">
-                    <span style="font-size: 2rem;">💎</span>
-                    <span style="font-size: 0.7rem; margin-top: 4px;">Cyan</span>
-                </div>
-            </div>
+        <!-- Tab di Navigazione Giochi -->
+        <div class="game-tabs">
+            <button class="tab-btn active" onclick="switchGame('flip')">DonutFlip</button>
+            <button class="tab-btn" onclick="switchGame('roulette')">Roulette</button>
+            <button class="tab-btn" onclick="switchGame('crash')">Crash Game</button>
         </div>
 
-        <div class="controls">
-            <div class="bet-input-group">
-                <label for="betAmount">Puntata</label>
-                <div class="bet-controls-right">
-                    <input type="number" id="betAmount" value="50" min="1" max="1000">
-                    <div class="quick-btns">
-                        <button class="btn-quick" onclick="setMultiplier(0.5)">1/2</button>
-                        <button class="btn-quick" onclick="setMultiplier(2)">2x</button>
-                        <button class="btn-quick" onclick="setMax()">MAX</button>
+        <!-- GIOCO 1: DONUT FLIP -->
+        <div id="view-flip" class="game-view active">
+            <div class="arena-flip">
+                <div class="coin" id="coin">
+                    <div class="coin-face coin-front">
+                        <span style="font-size: 2.2rem;">🍩</span>
+                        <span style="font-size: 0.7rem; margin-top: 4px;">Pink</span>
+                    </div>
+                    <div class="coin-face coin-back">
+                        <span style="font-size: 2.2rem;">💎</span>
+                        <span style="font-size: 0.7rem; margin-top: 4px;">Cyan</span>
                     </div>
                 </div>
             </div>
 
-            <div class="choice-selection">
-                <button class="choice-btn selected" data-choice="pink" onclick="selectChoice('pink')">Scegli Pink (🍩)</button>
-                <button class="choice-btn" data-choice="cyan" onclick="selectChoice('cyan')">Scegli Cyan (💎)</button>
-            </div>
+            <div class="controls-section">
+                <div class="bet-input-group">
+                    <label for="betFlip">Puntata</label>
+                    <div class="bet-controls-right">
+                        <input type="number" id="betFlip" value="50" min="1">
+                        <div class="quick-btns">
+                            <button class="btn-quick" onclick="adjustBet('flip', 0.5)">1/2</button>
+                            <button class="btn-quick" onclick="adjustBet('flip', 2)">2x</button>
+                            <button class="btn-quick" onclick="maxBet('flip')">MAX</button>
+                        </div>
+                    </div>
+                </div>
 
-            <button class="btn-spin" id="spinBtn" onclick="playGame()">Lancia Moneta</button>
+                <div class="choice-grid">
+                    <button class="choice-btn selected" data-choice="pink" onclick="selectFlipChoice('pink')">Scegli Pink (🍩)</button>
+                    <button class="choice-btn" data-choice="cyan" onclick="selectFlipChoice('cyan')">Scegli Cyan (💎)</button>
+                </div>
+
+                <button class="btn-action" id="spinFlipBtn" onclick="playFlip()">Lancia Moneta</button>
+            </div>
         </div>
 
-        <div class="status-message" id="statusMsg">Seleziona la tua fazione e lancia!</div>
+        <!-- GIOCO 2: ROULETTE -->
+        <div id="view-roulette" class="game-view">
+            <div class="arena-roulette">
+                <div class="roulette-pointer"></div>
+                <div class="roulette-container">
+                    <div class="roulette-wheel" id="rouletteWheel"></div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="bet-input-group">
+                    <label for="betRoulette">Puntata</label>
+                    <div class="bet-controls-right">
+                        <input type="number" id="betRoulette" value="50" min="1">
+                        <div class="quick-btns">
+                            <button class="btn-quick" onclick="adjustBet('roulette', 0.5)">1/2</button>
+                            <button class="btn-quick" onclick="adjustBet('roulette', 2)">2x</button>
+                            <button class="btn-quick" onclick="maxBet('roulette')">MAX</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="roulette-options">
+                    <button class="roulette-btn selected" data-rchoice="red" onclick="selectRouletteChoice('red')">Rosso (2x)</button>
+                    <button class="roulette-btn" data-rchoice="black" onclick="selectRouletteChoice('black')">Nero (2x)</button>
+                    <button class="roulette-btn" data-rchoice="cyan" onclick="selectRouletteChoice('cyan')">Cyan (3x)</button>
+                </div>
+
+                <button class="btn-action" id="spinRouletteBtn" onclick="playRoulette()">Gira Roulette</button>
+            </div>
+        </div>
+
+        <!-- GIOCO 3: CRASH -->
+        <div id="view-crash" class="game-view">
+            <div class="arena-crash">
+                <div class="crash-multiplier" id="crashMultiplier">1.00x</div>
+                <div class="crash-status" id="crashStatus">Pronto a decollare</div>
+            </div>
+
+            <div class="controls-section">
+                <div class="bet-input-group">
+                    <label for="betCrash">Puntata</label>
+                    <div class="bet-controls-right">
+                        <input type="number" id="betCrash" value="50" min="1">
+                        <div class="quick-btns">
+                            <button class="btn-quick" onclick="adjustBet('crash', 0.5)">1/2</button>
+                            <button class="btn-quick" onclick="adjustBet('crash', 2)">2x</button>
+                            <button class="btn-quick" onclick="maxBet('crash')">MAX</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-action" id="crashActionBtn" onclick="handleCrashAction()">Avvia Crash</button>
+            </div>
+        </div>
+
+        <div class="status-message" id="statusMsg">Seleziona un gioco e fai la tua puntata!</div>
     </div>
 
     <script>
         let balance = 1000.00;
-        let selectedChoice = 'pink';
-        let isPlaying = false;
-
         const balanceDisplay = document.getElementById('balanceDisplay');
-        const betInput = document.getElementById('betAmount');
-        const coin = document.getElementById('coin');
-        const spinBtn = document.getElementById('spinBtn');
         const statusMsg = document.getElementById('statusMsg');
-        const choiceBtns = document.querySelectorAll('.choice-btn');
 
         function updateBalance() {
             balanceDisplay.textContent = `$${balance.toFixed(2)}`;
         }
 
-        function selectChoice(choice) {
-            if (isPlaying) return;
-            selectedChoice = choice;
-            choiceBtns.forEach(btn => {
-                if (btn.dataset.choice === choice) {
-                    btn.classList.add('selected');
-                } else {
-                    btn.classList.remove('selected');
-                }
+        function switchGame(gameKey) {
+            document.querySelectorAll('.game-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+
+            document.getElementById(`view-${gameKey}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+            statusMsg.textContent = "Seleziona la tua puntata e gioca!";
+        }
+
+        function adjustBet(game, mult) {
+            const input = document.getElementById(`bet${game.charAt(0).toUpperCase() + game.slice(1)}`);
+            let val = parseFloat(input.value) || 0;
+            let newVal = Math.max(1, Math.floor(val * mult));
+            if (newVal > balance) newVal = balance;
+            input.value = newVal;
+        }
+
+        function maxBet(game) {
+            const input = document.getElementById(`bet${game.charAt(0).toUpperCase() + game.slice(1)}`);
+            input.value = balance;
+        }
+
+        // --- LOGICA DONUT FLIP ---
+        let flipChoice = 'pink';
+        let isFlipPlaying = false;
+
+        function selectFlipChoice(choice) {
+            if (isFlipPlaying) return;
+            flipChoice = choice;
+            document.querySelectorAll('.choice-btn').forEach(b => {
+                if (b.dataset.choice === choice) b.classList.add('selected');
+                else b.classList.remove('selected');
             });
         }
 
-        function setMultiplier(mult) {
-            if (isPlaying) return;
-            let currentBet = parseFloat(betInput.value) || 0;
-            let newBet = Math.max(1, Math.floor(currentBet * mult));
-            if (newBet > balance) newBet = balance;
-            betInput.value = newBet;
-        }
-
-        function setMax() {
-            if (isPlaying) return;
-            betInput.value = balance;
-        }
-
-        function playGame() {
-            if (isPlaying) return;
-            
+        function playFlip() {
+            if (isFlipPlaying) return;
+            const betInput = document.getElementById('betFlip');
             let bet = parseFloat(betInput.value);
-            if (isNaN(bet) || bet <= 0) {
-                statusMsg.textContent = "Inserisci una puntata valida!";
-                return;
-            }
-            if (bet > balance) {
-                statusMsg.textContent = "Saldo insufficiente!";
+
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                statusMsg.textContent = "Puntata non valida o saldo insufficiente!";
                 return;
             }
 
-            isPlaying = true;
-            spinBtn.disabled = true;
+            isFlipPlaying = true;
+            document.getElementById('spinFlipBtn').disabled = true;
             balance -= bet;
             updateBalance();
             statusMsg.textContent = "La moneta sta girando...";
 
-            // Determina il risultato casuale (0 = Pink, 1 = Cyan)
             const outcome = Math.random() < 0.5 ? 'pink' : 'cyan';
+            const coin = document.getElementById('coin');
             
-            // Calcola la rotazione finale in gradi per l'asse Y
-            // Pink = 0deg (faccia front), Cyan = 180deg (faccia back) più giri completi
-            const baseRotations = 5 * 360; 
-            const finalYRotation = outcome === 'pink' ? baseRotations : baseRotations + 180;
+            const baseRot = 5 * 360;
+            const finalY = outcome === 'pink' ? baseRot : baseRot + 180;
 
             coin.style.transition = 'transform 2s cubic-bezier(0.15, 0.85, 0.35, 1)';
-            coin.style.transform = `rotateX(720deg) rotateY(${finalYRotation}deg)`;
+            coin.style.transform = `rotateX(720deg) rotateY(${finalY}deg)`;
 
             setTimeout(() => {
-                isPlaying = false;
-                spinBtn.disabled = false;
+                isFlipPlaying = false;
+                document.getElementById('spinFlipBtn').disabled = false;
 
-                if (selectedChoice === outcome) {
-                    const winAmount = bet * 2;
-                    balance += winAmount;
-                    statusMsg.innerHTML = `<span style="color: var(--gold); font-weight: bold;">Hai vinto $${winAmount.toFixed(2)}!</span>`;
+                if (flipChoice === outcome) {
+                    let win = bet * 2;
+                    balance += win;
+                    statusMsg.innerHTML = `<span style="color: var(--gold);">Hai vinto $${win.toFixed(2)}!</span>`;
                 } else {
                     statusMsg.innerHTML = `<span style="color: var(--accent-pink);">Hai perso la puntata. Riprova!</span>`;
                 }
                 updateBalance();
             }, 2000);
+        }
+
+        // --- LOGICA ROULETTE (FIXED ROTATION & SECTORS) ---
+        // 6 settori da 60° ciascuno (Puntatore in alto a 0° / 360°):
+        // Settore 0: 0° - 60° -> Rosso (Moltiplicatore 2x)
+        // Settore 1: 60° - 120° -> Nero (Moltiplicatore 2x)
+        // Settore 2: 120° - 180° -> Cyan (Moltiplicatore 3x)
+        // Settore 3: 180° - 240° -> Rosso (Moltiplicatore 2x)
+        // Settore 4: 240° - 300° -> Nero (Moltiplicatore 2x)
+        // Settore 5: 300° - 360° -> Cyan (Moltiplicatore 3x)
+        const rouletteSectors = [
+            { name: 'red', mult: 2, centerAngle: 30 },
+            { name: 'black', mult: 2, centerAngle: 90 },
+            { name: 'cyan', mult: 3, centerAngle: 150 },
+            { name: 'red', mult: 2, centerAngle: 210 },
+            { name: 'black', mult: 2, centerAngle: 270 },
+            { name: 'cyan', mult: 3, centerAngle: 330 }
+        ];
+
+        let rouletteChoice = 'red';
+        let isRoulettePlaying = false;
+        let currentWheelRotation = 0;
+
+        function selectRouletteChoice(choice) {
+            if (isRoulettePlaying) return;
+            rouletteChoice = choice;
+            document.querySelectorAll('.roulette-btn').forEach(b => {
+                if (b.dataset.rchoice === choice) b.classList.add('selected');
+                else b.classList.remove('selected');
+            });
+        }
+
+        function playRoulette() {
+            if (isRoulettePlaying) return;
+            const betInput = document.getElementById('betRoulette');
+            let bet = parseFloat(betInput.value);
+
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                statusMsg.textContent = "Puntata non valida o saldo insufficiente!";
+                return;
+            }
+
+            isRoulettePlaying = true;
+            document.getElementById('spinRouletteBtn').disabled = true;
+            balance -= bet;
+            updateBalance();
+            statusMsg.textContent = "La roulette sta girando...";
+
+            // Scegliamo un indice casuale tra 0 e 5
+            const winningIndex = Math.floor(Math.random() * rouletteSectors.length);
+            const targetSector = rouletteSectors[winningIndex];
+
+            // Calcoliamo l'angolo esatto affinché il centro del settore si allinei con il puntatore in alto (0°)
+            // Visto che la ruota gira in senso orario, la rotazione finale deve portare il targetSector all'angolo 0 (360)
+            const extraSpins = 6 * 360; // 6 giri completi
+            const targetAngle = 360 - targetSector.centerAngle;
+            
+            // Aggiungiamo ai giri correnti per mantenere la continuità e fare rotazioni fluide
+            currentWheelRotation = currentWheelRotation + extraSpins + (targetAngle - (currentWheelRotation % 360));
+
+            const wheel = document.getElementById('rouletteWheel');
+            wheel.style.transition = 'transform 4s cubic-bezier(0.15, 0.85, 0.15, 1)';
+            wheel.style.transform = `rotate(${currentWheelRotation}deg)`;
+
+            setTimeout(() => {
+                isRoulettePlaying = false;
+                document.getElementById('spinRouletteBtn').disabled = false;
+
+                if (rouletteChoice === targetSector.name) {
+                    let win = bet * targetSector.mult;
+                    balance += win;
+                    statusMsg.innerHTML = `<span style="color: var(--gold);">Uscito ${targetSector.name.toUpperCase()}! Hai vinto $${win.toFixed(2)}!</span>`;
+                } else {
+                    statusMsg.innerHTML = `<span style="color: var(--accent-pink);">Uscito ${targetSector.name.toUpperCase()}. Hai perso!</span>`;
+                }
+                updateBalance();
+            }, 4000);
+        }
+
+        // --- LOGICA CRASH GAME ---
+        let isCrashRunning = false;
+        let crashInterval = null;
+        let currentMultiplier = 1.00;
+        let crashPoint = 1.00;
+        let crashBet = 0;
+
+        function handleCrashAction() {
+            const btn = document.getElementById('crashActionBtn');
+            const betInput = document.getElementById('betCrash');
+
+            if (!isCrashRunning) {
+                crashBet = parseFloat(betInput.value);
+                if (isNaN(crashBet) || crashBet <= 0 || crashBet > balance) {
+                    statusMsg.textContent = "Puntata non valida o saldo insufficiente!";
+                    return;
+                }
+
+                balance -= crashBet;
+                updateBalance();
+
+                isCrashRunning = true;
+                currentMultiplier = 1.00;
+                // Calcola punto di crash casuale (es. bilanciato)
+                crashPoint = parseFloat((1.01 + (Math.random() < 0.1 ? Math.random() * 0.5 : Math.random() * 4)).toFixed(2));
+                
+                btn.textContent = "Incassa (Cash Out)";
+                document.getElementById('crashStatus').textContent = "Il razzo sta salendo...";
+                statusMsg.textContent = "Partita in corso! Clicca incassa prima del crash.";
+
+                crashInterval = setInterval(() => {
+                    currentMultiplier += 0.02;
+                    document.getElementById('crashMultiplier').textContent = currentMultiplier.toFixed(2) + 'x';
+
+                    if (currentMultiplier >= crashPoint) {
+                        endCrash(false);
+                    }
+                }, 80);
+            } else {
+                endCrash(true);
+            }
+        }
+
+        function endCrash(cashedOut) {
+            clearInterval(crashInterval);
+            isCrashRunning = false;
+            const btn = document.getElementById('crashActionBtn');
+            btn.textContent = "Avvia Crash";
+
+            if (cashedOut) {
+                let win = crashBet * currentMultiplier;
+                balance += win;
+                statusMsg.innerHTML = `<span style="color: var(--gold);">Incassato con successo a ${currentMultiplier.toFixed(2)}x! Hai vinto $${win.toFixed(2)}!</span>`;
+                document.getElementById('crashStatus').textContent = "Incassato!";
+            } else {
+                statusMsg.innerHTML = `<span style="color: var(--accent-pink);">CRASHED a ${crashPoint.toFixed(2)}x! Hai perso la puntata.</span>`;
+                document.getElementById('crashStatus').textContent = `Crash a ${crashPoint.toFixed(2)}x`;
+            }
+            updateBalance();
         }
     </script>
 </body>
