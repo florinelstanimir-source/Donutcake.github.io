@@ -3,46 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Gaming Terminal</title>
+    <title>DonutSMP Casino - VIP Suite</title>
     <style>
         :root {
-            --bg-base: #090a0f;
-            --surface: #131722;
-            --surface-hover: #1b2234;
-            --border: rgba(255, 255, 255, 0.08);
-            --accent-green: #00e676;
-            --accent-red: #ff1744;
-            --accent-blue: #2979ff;
-            --gold: #ffb300;
-            --text-main: #f8fafc;
-            --text-muted: #64748b;
+            --bg-color: #05070c;
+            --panel-bg: rgba(13, 17, 28, 0.85);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --accent-pink: #ff2a85;
+            --accent-cyan: #00f0ff;
+            --gold: #ffd700;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--bg-base);
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 42, 133, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .terminal-container {
+        .casino-wrapper {
             width: 100%;
-            max-width: 650px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            max-width: 480px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
             padding: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
         }
 
         header {
@@ -50,110 +56,113 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--panel-border);
             padding-bottom: 16px;
         }
 
-        .brand {
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            filter: drop-shadow(0 2px 10px rgba(255,42,133,0.4));
         }
 
-        .brand span {
-            color: var(--accent-blue);
-        }
-
-        .wallet {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            padding: 8px 14px;
-            border-radius: 10px;
+        .balance-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 8px 16px;
+            border-radius: 14px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+            box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.1);
         }
 
-        .wallet-label {
+        .balance-label {
             font-size: 0.65rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .wallet-amount {
-            font-size: 1.1rem;
-            font-weight: 700;
+        .balance-amount {
+            font-size: 1.15rem;
+            font-weight: 800;
             color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        /* Navigazione Moduli */
-        .module-nav {
+        /* Tabs di navigazione giochi */
+        .game-tabs {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid var(--panel-border);
         }
 
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
+        .tab-btn {
+            background: transparent;
+            border: none;
             color: var(--text-muted);
-            padding: 10px;
+            padding: 10px 4px;
             border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .nav-btn.active {
-            background: var(--surface-hover);
-            color: var(--text-main);
-            border-color: rgba(41, 121, 255, 0.4);
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(255, 42, 133, 0.3), rgba(0, 240, 255, 0.3));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .module-view {
+        .game-view {
             display: none;
         }
 
-        .module-view.active {
+        .game-view.active {
             display: block;
         }
 
-        /* Controlli Comune */
-        .control-panel {
+        /* Controlli Puntata */
+        .controls-section {
             display: flex;
             flex-direction: column;
             gap: 14px;
             margin-top: 16px;
         }
 
-        .input-box {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 14px;
+        .bet-input-group {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 8px 12px;
+            border: 1px solid var(--panel-border);
         }
 
-        .input-box label {
+        .bet-input-group label {
             font-size: 0.8rem;
             color: var(--text-muted);
             font-weight: 600;
         }
 
-        .input-group-right {
+        .bet-controls-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         input[type="number"] {
@@ -161,33 +170,92 @@
             border: none;
             color: var(--gold);
             font-size: 1.1rem;
-            font-weight: 700;
-            width: 90px;
+            font-weight: 800;
+            width: 85px;
             text-align: right;
             outline: none;
         }
 
-        .quick-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 4px 8px;
+        .quick-btns {
+            display: flex;
+            gap: 3px;
+        }
+
+        .btn-quick {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 4px 6px;
             border-radius: 6px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        .quick-btn:hover {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.08);
+        .btn-quick:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        /* MODULO 1: DICE HIGHER/LOWER */
-        .dice-display {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 16px;
+        /* --- GIOCO 1: DONUT FLIP --- */
+        .arena-flip {
             height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .coin {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.7), 0 10px 20px rgba(0,0,0,0.5);
+            border: 4px solid var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .coin-front { background: radial-gradient(circle, #ff2a85 0%, #7b0026 100%); color: white; }
+        .coin-back { background: radial-gradient(circle, #00f0ff 0%, #005666 100%); color: white; transform: rotateY(180deg); }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .choice-btn.selected[data-choice="pink"] { border-color: var(--accent-pink); background: rgba(255, 42, 133, 0.25); box-shadow: 0 0 15px rgba(255, 42, 133, 0.4); }
+        .choice-btn.selected[data-choice="cyan"] { border-color: var(--accent-cyan); background: rgba(0, 240, 255, 0.25); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+
+        /* --- GIOCO 2: ROULETTE --- */
+        .arena-roulette {
+            height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -195,323 +263,378 @@
             position: relative;
         }
 
-        .dice-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+        .roulette-pointer {
+            position: absolute;
+            top: 2px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 14px solid var(--gold);
+            z-index: 20;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
         }
 
-        .dice-target-info {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .dice-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        /* MODULO 2: MINESWEEPER STAKE STYLE */
-        .mines-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-        }
-
-        .mine-cell {
-            aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 10px;
+        .roulette-container {
+            width: 170px;
+            height: 170px;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.2rem;
-            font-weight: bold;
+        }
+
+        .roulette-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            background: conic-gradient(
+                #ff2a85 0deg 60deg,
+                #1f2937 60deg 120deg,
+                #00f0ff 120deg 180deg,
+                #ff2a85 180deg 240deg,
+                #1f2937 240deg 300deg,
+                #00f0ff 300deg 360deg
+            );
+            transition: transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1);
+        }
+
+        .roulette-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .roulette-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 4px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
             cursor: pointer;
-            transition: 0.15s;
+            transition: all 0.2s;
+            text-align: center;
         }
 
-        .mine-cell:hover:not(.revealed) {
-            background: rgba(255, 255, 255, 0.08);
-        }
+        .roulette-btn.selected[data-rchoice="red"] { border-color: var(--accent-pink); background: rgba(255,42,133,0.3); }
+        .roulette-btn.selected[data-rchoice="black"] { border-color: #6b7280; background: rgba(107,114,128,0.3); }
+        .roulette-btn.selected[data-rchoice="cyan"] { border-color: var(--accent-cyan); background: rgba(0,240,255,0.3); }
 
-        .mine-cell.revealed-gem {
-            background: rgba(0, 230, 118, 0.15);
-            border-color: var(--accent-green);
-        }
-
-        .mine-cell.revealed-mine {
-            background: rgba(255, 23, 68, 0.15);
-            border-color: var(--accent-red);
-        }
-
-        /* MODULO 3: TOWER STACK */
-        .tower-arena {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 16px;
+        /* --- GIOCO 3: CRASH --- */
+        .arena-crash {
             height: 180px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        /* Pulsante Principale */
+        .crash-multiplier {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .crash-status {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Pulsante Azione Principale */
         .btn-action {
-            background: var(--accent-blue);
+            background: linear-gradient(135deg, var(--accent-pink), #7928ca);
             border: none;
             padding: 14px;
             border-radius: 12px;
             color: white;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(255, 42, 133, 0.4);
+            transition: transform 0.1s ease, filter 0.2s ease;
             width: 100%;
-            margin-top: 10px;
-            transition: filter 0.2s;
+            margin-top: 6px;
         }
 
-        .btn-action:hover {
-            filter: brightness(1.1);
-        }
+        .btn-action:hover:not(:disabled) { filter: brightness(1.15); }
+        .btn-action:active:not(:disabled) { transform: scale(0.98); }
+        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .btn-action:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .log-status {
-            margin-top: 14px;
+        .status-message {
+            margin-top: 12px;
             text-align: center;
             font-size: 0.85rem;
+            min-height: 22px;
             color: var(--text-muted);
-            min-height: 20px;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div class="terminal-container">
+    <div class="casino-wrapper">
         <header>
-            <div class="brand">Apex<span>Terminal</span></div>
-            <div class="wallet">
-                <span class="wallet-label">Balance</span>
-                <span class="wallet-amount" id="walletBalance">$1,000.00</span>
+            <div class="logo">DonutSMP</div>
+            <div class="balance-box">
+                <span class="balance-label">Saldo VIP</span>
+                <span class="balance-amount" id="balanceDisplay">$1,000.00</span>
             </div>
         </header>
 
-        <div class="module-nav">
-            <button class="nav-btn active" onclick="switchModule('dice')">Dice Roll</button>
-            <button class="nav-btn" onclick="switchModule('mines')">Mines</button>
-            <button class="nav-btn" onclick="switchModule('coin')">Coinflip</button>
+        <div class="game-tabs">
+            <button class="tab-btn active" onclick="switchGame('flip')">DonutFlip</button>
+            <button class="tab-btn" onclick="switchGame('roulette')">Roulette</button>
+            <button class="tab-btn" onclick="switchGame('crash')">Crash Game</button>
         </div>
 
-        <!-- MODULO DICE -->
-        <div id="mod-dice" class="module-view active">
-            <div class="dice-display">
-                <div class="dice-number" id="diceResult">50.00</div>
-                <div class="dice-target-info">Tira sopra 50.0 per vincere (2.0x)</div>
+        <!-- DONUT FLIP -->
+        <div id="view-flip" class="game-view active">
+            <div class="arena-flip">
+                <div class="coin" id="coin">
+                    <div class="coin-face coin-front"><span style="font-size: 2rem;">🍩</span><span style="font-size: 0.6rem;">Pink</span></div>
+                    <div class="coin-face coin-back"><span style="font-size: 2rem;">💎</span><span style="font-size: 0.6rem;">Cyan</span></div>
+                </div>
             </div>
-            <div class="control-panel">
-                <div class="input-box">
+            <div class="controls-section">
+                <div class="bet-input-group">
                     <label>Puntata</label>
-                    <div class="input-group-right">
-                        <input type="number" id="betDice" value="50" min="1">
-                        <button class="quick-btn" onclick="adjust('Dice', 0.5)">½</button>
-                        <button class="quick-btn" onclick="adjust('Dice', 2)">2×</button>
+                    <div class="bet-controls-right">
+                        <input type="number" id="betFlip" value="50" min="1">
+                        <div class="quick-btns">
+                            <button class="btn-quick" onclick="adjustBet('flip', 0.5)">½</button>
+                            <button class="btn-quick" onclick="adjustBet('flip', 2)">2×</button>
+                            <button class="btn-quick" onclick="maxBet('flip')">MAX</button>
+                        </div>
                     </div>
                 </div>
-                <button class="btn-action" id="btnDice" onclick="playDice()">Esegui Roll</button>
+                <div class="choice-grid">
+                    <button class="choice-btn selected" data-choice="pink" onclick="selectFlipChoice('pink')">Pink (🍩)</button>
+                    <button class="choice-btn" data-choice="cyan" onclick="selectFlipChoice('cyan')">Cyan (💎)</button>
+                </div>
+                <button class="btn-action" id="spinFlipBtn" onclick="playFlip()">Lancia Moneta</button>
             </div>
         </div>
 
-        <!-- MODULO MINES -->
-        <div id="mod-mines" class="module-view">
-            <div class="mines-grid" id="minesGrid">
-                <!-- Generate via JS -->
+        <!-- ROULETTE -->
+        <div id="view-roulette" class="game-view">
+            <div class="arena-roulette">
+                <div class="roulette-pointer"></div>
+                <div class="roulette-container">
+                    <div class="roulette-wheel" id="rouletteWheel"></div>
+                </div>
             </div>
-            <div class="control-panel">
-                <div class="input-box">
+            <div class="controls-section">
+                <div class="bet-input-group">
                     <label>Puntata</label>
-                    <div class="input-group-right">
-                        <input type="number" id="betMines" value="50" min="1">
-                        <button class="quick-btn" onclick="adjust('Mines', 0.5)">½</button>
-                        <button class="quick-btn" onclick="adjust('Mines', 2)">2×</button>
+                    <div class="bet-controls-right">
+                        <input type="number" id="betRoulette" value="50" min="1">
+                        <div class="quick-btns">
+                            <button class="btn-quick" onclick="adjustBet('roulette', 0.5)">½</button>
+                            <button class="btn-quick" onclick="adjustBet('roulette', 2)">2×</button>
+                            <button class="btn-quick" onclick="maxBet('roulette')">MAX</button>
+                        </div>
                     </div>
                 </div>
-                <button class="btn-action" id="btnMines" onclick="startMines()">Inizia Partita Mines</button>
+                <div class="roulette-options">
+                    <button class="roulette-btn selected" data-rchoice="red" onclick="selectRouletteChoice('red')">Rosso (2x)</button>
+                    <button class="roulette-btn" data-rchoice="black" onclick="selectRouletteChoice('black')">Nero (2x)</button>
+                    <button class="roulette-btn" data-rchoice="cyan" onclick="selectRouletteChoice('cyan')">Cyan (3x)</button>
+                </div>
+                <button class="btn-action" id="spinRouletteBtn" onclick="playRoulette()">Gira Roulette</button>
             </div>
         </div>
 
-        <!-- MODULO COINFLIP -->
-        <div id="mod-coin" class="module-view">
-            <div class="dice-display">
-                <div id="coinSymbol" style="font-size: 3rem;">🪙</div>
-                <div class="dice-target-info" id="coinStatusText">Seleziona Testa o Croce</div>
+        <!-- CRASH -->
+        <div id="view-crash" class="game-view">
+            <div class="arena-crash">
+                <div class="crash-multiplier" id="crashMultiplier">1.00x</div>
+                <div class="crash-status" id="crashStatus">Pronto al decollo</div>
             </div>
-            <div class="control-panel">
-                <div class="input-box">
+            <div class="controls-section">
+                <div class="bet-input-group">
                     <label>Puntata</label>
-                    <div class="input-group-right">
-                        <input type="number" id="betCoin" value="50" min="1">
-                        <button class="quick-btn" onclick="adjust('Coin', 0.5)">½</button>
-                        <button class="quick-btn" onclick="adjust('Coin', 2)">2×</button>
+                    <div class="bet-controls-right">
+                        <input type="number" id="betCrash" value="50" min="1">
+                        <div class="quick-btns">
+                            <button class="btn-quick" onclick="adjustBet('crash', 0.5)">½</button>
+                            <button class="btn-quick" onclick="adjustBet('crash', 2)">2×</button>
+                            <button class="btn-quick" onclick="maxBet('crash')">MAX</button>
+                        </div>
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <button class="quick-btn" id="btnHead" onclick="selectCoin('head')" style="padding: 10px; font-weight: bold; background: rgba(41,121,255,0.2);">TESTA</button>
-                    <button class="quick-btn" id="btnTail" onclick="selectCoin('tail')" style="padding: 10px; font-weight: bold;">CROCE</button>
-                </div>
-                <button class="btn-action" id="btnCoinPlay" onclick="playCoin()">Lancia Moneta</button>
+                <button class="btn-action" id="crashActionBtn" onclick="handleCrashAction()">Avvia Crash</button>
             </div>
         </div>
 
-        <div class="log-status" id="logStatus">Pronto all'operazione.</div>
+        <div class="status-message" id="statusMsg">Piazza la tua puntata e gioca!</div>
     </div>
 
     <script>
         let balance = 1000.00;
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const statusMsg = document.getElementById('statusMsg');
 
-        function updateWallet() {
-            document.getElementById('walletBalance').textContent = `$${balance.toFixed(2)}`;
-        }
+        function updateBalance() { balanceDisplay.textContent = `$${balance.toFixed(2)}`; }
 
-        function switchModule(modKey) {
-            document.querySelectorAll('.module-view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-            document.getElementById(`mod-${modKey}`).classList.add('active');
+        function switchGame(key) {
+            document.querySelectorAll('.game-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.getElementById(`view-${key}`).classList.add('active');
             event.currentTarget.classList.add('active');
-            document.getElementById('logStatus').textContent = "Modulo cambiato.";
+            statusMsg.textContent = "Fai la tua puntata!";
         }
 
-        function adjust(mod, mult) {
-            const input = document.getElementById(`bet${mod}`);
+        function adjustBet(game, mult) {
+            const input = document.getElementById(`bet${game.charAt(0).toUpperCase() + game.slice(1)}`);
             let val = parseFloat(input.value) || 0;
             let res = Math.max(1, Math.floor(val * mult));
             if (res > balance) res = balance;
             input.value = res;
         }
 
-        // --- DICE LOGIC ---
-        function playDice() {
-            const bet = parseFloat(document.getElementById('betDice').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) {
-                document.getElementById('logStatus').textContent = "Fondi insufficienti o puntata non valida.";
-                return;
-            }
+        function maxBet(game) {
+            document.getElementById(`bet${game.charAt(0).toUpperCase() + game.slice(1)}`).value = balance;
+        }
 
-            balance -= bet;
-            updateWallet();
+        // FLIP LOGIC
+        let flipChoice = 'pink';
+        let isFlipPlaying = false;
+        function selectFlipChoice(c) {
+            if (isFlipPlaying) return;
+            flipChoice = c;
+            document.querySelectorAll('.choice-btn').forEach(b => {
+                b.classList.toggle('selected', b.dataset.choice === c);
+            });
+        }
+        function playFlip() {
+            if (isFlipPlaying) return;
+            let bet = parseFloat(document.getElementById('betFlip').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { statusMsg.textContent = "Puntata non valida!"; return; }
+            
+            isFlipPlaying = true;
+            document.getElementById('spinFlipBtn').disabled = true;
+            balance -= bet; updateBalance();
+            statusMsg.textContent = "Moneta in volo...";
 
-            const roll = parseFloat((Math.random() * 100).toFixed(2));
-            document.getElementById('diceResult').textContent = roll.toFixed(2);
+            const outcome = Math.random() < 0.5 ? 'pink' : 'cyan';
+            const coin = document.getElementById('coin');
+            const targetRot = 1800 + (outcome === 'pink' ? 0 : 180);
+            coin.style.transition = 'transform 2s cubic-bezier(0.15, 0.85, 0.35, 1)';
+            coin.style.transform = `rotateX(720deg) rotateY(${targetRot}deg)`;
 
-            if (roll > 50) {
-                let win = bet * 2;
-                balance += win;
-                document.getElementById('logStatus').innerHTML = `<span style="color: var(--accent-green);">Vinto $${win.toFixed(2)} (Roll: ${roll})</span>`;
+            setTimeout(() => {
+                isFlipPlaying = false;
+                document.getElementById('spinFlipBtn').disabled = false;
+                if (flipChoice === outcome) {
+                    let win = bet * 2; balance += win;
+                    statusMsg.innerHTML = `<span style="color: var(--gold);">Hai vinto $${win.toFixed(2)}!</span>`;
+                } else {
+                    statusMsg.innerHTML = `<span style="color: var(--accent-pink);">Hai perso! Riprova.</span>`;
+                }
+                updateBalance();
+            }, 2000);
+        }
+
+        // ROULETTE LOGIC
+        const sectors = [
+            { name: 'red', mult: 2, angle: 30 },
+            { name: 'black', mult: 2, angle: 90 },
+            { name: 'cyan', mult: 3, angle: 150 },
+            { name: 'red', mult: 2, angle: 210 },
+            { name: 'black', mult: 2, angle: 270 },
+            { name: 'cyan', mult: 3, angle: 330 }
+        ];
+        let rouletteChoice = 'red';
+        let isRoulettePlaying = false;
+        let wheelRotation = 0;
+
+        function selectRouletteChoice(c) {
+            if (isRoulettePlaying) return;
+            rouletteChoice = c;
+            document.querySelectorAll('.roulette-btn').forEach(b => {
+                b.classList.toggle('selected', b.dataset.rchoice === c);
+            });
+        }
+        function playRoulette() {
+            if (isRoulettePlaying) return;
+            let bet = parseFloat(document.getElementById('betRoulette').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { statusMsg.textContent = "Puntata non valida!"; return; }
+
+            isRoulettePlaying = true;
+            document.getElementById('spinRouletteBtn').disabled = true;
+            balance -= bet; updateBalance();
+            statusMsg.textContent = "La roulette gira...";
+
+            const index = Math.floor(Math.random() * sectors.length);
+            const target = sectors[index];
+            wheelRotation = wheelRotation + 2160 + (360 - target.angle - (wheelRotation % 360));
+
+            const wheel = document.getElementById('rouletteWheel');
+            wheel.style.transition = 'transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1)';
+            wheel.style.transform = `rotate(${wheelRotation}deg)`;
+
+            setTimeout(() => {
+                isRoulettePlaying = false;
+                document.getElementById('spinRouletteBtn').disabled = false;
+                if (rouletteChoice === target.name) {
+                    let win = bet * target.mult; balance += win;
+                    statusMsg.innerHTML = `<span style="color: var(--gold);">Uscito ${target.name.toUpperCase()}! Vinto $${win.toFixed(2)}!</span>`;
+                } else {
+                    statusMsg.innerHTML = `<span style="color: var(--accent-pink);">Uscito ${target.name.toUpperCase()}. Perso!</span>`;
+                }
+                updateBalance();
+            }, 3500);
+        }
+
+        // CRASH LOGIC
+        let isCrashRunning = false, crashInterval = null, currentMult = 1.00, crashPoint = 1.00, crashBet = 0;
+        function handleCrashAction() {
+            const btn = document.getElementById('crashActionBtn');
+            if (!isCrashRunning) {
+                crashBet = parseFloat(document.getElementById('betCrash').value);
+                if (isNaN(crashBet) || crashBet <= 0 || crashBet > balance) { statusMsg.textContent = "Fondi insufficienti!"; return; }
+                balance -= crashBet; updateBalance();
+
+                isCrashRunning = true; currentMult = 1.00;
+                crashPoint = parseFloat((1.01 + Math.random() * 3).toFixed(2));
+                btn.textContent = "Incassa";
+                statusMsg.textContent = "In volo...";
+
+                crashInterval = setInterval(() => {
+                    currentMult += 0.02;
+                    document.getElementById('crashMultiplier').textContent = currentMult.toFixed(2) + 'x';
+                    if (currentMult >= crashPoint) endCrash(false);
+                }, 80);
             } else {
-                document.getElementById('logStatus').innerHTML = `<span style="color: var(--accent-red);">Perso (Roll: ${roll})</span>`;
-            }
-            updateWallet();
-        }
-
-        // --- MINES SETUP ---
-        const gridEl = document.getElementById('minesGrid');
-        let minesActive = false;
-        let minesBet = 0;
-        let revealedCount = 0;
-
-        function initMinesGrid() {
-            gridEl.innerHTML = '';
-            for (let i = 0; i < 25; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'mine-cell';
-                cell.textContent = '·';
-                cell.onclick = () => clickMineCell(i);
-                gridEl.appendChild(cell);
+                endCrash(true);
             }
         }
-        initMinesGrid();
-
-        function startMines() {
-            const bet = parseFloat(document.getElementById('betMines').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) {
-                document.getElementById('logStatus').textContent = "Fondi insufficienti.";
-                return;
-            }
-            balance -= bet;
-            updateWallet();
-            minesBet = bet;
-            minesActive = true;
-            revealedCount = 0;
-            initMinesGrid();
-            document.getElementById('btnMines').textContent = "In gioco...";
-            document.getElementById('btnMines').disabled = true;
-            document.getElementById('logStatus').textContent = "Seleziona le celle sicure!";
-        }
-
-        function clickMineCell(index) {
-            if (!minesActive) return;
-            const cell = gridEl.children[index];
-            if (cell.classList.contains('revealed-gem')) return;
-
-            // 20% probabilità di mina
-            const isMine = Math.random() < 0.2;
-            if (isMine) {
-                cell.className = 'mine-cell revealed-mine';
-                cell.textContent = '💣';
-                minesActive = false;
-                document.getElementById('btnMines').textContent = "Inizia Partita Mines";
-                document.getElementById('btnMines').disabled = false;
-                document.getElementById('logStatus').innerHTML = `<span style="color: var(--accent-red);">Hai beccato una mina! Perso $${minesBet.toFixed(2)}</span>`;
+        function endCrash(cashedOut) {
+            clearInterval(crashInterval);
+            isCrashRunning = false;
+            document.getElementById('crashActionBtn').textContent = "Avvia Crash";
+            if (cashedOut) {
+                let win = crashBet * currentMult; balance += win;
+                statusMsg.innerHTML = `<span style="color: var(--gold);">Incassato a ${currentMult.toFixed(2)}x! Vinto $${win.toFixed(2)}!</span>`;
             } else {
-                cell.className = 'mine-cell revealed-gem';
-                cell.textContent = '💎';
-                revealedCount++;
-                let currentMultiplier = 1 + (revealedCount * 0.3);
-                let potentialWin = minesBet * currentMultiplier;
-                document.getElementById('logStatus').innerHTML = `<span style="color: var(--accent-green);">GEMMA! Moltiplicatore: ${currentMultiplier.toFixed(1)}x (Premio: $${potentialWin.toFixed(2)})</span>`;
+                statusMsg.innerHTML = `<span style="color: var(--accent-pink);">CRASHED a ${crashPoint.toFixed(2)}x!</span>`;
             }
-        }
-
-        // --- COINFLIP LOGIC ---
-        let selectedSide = 'head';
-        function selectCoin(side) {
-            selectedSide = side;
-            document.getElementById('btnHead').style.background = side === 'head' ? 'rgba(41,121,255,0.2)' : 'transparent';
-            document.getElementById('btnTail').style.background = side === 'tail' ? 'rgba(41,121,255,0.2)' : 'transparent';
-        }
-
-        function playCoin() {
-            const bet = parseFloat(document.getElementById('betCoin').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) {
-                document.getElementById('logStatus').textContent = "Fondi insufficienti.";
-                return;
-            }
-            balance -= bet;
-            updateWallet();
-
-            const outcome = Math.random() < 0.5 ? 'head' : 'tail';
-            document.getElementById('coinSymbol').textContent = outcome === 'head' ? '👑' : '🪙';
-
-            if (selectedSide === outcome) {
-                let win = bet * 2;
-                balance += win;
-                document.getElementById('logStatus').innerHTML = `<span style="color: var(--accent-green);">Uscito ${outcome.toUpperCase()}! Vinto $${win.toFixed(2)}</span>`;
-            } else {
-                document.getElementById('logStatus').innerHTML = `<span style="color: var(--accent-red);">Uscito ${outcome.toUpperCase()}. Hai perso.</span>`;
-            }
-            updateWallet();
+            updateBalance();
         }
     </script>
 </body>
