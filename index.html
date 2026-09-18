@@ -41,6 +41,7 @@
             letter-spacing: 0.5px;
             color: #ffffff;
             font-style: italic;
+            cursor: pointer;
         }
 
         .logo span {
@@ -208,77 +209,516 @@
             font-weight: 700;
             font-size: 0.9rem;
         }
+
+        /* --- SEZIONE GIOCO COINFLIP --- */
+        .coinflip-arena {
+            display: none;
+            background-color: #151c22;
+            border: 1px solid #23303a;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background-color: #23303a;
+            color: #8a9ba8;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            margin-bottom: 20px;
+            float: left;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+            background-color: #2b3744;
+        }
+
+        /* Moneta 3D */
+        .coin-container {
+            perspective: 1000px;
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+        }
+
+        .coin {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .coin-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            border: 4px solid #eab308;
+            background: #1e2730;
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+        }
+
+        .coin-heads { transform: rotateY(0deg); }
+        .coin-tails { transform: rotateY(180deg); }
+
+        .choice-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .choice-btn {
+            background-color: #1e2730;
+            border: 2px solid #2b3744;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .choice-btn.selected {
+            border-color: #22c55e;
+            background-color: #172d23;
+            color: #22c55e;
+        }
+
+        .bet-input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .bet-input {
+            background-color: #1e2730;
+            border: 1px solid #2b3744;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            width: 120px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .flip-btn {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .flip-btn:hover { background-color: #16a34a; }
+        .flip-btn:disabled { background-color: #2b3744; cursor: not-allowed; }
+
+        .result-message {
+            margin-top: 15px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            min-height: 28px;
+        }
+
+        /* --- MODALE ACCESS / DEPOSIT --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #151c22;
+            border: 1px solid #28343f;
+            border-radius: 14px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #8a9ba8;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+
+        .modal-btn {
+            width: 100%;
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .modal-btn:hover {
+            background-color: #16a34a;
+        }
+
+        /* Form di Login */
+        .form-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #8a9ba8;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            background-color: #1e2730;
+            border: 1px solid #2b3744;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #22c55e;
+        }
     </style>
 </head>
 <body>
 
     <!-- Header / Navbar -->
     <header>
-        <div class="logo">
+        <div class="logo" id="logo-btn">
             🎲 DONUT <span>FLIP</span>
         </div>
         <div class="user-actions">
             <div class="balance-box">
-                <span>🪙 0.00</span>
+                🪙 <span id="user-balance">100.00</span>
             </div>
-            <button class="add-btn">+</button>
-            <button class="sign-in-btn">➜] Sign In</button>
+            <button class="add-btn" id="open-deposit-btn" title="Aggiungi Saldo">+</button>
+            <button class="sign-in-btn" id="open-signin-btn">➜] Sign In</button>
         </div>
     </header>
 
     <!-- Main Content -->
     <div class="main-container">
-        <h1 class="page-title">DonutFlip</h1>
+        
+        <!-- VISTA HOME -->
+        <div id="home-view">
+            <h1 class="page-title">DonutFlip</h1>
 
-        <!-- Top Banners -->
-        <div class="banners-grid">
-            <div class="banner-card">
-                <h3>RACE</h3>
-                <p>CLIMB THE BOARD, WIN THE POT</p>
+            <!-- Top Banners -->
+            <div class="banners-grid">
+                <div class="banner-card">
+                    <h3>RACE</h3>
+                    <p>CLIMB THE BOARD, WIN THE POT</p>
+                </div>
+                <div class="banner-card">
+                    <h3>REFERRALS</h3>
+                    <p>INVITE FRIENDS, EARN COMMISSION</p>
+                </div>
+                <div class="banner-card">
+                    <h3>DISCORD</h3>
+                    <p>JOIN THE COMMUNITY</p>
+                </div>
             </div>
-            <div class="banner-card">
-                <h3>REFERRALS</h3>
-                <p>INVITE FRIENDS, EARN COMMISSION</p>
-            </div>
-            <div class="banner-card">
-                <h3>DISCORD</h3>
-                <p>JOIN THE COMMUNITY</p>
+
+            <!-- Games Grid -->
+            <div class="games-section">
+                <h2 class="games-title">Games</h2>
+                <p class="games-subtitle">Play using site balance</p>
+
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-icon">📦</div>
+                        <div class="game-title">Cases</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-icon">⚔️</div>
+                        <div class="game-title">Case Battles</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-icon">💣</div>
+                        <div class="game-title">Mines</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-icon">🚀</div>
+                        <div class="game-title">Towers</div>
+                    </div>
+                    <div class="game-card" id="coinflip-game-card">
+                        <div class="game-icon">🪙</div>
+                        <div class="game-title">Coinflip</div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-icon">🃏</div>
+                        <div class="game-title">Blackjack</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Games Grid -->
-        <div class="games-section">
-            <h2 class="games-title">Games</h2>
-            <p class="games-subtitle">Play using site balance</p>
+        <!-- VISTA GIOCO COINFLIP -->
+        <div class="coinflip-arena" id="coinflip-view">
+            <button class="back-btn" id="back-to-home">← Indietro</button>
+            <div style="clear: both;"></div>
+            <h2>Coinflip</h2>
 
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-icon">📦</div>
-                    <div class="game-title">Cases</div>
+            <div class="coin-container">
+                <div class="coin" id="coin-element">
+                    <div class="coin-side coin-heads">🍩</div>
+                    <div class="coin-side coin-tails">🪙</div>
                 </div>
-                <div class="game-card">
-                    <div class="game-icon">⚔️</div>
-                    <div class="game-title">Case Battles</div>
-                </div>
-                <div class="game-card">
-                    <div class="game-icon">💣</div>
-                    <div class="game-title">Mines</div>
-                </div>
-                <div class="game-card">
-                    <div class="game-icon">🚀</div>
-                    <div class="game-title">Towers</div>
-                </div>
-                <div class="game-card">
-                    <div class="game-icon">🪙</div>
-                    <div class="game-title">Coinflip</div>
-                </div>
-                <div class="game-card">
-                    <div class="game-icon">🃏</div>
-                    <div class="game-title">Blackjack</div>
-                </div>
+            </div>
+
+            <div class="choice-buttons">
+                <button class="choice-btn selected" data-choice="heads">🍩 Ciambella (Testa)</button>
+                <button class="choice-btn" data-choice="tails">🪙 Moneta (Croce)</button>
+            </div>
+
+            <div class="bet-input-group">
+                <label>Puntata: </label>
+                <input type="number" id="bet-amount" class="bet-input" value="10" min="1" step="1">
+            </div>
+
+            <button class="flip-btn" id="start-flip-btn">LANCIA!</button>
+            <div class="result-message" id="result-message"></div>
+        </div>
+
+    </div>
+
+    <!-- MODALE GENERICA -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h3 class="modal-title" id="modal-title">Accedi</h3>
+            <div id="modal-body">
+                <!-- Il contenuto viene caricato dinamicamente via JS -->
             </div>
         </div>
     </div>
 
+    <script>
+        // Stato dell'applicazione
+        let balance = 100.00;
+        let selectedChoice = 'heads';
+        let currentRotation = 0;
+        let isFlipping = false;
+        let currentUser = null; // Memorizza l'utente connesso
+
+        // Elementi DOM
+        const balanceDisplay = document.getElementById('user-balance');
+        const homeView = document.getElementById('home-view');
+        const coinflipView = document.getElementById('coinflip-view');
+        const coinflipCard = document.getElementById('coinflip-game-card');
+        const backBtn = document.getElementById('back-to-home');
+        const logoBtn = document.getElementById('logo-btn');
+        const coinElement = document.getElementById('coin-element');
+        const flipBtn = document.getElementById('start-flip-btn');
+        const betInput = document.getElementById('bet-amount');
+        const resultMsg = document.getElementById('result-message');
+        const choiceBtns = document.querySelectorAll('.choice-btn');
+
+        // Modale
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const closeModal = document.getElementById('close-modal');
+        const openDepositBtn = document.getElementById('open-deposit-btn');
+        const openSigninBtn = document.getElementById('open-signin-btn');
+
+        // Aggiorna saldo visibile
+        function updateBalance(amount) {
+            balance += amount;
+            balanceDisplay.textContent = balance.toFixed(2);
+        }
+
+        // Navigazione Viste
+        coinflipCard.addEventListener('click', () => {
+            homeView.style.display = 'none';
+            coinflipView.style.display = 'block';
+        });
+
+        function showHome() {
+            homeView.style.display = 'block';
+            coinflipView.style.display = 'none';
+        }
+
+        backBtn.addEventListener('click', showHome);
+        logoBtn.addEventListener('click', showHome);
+
+        // Selezione Scelta Coinflip
+        choiceBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isFlipping) return;
+                choiceBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedChoice = btn.dataset.choice;
+            });
+        });
+
+        // Logica del lancio della moneta
+        flipBtn.addEventListener('click', () => {
+            if (isFlipping) return;
+
+            const bet = parseFloat(betInput.value);
+
+            if (isNaN(bet) || bet <= 0) {
+                resultMsg.textContent = "❌ Inserisci un importo valido!";
+                resultMsg.style.color = "#ef4444";
+                return;
+            }
+
+            if (bet > balance) {
+                resultMsg.textContent = "❌ Saldo insufficiente!";
+                resultMsg.style.color = "#ef4444";
+                return;
+            }
+
+            // Scala la puntata
+            updateBalance(-bet);
+            isFlipping = true;
+            flipBtn.disabled = true;
+            resultMsg.textContent = "Girando...";
+            resultMsg.style.color = "#ffffff";
+
+            // Calcolo risultato (50/50)
+            const isHeads = Math.random() < 0.5;
+            const outcome = isHeads ? 'heads' : 'tails';
+
+            // Calcola rotazione (minimo 5 giri + posizione finale)
+            const extraRounds = 5 * 360;
+            const targetRotation = outcome === 'heads' ? 0 : 180;
+            
+            // Assicura di girare sempre nella stessa direzione
+            currentRotation += extraRounds + (targetRotation - (currentRotation % 360));
+            if (currentRotation % 360 !== targetRotation) {
+                currentRotation += 180;
+            }
+
+            coinElement.style.transform = `rotateY(${currentRotation}deg)`;
+
+            // Fine animazione (3 secondi)
+            setTimeout(() => {
+                isFlipping = false;
+                flipBtn.disabled = false;
+
+                if (selectedChoice === outcome) {
+                    const winAmount = bet * 2;
+                    updateBalance(winAmount);
+                    resultMsg.textContent = `🎉 HAI VINTO +${winAmount.toFixed(2)} 🪙!`;
+                    resultMsg.style.color = "#22c55e";
+                } else {
+                    resultMsg.textContent = `😭 Hai perso ${bet.toFixed(2)} 🪙. Riprova!`;
+                    resultMsg.style.color = "#ef4444";
+                }
+            }, 3000);
+        });
+
+        // Modale Gestione Accesso / Deposito
+        openSigninBtn.addEventListener('click', () => {
+            if (currentUser) {
+                // Se è già loggato, mostra opzione Logout
+                modalTitle.textContent = "Profilo Utente";
+                modalBody.innerHTML = `
+                    <p style="margin-bottom: 15px;">Connesso come <strong>${currentUser}</strong></p>
+                    <button class="modal-btn" style="background-color: #ef4444;" id="logout-btn">Esci (Logout)</button>
+                `;
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    currentUser = null;
+                    openSigninBtn.textContent = "➜] Sign In";
+                    modalOverlay.style.display = 'none';
+                });
+            } else {
+                // Altrimenti mostra form Login
+                modalTitle.textContent = "Accedi al tuo Account";
+                modalBody.innerHTML = `
+                    <div class="form-group">
+                        <label>Username / Email</label>
+                        <input type="text" id="login-username" class="form-input" placeholder="Inserisci username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="••••••••">
+                    </div>
+                    <button class="modal-btn" id="submit-login">Accedi</button>
+                `;
+
+                document.getElementById('submit-login').addEventListener('click', () => {
+                    const usernameVal = document.getElementById('login-username').value.trim();
+                    if (usernameVal) {
+                        currentUser = usernameVal;
+                        openSigninBtn.textContent = `👤 ${currentUser}`;
+                        modalOverlay.style.display = 'none';
+                    } else {
+                        alert("Inserisci un username!");
+                    }
+                });
+            }
+            modalOverlay.style.display = 'flex';
+        });
+
+        openDepositBtn.addEventListener('click', () => {
+            modalTitle.textContent = "Ricarica Saldo";
+            modalBody.innerHTML = `
+                <p style="color: #8a9ba8; margin-bottom: 15px;">Aggiungi +50.00 monete al tuo saldo!</p>
+                <button class="modal-btn" id="deposit-action-btn">Aggiungi +50 🪙</button>
+            `;
+
+            document.getElementById('deposit-action-btn').addEventListener('click', () => {
+                updateBalance(50);
+                modalOverlay.style.display = 'none';
+            });
+
+            modalOverlay.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) modalOverlay.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
