@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloxdash Casino Dashboard - Tutti i Giochi</title>
+    <title>Bloxdash Casino - Ultimate Neon Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,165 +11,208 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#0f172a',
-                        cardBg: '#1e293b',
-                        accentGreen: '#22c55e',
-                        accentPurple: '#8b5cf6',
-                        accentPink: '#ec4899'
+                        darkBg: '#07090e',
+                        cardBg: '#131b2e',
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #0b0f19; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        body { background-color: #07090e; color: #f8fafc; font-family: 'Inter', sans-serif; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .glow-effect:hover { box-shadow: 0 0 25px rgba(139, 92, 246, 0.25); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- TOP NAVIGATION BAR -->
-    <header class="bg-cardBg border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
+    <header class="bg-cardBg/80 backdrop-blur-md border-b border-slate-800/80 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-lg">
         <div class="flex items-center space-x-3">
-            <span class="text-2xl font-black bg-gradient-to-r from-accentPurple to-accentPink bg-clip-text text-transparent">BLOXDASH</span>
-            <span class="text-xs px-2 py-0.5 bg-purple-900/50 text-purple-300 border border-purple-700/50 rounded-full font-semibold">ULTIMATE FIXED</span>
+            <span class="text-2xl font-black bg-gradient-to-r from-purple-400 via-pink-500 to-yellow-400 bg-clip-text text-transparent">BLOXDASH</span>
+            <span class="text-xs px-2.5 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold shadow-md">NEON V2</span>
         </div>
         <div class="flex items-center space-x-4">
-            <div class="bg-slate-900/80 border border-slate-700/60 px-4 py-2 rounded-xl flex items-center space-x-2">
-                <span class="text-yellow-400 font-bold">🪙</span>
+            <div class="bg-slate-900/90 border border-slate-700/60 px-4 py-2 rounded-2xl flex items-center space-x-2 shadow-inner">
+                <span class="text-yellow-400 text-lg animate-pulse">🪙</span>
                 <span id="userBalance" class="font-black text-lg text-white">1000.00</span>
             </div>
-            <button onclick="addFreeCoins()" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-4 py-2 rounded-xl shadow-lg transition transform active:scale-95 text-sm cursor-pointer">
-                + Ricarica Gratis
+            <button onclick="addFreeCoins()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-extrabold px-4 py-2.5 rounded-2xl shadow-lg shadow-green-500/20 transition transform active:scale-95 text-xs cursor-pointer tracking-wide">
+                + RICARICA
             </button>
         </div>
     </header>
 
     <!-- MAIN CONTAINER (3x3 GRID) -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-6">
-        <div class="mb-6">
-            <h1 class="text-2xl font-black tracking-tight">Dashboard Mini-Giochi</h1>
-            <p class="text-slate-400 text-sm">Tutti i giochi sono stati corretti e ottimizzati. Clicca su uno per iniziare.</p>
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 md:p-8">
+        <div class="mb-8 text-center md:text-left">
+            <h1 class="text-3xl font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Scegli il tuo Mini-Gioco</h1>
+            <p class="text-slate-400 text-sm mt-1">Grafica sfumata, immagini curate e divertimento senza limiti.</p>
         </div>
 
         <!-- 3x3 GRID -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
             <!-- 1. COINFLIP -->
-            <div onclick="openGame('coinflip')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('coinflip')" class="bg-cardBg border border-slate-800/80 hover:border-purple-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-purple-600/10 rounded-full blur-2xl group-hover:bg-purple-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-xl mb-4 group-hover:bg-purple-500/20 transition">🪙</div>
-                    <h3 class="text-lg font-bold">Coinflip</h3>
-                    <p class="text-xs text-slate-400 mt-1">Scegli Testa o Croce e raddoppia le tue vincite al 50%.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=600&q=80" alt="Coinflip" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-purple-500/20 backdrop-blur-md border border-purple-500/30 px-3 py-1 rounded-xl text-purple-300 font-extrabold text-xs">🪙 Coinflip</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-purple-300 transition">Testa o Croce</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Scegli la tua faccia della moneta e raddoppia istantaneamente.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-purple-400">Moltiplicatore 2.0x</span>
-                    <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-purple-400 bg-purple-950/50 px-2.5 py-1 rounded-lg">Moltiplicatore 2.0x</span>
+                    <span class="text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-purple-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 2. MINES -->
-            <div onclick="openGame('mines')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('mines')" class="bg-cardBg border border-slate-800/80 hover:border-red-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-red-600/10 rounded-full blur-2xl group-hover:bg-red-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 font-bold text-xl mb-4 group-hover:bg-red-500/20 transition">💣</div>
-                    <h3 class="text-lg font-bold">Mines</h3>
-                    <p class="text-xs text-slate-400 mt-1">Trova le gemme nascoste evitando le mine esplosive.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Mines" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-red-500/20 backdrop-blur-md border border-red-500/30 px-3 py-1 rounded-xl text-red-300 font-extrabold text-xs">💣 Mines</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-red-300 transition">Campo Minato</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Trova le gemme preziose ed evita le mine esplosive.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-red-400">Variabile</span>
-                    <span class="text-xs bg-red-500/20 text-red-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-red-400 bg-red-950/50 px-2.5 py-1 rounded-lg">Rischio Modulabile</span>
+                    <span class="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-red-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 3. CRASH -->
-            <div onclick="openGame('crash')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('crash')" class="bg-cardBg border border-slate-800/80 hover:border-green-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-green-600/10 rounded-full blur-2xl group-hover:bg-green-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-400 font-bold text-xl mb-4 group-hover:bg-green-500/20 transition">🚀</div>
-                    <h3 class="text-lg font-bold">Crash</h3>
-                    <p class="text-xs text-slate-400 mt-1">Ritira prima che il moltiplicatore precipiti.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Crash" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-green-500/20 backdrop-blur-md border border-green-500/30 px-3 py-1 rounded-xl text-green-300 font-extrabold text-xs">🚀 Crash</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-green-300 transition">Razzo Spaziale</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Incassa la vincita prima che il moltiplicatore precipiti.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-green-400">Fino a 100x+</span>
-                    <span class="text-xs bg-green-500/20 text-green-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-green-400 bg-green-950/50 px-2.5 py-1 rounded-lg">Fino a 100x+</span>
+                    <span class="text-xs bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-green-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 4. TOWERS -->
-            <div onclick="openGame('towers')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('towers')" class="bg-cardBg border border-slate-800/80 hover:border-blue-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-600/10 rounded-full blur-2xl group-hover:bg-blue-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500/20 transition">🏰</div>
-                    <h3 class="text-lg font-bold">Towers</h3>
-                    <p class="text-xs text-slate-400 mt-1">Scala i piani della torre evitando le trappole.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Towers" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-blue-500/20 backdrop-blur-md border border-blue-500/30 px-3 py-1 rounded-xl text-blue-300 font-extrabold text-xs">🏰 Towers</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-blue-300 transition">Scala la Torre</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Sali i piani della fortezza evitando le trappole mortali.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-blue-400">Scalata 4 Piani</span>
-                    <span class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-blue-400 bg-blue-950/50 px-2.5 py-1 rounded-lg">Scalata 4 Piani</span>
+                    <span class="text-xs bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-blue-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 5. PLINKO -->
-            <div onclick="openGame('plinko')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('plinko')" class="bg-cardBg border border-slate-800/80 hover:border-yellow-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-yellow-600/10 rounded-full blur-2xl group-hover:bg-yellow-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 font-bold text-xl mb-4 group-hover:bg-yellow-500/20 transition">🔴</div>
-                    <h3 class="text-lg font-bold">Plinko</h3>
-                    <p class="text-xs text-slate-400 mt-1">Lascia cadere la pallina tra i pioli per vincere premi.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Plinko" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-yellow-500/20 backdrop-blur-md border border-yellow-500/30 px-3 py-1 rounded-xl text-yellow-300 font-extrabold text-xs">🔴 Plinko</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-yellow-300 transition">Plinko Drops</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Lascia cadere la pallina tra i pioli colorati fortunati.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-yellow-400">Fino a 29x</span>
-                    <span class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-yellow-400 bg-yellow-950/50 px-2.5 py-1 rounded-lg">Fino a 29x</span>
+                    <span class="text-xs bg-gradient-to-r from-yellow-500 to-amber-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-yellow-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 6. DICE -->
-            <div onclick="openGame('dice')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('dice')" class="bg-cardBg border border-slate-800/80 hover:border-pink-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-pink-600/10 rounded-full blur-2xl group-hover:bg-pink-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 font-bold text-xl mb-4 group-hover:bg-pink-500/20 transition">🎲</div>
-                    <h3 class="text-lg font-bold">Dice</h3>
-                    <p class="text-xs text-slate-400 mt-1">Scegli una soglia e tira i dadi con lo slider interattivo.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=600&q=80" alt="Dice" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-pink-500/20 backdrop-blur-md border border-pink-500/30 px-3 py-1 rounded-xl text-pink-300 font-extrabold text-xs">🎲 Dice</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-pink-300 transition">Dado Slider</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Imposta la tua soglia di vincita con lo slider interattivo.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-pink-400">Slider Dinamico</span>
-                    <span class="text-xs bg-pink-500/20 text-pink-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-pink-400 bg-pink-950/50 px-2.5 py-1 rounded-lg">Slider Dinamico</span>
+                    <span class="text-xs bg-gradient-to-r from-pink-500 to-rose-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-pink-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 7. WHEEL -->
-            <div onclick="openGame('wheel')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('wheel')" class="bg-cardBg border border-slate-800/80 hover:border-orange-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-orange-600/10 rounded-full blur-2xl group-hover:bg-orange-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-400 font-bold text-xl mb-4 group-hover:bg-orange-500/20 transition">🎡</div>
-                    <h3 class="text-lg font-bold">Wheel</h3>
-                    <p class="text-xs text-slate-400 mt-1">Gira la ruota della fortuna per vincere ricchi premi.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80" alt="Wheel" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-orange-500/20 backdrop-blur-md border border-orange-500/30 px-3 py-1 rounded-xl text-orange-300 font-extrabold text-xs">🎡 Wheel</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-orange-300 transition">Ruota della Fortuna</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Gira la ruota scintillante per premi sensazionali.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-orange-400">Fino a 50x</span>
-                    <span class="text-xs bg-orange-500/20 text-orange-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-orange-400 bg-orange-950/50 px-2.5 py-1 rounded-lg">Fino a 50x</span>
+                    <span class="text-xs bg-gradient-to-r from-orange-500 to-amber-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-orange-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 8. CASES -->
-            <div onclick="openGame('cases')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('cases')" class="bg-cardBg border border-slate-800/80 hover:border-indigo-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-indigo-600/10 rounded-full blur-2xl group-hover:bg-indigo-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-xl mb-4 group-hover:bg-indigo-500/20 transition">📦</div>
-                    <h3 class="text-lg font-bold">Cases</h3>
-                    <p class="text-xs text-slate-400 mt-1">Apri le casse misteriose in stile CS:GO.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80" alt="Cases" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-indigo-500/20 backdrop-blur-md border border-indigo-500/30 px-3 py-1 rounded-xl text-indigo-300 font-extrabold text-xs">📦 Cases</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-indigo-300 transition">Apri Casse</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Scorri le casse misteriose ed estrai skin leggendarie.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-indigo-400">Drop skin</span>
-                    <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-indigo-400 bg-indigo-950/50 px-2.5 py-1 rounded-lg">Drop Skin Esclusive</span>
+                    <span class="text-xs bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-indigo-500/20">Gioca →</span>
                 </div>
             </div>
 
             <!-- 9. JACKPOT -->
-            <div onclick="openGame('jackpot')" class="bg-cardBg border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer transition transform hover:-translate-y-1 flex flex-col justify-between group shadow-xl">
+            <div onclick="openGame('jackpot')" class="bg-cardBg border border-slate-800/80 hover:border-teal-500/50 rounded-3xl p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group glow-effect relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-teal-600/10 rounded-full blur-2xl group-hover:bg-teal-600/20 transition"></div>
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400 font-bold text-xl mb-4 group-hover:bg-teal-500/20 transition">💰</div>
-                    <h3 class="text-lg font-bold">Jackpot</h3>
-                    <p class="text-xs text-slate-400 mt-1">Piazza la tua scommessa nel piatto comune e vinci tutto.</p>
+                    <div class="relative h-36 rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-700/40">
+                        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Jackpot" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 bg-teal-500/20 backdrop-blur-md border border-teal-500/30 px-3 py-1 rounded-xl text-teal-300 font-extrabold text-xs">💰 Jackpot</div>
+                    </div>
+                    <h3 class="text-xl font-black text-white group-hover:text-teal-300 transition">Jackpot Comune</h3>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">Piazza la puntata nel piatto comune e sbanca tutto.</p>
                 </div>
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-teal-400">Piatto Condiviso</span>
-                    <span class="text-xs bg-teal-500/20 text-teal-300 px-3 py-1 rounded-lg font-bold">Gioca →</span>
+                <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-800/60">
+                    <span class="text-xs font-bold text-teal-400 bg-teal-950/50 px-2.5 py-1 rounded-lg">Piatto Condiviso</span>
+                    <span class="text-xs bg-gradient-to-r from-teal-500 to-emerald-600 text-white px-4 py-1.5 rounded-xl font-black shadow-md shadow-teal-500/20">Gioca →</span>
                 </div>
             </div>
 
@@ -177,12 +220,12 @@
     </main>
 
     <!-- GAME MODAL OVERLAY -->
-    <div id="gameModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-cardBg border border-slate-700 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+    <div id="gameModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-slate-700/80 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
                 <h2 id="modalTitle" class="text-xl font-black text-white">Nome Gioco</h2>
-                <button onclick="closeGame()" class="text-slate-400 hover:text-white font-bold text-lg px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition cursor-pointer">✕</button>
+                <button onclick="closeGame()" class="text-slate-400 hover:text-white font-bold text-base px-3 py-1 rounded-xl bg-slate-800/80 hover:bg-slate-700 transition cursor-pointer">✕</button>
             </div>
             <!-- Modal Body Content -->
             <div id="modalBody" class="p-6 overflow-y-auto custom-scrollbar flex-1">
@@ -215,17 +258,17 @@
                 title.innerText = "Coinflip";
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-6">
-                        <div id="coinResult" class="w-24 h-24 rounded-full bg-gradient-to-tr from-yellow-500 to-amber-600 flex items-center justify-center text-3xl font-black text-white shadow-xl">🪙</div>
-                        <p class="text-sm text-slate-400">Scegli la tua faccia della moneta</p>
+                        <div id="coinResult" class="w-24 h-24 rounded-full bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-purple-500/20">🪙</div>
+                        <p class="text-sm text-slate-400 font-medium">Scegli la tua faccia della moneta</p>
                         <div class="flex space-x-4">
-                            <button onclick="playCoinflip('testa')" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 font-bold rounded-xl text-white transition cursor-pointer">TESTA</button>
-                            <button onclick="playCoinflip('croce')" class="px-6 py-3 bg-pink-600 hover:bg-pink-700 font-bold rounded-xl text-white transition cursor-pointer">CROCE</button>
+                            <button onclick="playCoinflip('testa')" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 font-bold rounded-2xl text-white transition shadow-lg shadow-purple-600/30 cursor-pointer">TESTA</button>
+                            <button onclick="playCoinflip('croce')" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 font-bold rounded-2xl text-white transition shadow-lg shadow-pink-600/30 cursor-pointer">CROCE</button>
                         </div>
                         <div class="flex items-center space-x-2 mt-4">
                             <span class="text-sm text-slate-400">Puntata:</span>
-                            <input id="coinBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-32 text-white font-bold text-center">
+                            <input id="coinBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center focus:outline-none focus:border-purple-500">
                         </div>
-                        <div id="coinStatus" class="text-sm font-semibold text-slate-300"></div>
+                        <div id="coinStatus" class="text-sm font-bold text-slate-300"></div>
                     </div>
                 `;
             } else if(gameKey === 'mines') {
@@ -233,8 +276,8 @@
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-4">
                         <div class="flex justify-between w-full max-w-sm items-center">
-                            <span class="text-sm text-slate-400">Puntata: <input id="minesBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-2 py-1 rounded-lg w-20 text-white text-center font-bold"></span>
-                            <button onclick="startMines()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-xl font-bold text-sm text-white cursor-pointer">Inizia Partita</button>
+                            <span class="text-sm text-slate-400">Puntata: <input id="minesBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-xl w-20 text-white text-center font-bold"></span>
+                            <button onclick="startMines()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 px-4 py-2 rounded-2xl font-bold text-sm text-white shadow-md shadow-green-500/20 cursor-pointer">Inizia Partita</button>
                         </div>
                         <div id="minesGrid" class="grid grid-cols-5 gap-2 w-full max-w-sm"></div>
                         <div id="minesStatus" class="text-sm font-bold text-yellow-400"></div>
@@ -245,10 +288,10 @@
                 title.innerText = "Crash";
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-6">
-                        <div id="crashDisplay" class="text-5xl font-black text-green-400">1.00x</div>
+                        <div id="crashDisplay" class="text-5xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">1.00x</div>
                         <div class="flex items-center space-x-3">
-                            <input id="crashBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-32 text-white font-bold text-center">
-                            <button id="crashBtn" onclick="startCrash()" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-xl font-bold text-white cursor-pointer">Avvia Razzo</button>
+                            <input id="crashBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
+                            <button id="crashBtn" onclick="startCrash()" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-green-500/20 cursor-pointer">Avvia Razzo</button>
                         </div>
                     </div>
                 `;
@@ -257,9 +300,9 @@
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-4">
                         <div class="flex items-center space-x-3">
-                            <input id="towerBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-28 text-white font-bold text-center">
-                            <button id="towerStartBtn" onclick="startTowers()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl font-bold text-white text-sm cursor-pointer">Nuova Scalata</button>
-                            <button id="towerCashoutBtn" onclick="cashoutTowers()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-xl font-bold text-white text-sm cursor-pointer hidden">Incassa</button>
+                            <input id="towerBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-28 text-white font-bold text-center">
+                            <button id="towerStartBtn" onclick="startTowers()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-4 py-2 rounded-2xl font-bold text-white text-sm shadow-md shadow-blue-600/30 cursor-pointer">Nuova Scalata</button>
+                            <button id="towerCashoutBtn" onclick="cashoutTowers()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 px-4 py-2 rounded-2xl font-bold text-white text-sm shadow-md shadow-green-500/20 cursor-pointer hidden">Incassa</button>
                         </div>
                         <div id="towersBoard" class="flex flex-col-reverse space-y-reverse space-y-2 w-full max-w-sm"></div>
                         <div id="towersStatus" class="text-sm font-bold text-blue-400">Premi 'Nuova Scalata' per iniziare</div>
@@ -270,19 +313,19 @@
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-4">
                         <div class="flex items-center space-x-3">
-                            <input id="plinkoBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-28 text-white font-bold text-center">
-                            <button onclick="dropPlinko()" class="bg-yellow-600 hover:bg-yellow-700 px-6 py-2 rounded-xl font-bold text-white text-sm cursor-pointer">Lancia Pallina</button>
+                            <input id="plinkoBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-28 text-white font-bold text-center">
+                            <button onclick="dropPlinko()" class="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 px-6 py-2.5 rounded-2xl font-bold text-white text-sm shadow-lg shadow-yellow-500/20 cursor-pointer">Lancia Pallina</button>
                         </div>
-                        <div class="w-full bg-slate-900 p-4 rounded-2xl flex flex-col items-center justify-center h-48 border border-slate-800 relative overflow-hidden">
-                            <div id="plinkoBall" class="w-4 h-4 bg-yellow-400 rounded-full absolute top-2 transition-all duration-700"></div>
-                            <div class="absolute bottom-2 flex space-x-1 w-full justify-around px-2 text-xs font-bold text-yellow-300">
-                                <span class="bg-slate-800 px-2 py-1 rounded">10x</span>
-                                <span class="bg-slate-800 px-2 py-1 rounded">3x</span>
-                                <span class="bg-slate-800 px-2 py-1 rounded">1x</span>
-                                <span class="bg-slate-800 px-2 py-1 rounded">0.5x</span>
-                                <span class="bg-slate-800 px-2 py-1 rounded">1x</span>
-                                <span class="bg-slate-800 px-2 py-1 rounded">3x</span>
-                                <span class="bg-slate-800 px-2 py-1 rounded">10x</span>
+                        <div class="w-full bg-slate-900/90 p-4 rounded-3xl flex flex-col items-center justify-center h-48 border border-slate-800 relative overflow-hidden shadow-inner">
+                            <div id="plinkoBall" class="w-4 h-4 bg-yellow-400 rounded-full absolute top-2 transition-all duration-700 shadow-[0_0_12px_#facc15]"></div>
+                            <div class="absolute bottom-2 flex space-x-1 w-full justify-around px-2 text-xs font-black text-yellow-300">
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">10x</span>
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">3x</span>
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">1x</span>
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">0.5x</span>
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">1x</span>
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">3x</span>
+                                <span class="bg-slate-800/80 px-2 py-1 rounded-xl border border-slate-700">10x</span>
                             </div>
                         </div>
                         <div id="plinkoResult" class="text-sm font-bold text-slate-300"></div>
@@ -292,18 +335,18 @@
                 title.innerText = "Dice (Dado Interattivo)";
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-6">
-                        <div class="w-full max-w-md bg-slate-900 p-6 rounded-2xl border border-slate-800 relative">
-                            <div class="flex justify-between text-sm text-slate-400 mb-2">
+                        <div class="w-full max-w-md bg-slate-900/90 p-6 rounded-3xl border border-slate-800 relative shadow-inner">
+                            <div class="flex justify-between text-sm text-slate-400 mb-3">
                                 <span>0</span>
-                                <span id="diceTargetVal" class="text-pink-400 font-bold text-lg">50</span>
+                                <span id="diceTargetVal" class="text-pink-400 font-black text-xl">50</span>
                                 <span>100</span>
                             </div>
                             <input id="diceSlider" type="range" min="1" max="99" value="50" oninput="updateDiceRange(this.value)" class="w-full accent-pink-500 cursor-pointer">
-                            <div id="diceMarker" class="absolute top-6 bottom-6 w-1 bg-white hidden transition-all duration-300 shadow-[0_0_10px_#fff]"></div>
+                            <div id="diceMarker" class="absolute top-6 bottom-6 w-1 bg-white hidden transition-all duration-300 shadow-[0_0_12px_#fff]"></div>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <input id="diceBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-32 text-white font-bold text-center">
-                            <button onclick="rollDice()" class="bg-pink-600 hover:bg-pink-700 px-6 py-2 rounded-xl font-bold text-white cursor-pointer">Tira i Dadi</button>
+                            <input id="diceBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
+                            <button onclick="rollDice()" class="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-pink-600/30 cursor-pointer">Tira i Dadi</button>
                         </div>
                         <div id="diceResult" class="text-base font-bold text-slate-300"></div>
                     </div>
@@ -312,13 +355,13 @@
                 title.innerText = "Wheel (Ruota della Fortuna)";
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-6">
-                        <div class="relative w-48 h-48 rounded-full border-4 border-orange-500 flex items-center justify-center bg-slate-900 shadow-xl overflow-hidden transition-transform duration-1000" id="wheelEl">
-                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-orange-400 text-center p-4">🎡 RUOTA</div>
-                            <div class="absolute top-0 w-2 h-6 bg-white z-10"></div>
+                        <div class="relative w-48 h-48 rounded-full border-4 border-orange-500/80 flex items-center justify-center bg-gradient-to-tr from-slate-900 to-orange-950/40 shadow-2xl overflow-hidden transition-transform duration-1000" id="wheelEl">
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-black text-orange-400 text-center p-4">🎡 RUOTA</div>
+                            <div class="absolute top-0 w-2 h-6 bg-white z-10 rounded-full shadow-[0_0_8px_#fff]"></div>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <input id="wheelBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-32 text-white font-bold text-center">
-                            <button onclick="spinWheel()" class="bg-orange-600 hover:bg-orange-700 px-6 py-2 rounded-xl font-bold text-white cursor-pointer">Gira Ruota</button>
+                            <input id="wheelBet" type="number" value="10" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
+                            <button onclick="spinWheel()" class="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-orange-500/20 cursor-pointer">Gira Ruota</button>
                         </div>
                         <div id="wheelResult" class="text-sm font-bold text-slate-300"></div>
                     </div>
@@ -327,18 +370,18 @@
                 title.innerText = "Cases (Unboxing)";
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-6">
-                        <div class="w-full max-w-md h-28 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden relative flex items-center">
+                        <div class="w-full max-w-md h-28 bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden relative flex items-center shadow-inner">
                             <div id="caseRoller" class="flex space-x-4 absolute transition-all duration-[2000ms] ease-out px-4">
-                                <div class="w-24 h-20 bg-slate-800 rounded-xl flex flex-col items-center justify-center border border-slate-700 shrink-0"><span class="text-xs text-slate-400">Comune</span><span class="font-bold text-white text-sm">1.2x</span></div>
-                                <div class="w-24 h-20 bg-purple-900/40 rounded-xl flex flex-col items-center justify-center border border-purple-700 shrink-0"><span class="text-xs text-purple-300">Raro</span><span class="font-bold text-purple-200 text-sm">2.5x</span></div>
-                                <div class="w-24 h-20 bg-pink-900/40 rounded-xl flex flex-col items-center justify-center border border-pink-700 shrink-0"><span class="text-xs text-pink-300">Epico</span><span class="font-bold text-pink-200 text-sm">5.0x</span></div>
-                                <div class="w-24 h-20 bg-yellow-900/40 rounded-xl flex flex-col items-center justify-center border border-yellow-700 shrink-0"><span class="text-xs text-yellow-300">Leggendario</span><span class="font-bold text-yellow-200 text-sm">20x</span></div>
+                                <div class="w-24 h-20 bg-slate-800/80 rounded-2xl flex flex-col items-center justify-center border border-slate-700/60 shrink-0 shadow"><span class="text-xs text-slate-400 font-semibold">Comune</span><span class="font-black text-white text-sm">1.2x</span></div>
+                                <div class="w-24 h-20 bg-purple-900/40 rounded-2xl flex flex-col items-center justify-center border border-purple-700/60 shrink-0 shadow"><span class="text-xs text-purple-300 font-semibold">Raro</span><span class="font-black text-purple-200 text-sm">2.5x</span></div>
+                                <div class="w-24 h-20 bg-pink-900/40 rounded-2xl flex flex-col items-center justify-center border border-pink-700/60 shrink-0 shadow"><span class="text-xs text-pink-300 font-semibold">Epico</span><span class="font-black text-pink-200 text-sm">5.0x</span></div>
+                                <div class="w-24 h-20 bg-yellow-900/40 rounded-2xl flex flex-col items-center justify-center border border-yellow-700/60 shrink-0 shadow"><span class="text-xs text-yellow-300 font-semibold">Leggendario</span><span class="font-black text-yellow-200 text-sm">20x</span></div>
                             </div>
-                            <div class="absolute inset-y-0 w-1 bg-yellow-400 left-1/2 -translate-x-1/2 z-10 shadow-[0_0_10px_#facc15]"></div>
+                            <div class="absolute inset-y-0 w-1 bg-yellow-400 left-1/2 -translate-x-1/2 z-10 shadow-[0_0_12px_#facc15]"></div>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <input id="caseBet" type="number" value="25" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-32 text-white font-bold text-center">
-                            <button onclick="openCase()" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-xl font-bold text-white cursor-pointer">Apri Cassa</button>
+                            <input id="caseBet" type="number" value="25" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
+                            <button onclick="openCase()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-indigo-600/30 cursor-pointer">Apri Cassa</button>
                         </div>
                         <div id="caseResult" class="text-sm font-bold text-slate-300"></div>
                     </div>
@@ -347,14 +390,14 @@
                 title.innerText = "Jackpot";
                 body.innerHTML = `
                     <div class="flex flex-col items-center space-y-6">
-                        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 text-center w-full max-w-md">
-                            <span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Piatto Comune Attuale</span>
-                            <div id="jpPool" class="text-4xl font-black text-teal-400 my-2">450.00 🪙</div>
-                            <p class="text-xs text-slate-500">La tua probabilità di vincita aumenta con puntate maggiori.</p>
+                        <div class="bg-slate-900/90 p-6 rounded-3xl border border-slate-800 text-center w-full max-w-md shadow-inner">
+                            <span class="text-xs text-slate-400 uppercase tracking-widest font-black">Piatto Comune Attuale</span>
+                            <div id="jpPool" class="text-4xl font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent my-2">450.00 🪙</div>
+                            <p class="text-xs text-slate-500 font-medium">La tua probabilità di vincita aumenta con puntate maggiori.</p>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <input id="jpBet" type="number" value="50" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl w-32 text-white font-bold text-center">
-                            <button onclick="playJackpot()" class="bg-teal-600 hover:bg-teal-700 px-6 py-2 rounded-xl font-bold text-white cursor-pointer">Partecipa</button>
+                            <input id="jpBet" type="number" value="50" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-2xl w-32 text-white font-bold text-center">
+                            <button onclick="playJackpot()" class="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 px-6 py-2.5 rounded-2xl font-bold text-white shadow-lg shadow-teal-600/30 cursor-pointer">Partecipa</button>
                         </div>
                         <div id="jpResult" class="text-sm font-bold text-slate-300"></div>
                     </div>
@@ -381,10 +424,10 @@
                 const win = bet * 2;
                 updateBalance(win);
                 status.innerText = `È uscito ${outcome.toUpperCase()}. Hai vinto ${win.toFixed(2)} monete!`;
-                status.className = "text-sm font-semibold text-green-400";
+                status.className = "text-sm font-bold text-green-400";
             } else {
                 status.innerText = `È uscito ${outcome.toUpperCase()}. Hai perso!`;
-                status.className = "text-sm font-semibold text-red-400";
+                status.className = "text-sm font-bold text-red-400";
             }
         }
 
@@ -395,7 +438,7 @@
             grid.innerHTML = '';
             for(let i=0; i<25; i++) {
                 const cell = document.createElement('div');
-                cell.className = "w-12 h-12 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-center cursor-pointer hover:bg-slate-800 transition font-bold text-lg";
+                cell.className = "w-12 h-12 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-center cursor-pointer hover:bg-slate-800 transition font-bold text-lg shadow-sm";
                 cell.innerText = "💎";
                 cell.onclick = () => clickMineCell(cell);
                 grid.appendChild(cell);
@@ -417,12 +460,12 @@
             if(!minesActive) return;
             if(Math.random() < 0.2) {
                 cell.innerText = "💣";
-                cell.className = "w-12 h-12 bg-red-900/50 rounded-xl border border-red-700 flex items-center justify-center font-bold text-lg";
+                cell.className = "w-12 h-12 bg-red-950/80 rounded-2xl border border-red-700/80 flex items-center justify-center font-bold text-lg shadow-md";
                 document.getElementById('minesStatus').innerText = "Hai trovato una mina! Hai perso.";
                 minesActive = false;
             } else {
                 cell.innerText = "✨";
-                cell.className = "w-12 h-12 bg-green-900/50 rounded-xl border border-green-700 flex items-center justify-center font-bold text-lg";
+                cell.className = "w-12 h-12 bg-emerald-950/80 rounded-2xl border border-emerald-700/80 flex items-center justify-center font-bold text-lg shadow-md";
                 document.getElementById('minesStatus').innerText = "Ottimo! Continua.";
             }
         }
@@ -473,7 +516,7 @@
             
             for(let r=3; r>=0; r--) {
                 const rowDiv = document.createElement('div');
-                rowDiv.className = `flex space-x-3 justify-center items-center p-2 rounded-xl ${r === towerState.currentFloor && towerState.active ? 'bg-blue-950/40 border border-blue-500/50' : 'opacity-60'}`;
+                rowDiv.className = `flex space-x-3 justify-center items-center p-2 rounded-2xl ${r === towerState.currentFloor && towerState.active ? 'bg-blue-950/40 border border-blue-500/50 shadow' : 'opacity-60'}`;
                 
                 const label = document.createElement('span');
                 label.className = "text-xs font-bold text-slate-400 w-16 text-right";
@@ -482,7 +525,7 @@
 
                 for(let c=0; c<3; c++) {
                     const btn = document.createElement('button');
-                    btn.className = "w-12 h-10 bg-slate-900 border border-slate-700 rounded-lg font-bold text-xs text-white transition";
+                    btn.className = "w-12 h-10 bg-slate-900 border border-slate-700/80 rounded-xl font-bold text-xs text-white transition shadow-sm";
                     btn.innerText = "❓";
                     if(towerState.active && r === towerState.currentFloor) {
                         btn.classList.add("hover:bg-blue-600", "cursor-pointer");
@@ -503,14 +546,14 @@
             
             if(col === trapCol) {
                 btnElement.innerText = "💣";
-                btnElement.className = "w-12 h-10 bg-red-900 border border-red-700 rounded-lg font-bold text-xs text-white";
+                btnElement.className = "w-12 h-10 bg-red-950 border border-red-700 rounded-xl font-bold text-xs text-white shadow";
                 status.innerText = "Hai trovato una trappola! Scalata fallita.";
                 towerState.active = false;
                 document.getElementById('towerStartBtn').classList.remove('hidden');
                 document.getElementById('towerCashoutBtn').classList.add('hidden');
             } else {
                 btnElement.innerText = "💎";
-                btnElement.className = "w-12 h-10 bg-green-900 border border-green-700 rounded-lg font-bold text-xs text-white";
+                btnElement.className = "w-12 h-10 bg-emerald-950 border border-emerald-700 rounded-xl font-bold text-xs text-white shadow";
                 if(floor < 3) {
                     towerState.currentFloor++;
                     status.innerText = `Piano ${floor+1} superato! Passa al Piano ${towerState.currentFloor+1}.`;
@@ -576,11 +619,11 @@
                     updateBalance(win);
                     res.innerText = `Risultato: ${resultVal} (<= ${target}). Hai vinto ${win.toFixed(2)} monete!`;
                     res.className = "text-base font-bold text-green-400";
-                    marker.className = "absolute top-6 bottom-6 w-1 bg-green-400 shadow-[0_0_10px_#22c55e]";
+                    marker.className = "absolute top-6 bottom-6 w-1 bg-green-400 shadow-[0_0_12px_#22c55e]";
                 } else {
                     res.innerText = `Risultato: ${resultVal} (> ${target}). Hai perso!`;
                     res.className = "text-base font-bold text-red-400";
-                    marker.className = "absolute top-6 bottom-6 w-1 bg-red-500 shadow-[0_0_10px_#ef4444]";
+                    marker.className = "absolute top-6 bottom-6 w-1 bg-red-500 shadow-[0_0_12px_#ef4444]";
                 }
             }, 300);
         }
