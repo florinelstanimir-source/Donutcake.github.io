@@ -2,738 +2,541 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Donut Cake</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
+        html, body { width: 100%; height: 100%; background-color: #0c1014; color: #ffffff; overflow-x: hidden; }
+        
+        #app { display: flex; flex-direction: column; min-height: 100vh; width: 100vw; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: #141b22; border-bottom: 1px solid #1f2933; flex-shrink: 0; sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 900; font-size: 1.2rem; font-style: italic; cursor: pointer; letter-spacing: 0.5px; }
+        .logo span { color: #22c55e; }
+        .user-panel { display: flex; align-items: center; gap: 8px; }
+        .balance-badge { background-color: #1a232d; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; border: 1px solid #283543; display: flex; align-items: center; gap: 6px; }
+        .btn-add { background-color: #22c55e; color: white; border: none; width: 32px; height: 32px; border-radius: 8px; font-weight: 800; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-signin { background-color: #22c55e; color: white; border: none; padding: 0 14px; height: 32px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+        
+        .content { flex: 1; padding: 16px; display: flex; flex-direction: column; }
+        
+        .banners { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .banner { background: linear-gradient(145deg, #18222c, #11171e); border: 1px solid #23303d; border-radius: 12px; padding: 14px 10px; min-height: 85px; display: flex; flex-direction: column; justify-content: flex-end; }
+        .banner h4 { font-size: 0.85rem; font-weight: 900; text-transform: uppercase; font-style: italic; }
+        .banner p { font-size: 0.6rem; color: #6e8294; font-weight: 700; margin-top: 2px; }
 
-        body {
-            background-color: #0d1216;
-            color: #ffffff;
-            min-height: 100vh;
-            padding-bottom: 40px;
-        }
+        .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .game-card { background-color: #141c24; border: 1px solid #212d3a; border-radius: 12px; padding: 18px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: transform 0.1s, border-color 0.2s; }
+        .game-card:active { transform: scale(0.96); }
+        .game-card:hover { border-color: #22c55e; background-color: #18232e; }
+        .game-card .icon { font-size: 2rem; }
+        .game-card .title { font-weight: 800; font-size: 0.8rem; text-align: center; }
 
-        /* Header / Navbar */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background-color: #151c22;
-            border-bottom: 1px solid #202b34;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .game-arena { display: none; flex: 1; flex-direction: column; background-color: #141c24; border: 1px solid #212d3a; border-radius: 16px; padding: 16px; align-items: center; }
+        .arena-top { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .btn-back { background-color: #1e2936; color: #94a3b8; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        .game-title-header { font-size: 1.2rem; font-weight: 800; }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 900;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            font-style: italic;
-            cursor: pointer;
-        }
+        .bet-bar { display: flex; gap: 8px; align-items: center; margin: 12px 0; width: 100%; max-width: 320px; }
+        .bet-input { flex: 1; background-color: #1a232d; border: 1px solid #283543; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 1rem; outline: none; }
+        .btn-main { background-color: #22c55e; color: white; border: none; width: 100%; max-width: 320px; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-main:disabled { background-color: #283543; color: #64748b; cursor: not-allowed; }
+        .btn-cashout { background-color: #eab308; color: #000; }
 
-        .logo span {
-            color: #22c55e;
-        }
+        /* Mines 5x5 Grid */
+        .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; max-width: 320px; aspect-ratio: 1; margin: 10px 0; }
+        .mine-cell { background-color: #1a2430; border: 1px solid #283646; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; cursor: pointer; transition: background 0.15s; }
+        .mine-cell.revealed-gem { background-color: #14532d; border-color: #22c55e; }
+        .mine-cell.revealed-bomb { background-color: #7f1d1d; border-color: #ef4444; }
 
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        /* Towers Grid */
+        .towers-container { display: flex; flex-direction: column-reverse; gap: 8px; width: 100%; max-width: 240px; margin: 10px 0; }
+        .tower-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; opacity: 0.5; pointer-events: none; }
+        .tower-row.active { opacity: 1; pointer-events: auto; }
+        .tower-cell { background-color: #1a2430; border: 1px solid #283646; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; }
 
-        .balance-box {
-            display: flex;
-            align-items: center;
-            background-color: #1e2730;
-            padding: 6px 10px;
-            border-radius: 8px;
-            gap: 6px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            border: 1px solid #2b3744;
-        }
+        /* Coinflip 3D */
+        .coin-box { perspective: 1000px; width: 100px; height: 100px; margin: 20px 0; }
+        .coin-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 2.5s cubic-bezier(0.15, 0.85, 0.35, 1.2); }
+        .coin-face { position: absolute; width: 100%; height: 100%; border-radius: 50%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; font-size: 3rem; border: 4px solid #eab308; background-color: #1a232d; }
+        .coin-back { transform: rotateY(180deg); }
 
-        .add-btn {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
+        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-box { background-color: #141c24; border: 1px solid #23303d; border-radius: 14px; padding: 20px; width: 90%; max-width: 340px; text-align: center; }
+        .modal-box h3 { margin-bottom: 12px; font-size: 1.1rem; }
+        .modal-box input { width: 100%; background: #1a232d; border: 1px solid #283543; color: white; padding: 10px; border-radius: 8px; margin-bottom: 12px; outline: none; text-align: center; }
 
-        .add-btn:hover {
-            background-color: #16a34a;
-        }
-
-        .sign-in-btn {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.2s;
-        }
-
-        .sign-in-btn:hover {
-            background-color: #16a34a;
-        }
-
-        /* Container Principale */
-        .main-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 16px 12px;
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        /* Banners Grid (3 colonne in riga) */
-        .banners-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .banner-card {
-            background: linear-gradient(135deg, #1b242c 0%, #12181e 100%);
-            border: 1px solid #28343f;
-            border-radius: 10px;
-            padding: 12px 8px;
-            min-height: 90px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .banner-card h3 {
-            font-size: 0.85rem;
-            font-weight: 900;
-            font-style: italic;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-        }
-
-        .banner-card p {
-            font-size: 0.55rem;
-            color: #8a9ba8;
-            font-weight: 700;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
-
-        /* Games Grid (3 colonne in riga) */
-        .games-section {
-            margin-top: 10px;
-        }
-
-        .games-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-        }
-
-        .games-subtitle {
-            font-size: 0.8rem;
-            color: #6c7d8c;
-            margin-bottom: 14px;
-            margin-top: 2px;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .game-card {
-            background-color: #172027;
-            border: 1px solid #23303a;
-            border-radius: 10px;
-            padding: 14px 6px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .game-card:hover {
-            transform: translateY(-2px);
-            border-color: #22c55e;
-            background-color: #1c2730;
-        }
-
-        .game-icon {
-            font-size: 1.6rem;
-        }
-
-        .game-title {
-            font-weight: 700;
-            font-size: 0.75rem;
-            text-align: center;
-        }
-
-        /* --- SEZIONE GIOCO COINFLIP --- */
-        .coinflip-arena {
-            display: none;
-            background-color: #151c22;
-            border: 1px solid #23303a;
-            border-radius: 16px;
-            padding: 20px 14px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .back-btn {
-            background-color: #23303a;
-            color: #8a9ba8;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 14px;
-            float: left;
-        }
-
-        .back-btn:hover {
-            color: #fff;
-            background-color: #2b3744;
-        }
-
-        /* Moneta 3D */
-        .coin-container {
-            perspective: 1000px;
-            width: 100px;
-            height: 100px;
-            margin: 15px auto;
-        }
-
-        .coin {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .coin-side {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            border: 4px solid #eab308;
-            background: #1e2730;
-            box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
-        }
-
-        .coin-heads { transform: rotateY(0deg); }
-        .coin-tails { transform: rotateY(180deg); }
-
-        .choice-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .choice-btn {
-            background-color: #1e2730;
-            border: 2px solid #2b3744;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .choice-btn.selected {
-            border-color: #22c55e;
-            background-color: #172d23;
-            color: #22c55e;
-        }
-
-        .bet-input-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .bet-input {
-            background-color: #1e2730;
-            border: 1px solid #2b3744;
-            color: white;
-            padding: 8px 10px;
-            border-radius: 8px;
-            width: 100px;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .flip-btn {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .flip-btn:hover { background-color: #16a34a; }
-        .flip-btn:disabled { background-color: #2b3744; cursor: not-allowed; }
-
-        .result-message {
-            margin-top: 12px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            min-height: 26px;
-        }
-
-        /* --- MODALE ACCESS / DEPOSIT --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: #151c22;
-            border: 1px solid #28343f;
-            border-radius: 14px;
-            padding: 20px;
-            width: 88%;
-            max-width: 360px;
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 14px;
-            background: none;
-            border: none;
-            color: #8a9ba8;
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
-
-        .modal-title {
-            font-size: 1.2rem;
-            margin-bottom: 14px;
-        }
-
-        .modal-btn {
-            width: 100%;
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .modal-btn:hover {
-            background-color: #16a34a;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: #8a9ba8;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .form-input {
-            width: 100%;
-            background-color: #1e2730;
-            border: 1px solid #2b3744;
-            color: white;
-            padding: 8px 10px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: #22c55e;
-        }
+        .status-msg { margin-top: 10px; font-weight: 800; min-height: 24px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- Header / Navbar -->
+<div id="app">
     <header>
-        <div class="logo" id="logo-btn">
-            🍩 DONUT <span>CAKE</span>
-        </div>
-        <div class="user-actions">
-            <div class="balance-box">
-                🪙 <span id="user-balance">100.00</span>
-            </div>
-            <button class="add-btn" id="open-deposit-btn" title="Aggiungi Saldo">+</button>
-            <button class="sign-in-btn" id="open-signin-btn">➜] Sign In</button>
+        <div class="logo" onclick="showHome()">🍩 DONUT <span>CAKE</span></div>
+        <div class="user-panel">
+            <div class="balance-badge">🪙 <span id="balance">100.00</span></div>
+            <button class="btn-add" onclick="openModal('deposit')">+</button>
+            <button class="btn-signin" id="auth-btn" onclick="openModal('auth')">➜] Sign In</button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="main-container">
-        
+    <div class="content">
         <!-- VISTA HOME -->
-        <div id="home-view">
-            <h1 class="page-title">Donut Cake</h1>
-
-            <!-- Top Banners (3 per riga) -->
-            <div class="banners-grid">
-                <div class="banner-card">
-                    <h3>RACE</h3>
-                    <p>WIN THE POT</p>
-                </div>
-                <div class="banner-card">
-                    <h3>REFERRALS</h3>
-                    <p>EARN COMMISSION</p>
-                </div>
-                <div class="banner-card">
-                    <h3>DISCORD</h3>
-                    <p>JOIN US</p>
-                </div>
+        <div id="view-home">
+            <div class="banners">
+                <div class="banner"><h4>RACE</h4><p>WIN THE POT</p></div>
+                <div class="banner"><h4>REFERRALS</h4><p>COMMISSION</p></div>
+                <div class="banner"><h4>DISCORD</h4><p>JOIN COMMUNITY</p></div>
             </div>
 
-            <!-- Games Grid (3 per riga) -->
-            <div class="games-section">
-                <h2 class="games-title">Games</h2>
-                <p class="games-subtitle">Play using site balance</p>
-
-                <div class="games-grid">
-                    <div class="game-card" data-game="Cases">
-                        <div class="game-icon">📦</div>
-                        <div class="game-title">Cases</div>
-                    </div>
-                    <div class="game-card" data-game="Case Battles">
-                        <div class="game-icon">⚔️</div>
-                        <div class="game-title">Case Battles</div>
-                    </div>
-                    <div class="game-card" data-game="Mines">
-                        <div class="game-icon">💣</div>
-                        <div class="game-title">Mines</div>
-                    </div>
-                    <div class="game-card" data-game="Towers">
-                        <div class="game-icon">🚀</div>
-                        <div class="game-title">Towers</div>
-                    </div>
-                    <div class="game-card" id="coinflip-game-card">
-                        <div class="game-icon">🪙</div>
-                        <div class="game-title">Coinflip</div>
-                    </div>
-                    <div class="game-card" data-game="Blackjack">
-                        <div class="game-icon">🃏</div>
-                        <div class="game-title">Blackjack</div>
-                    </div>
-                </div>
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px;">GIOCHI DISPONIBILI</h3>
+            <div class="games-grid">
+                <div class="game-card" onclick="openGame('mines')"><div class="icon">💣</div><div class="title">Mines</div></div>
+                <div class="game-card" onclick="openGame('coinflip')"><div class="icon">🪙</div><div class="title">Coinflip</div></div>
+                <div class="game-card" onclick="openGame('towers')"><div class="icon">🚀</div><div class="title">Towers</div></div>
+                <div class="game-card" onclick="openGame('cases')"><div class="icon">📦</div><div class="title">Cases</div></div>
+                <div class="game-card" onclick="openGame('casebattles')"><div class="icon">⚔️</div><div class="title">Battles</div></div>
+                <div class="game-card" onclick="openGame('blackjack')"><div class="icon">🃏</div><div class="title">Blackjack</div></div>
             </div>
         </div>
 
-        <!-- VISTA GIOCO COINFLIP -->
-        <div class="coinflip-arena" id="coinflip-view">
-            <button class="back-btn" id="back-to-home">← Indietro</button>
-            <div style="clear: both;"></div>
-            <h2>Coinflip</h2>
-
-            <div class="coin-container">
-                <div class="coin" id="coin-element">
-                    <div class="coin-side coin-heads">🍩</div>
-                    <div class="coin-side coin-tails">🪙</div>
-                </div>
+        <!-- MINES (DONUTFLIP REAL MECHANICS) -->
+        <div class="game-arena" id="arena-mines">
+            <div class="arena-top">
+                <button class="btn-back" onclick="showHome()">← Esci</button>
+                <div class="game-title-header">Mines</div>
+                <div></div>
             </div>
-
-            <div class="choice-buttons">
-                <button class="choice-btn selected" data-choice="heads">🍩 Ciambella</button>
-                <button class="choice-btn" data-choice="tails">🪙 Moneta</button>
+            <div class="mines-grid" id="mines-board"></div>
+            <div class="bet-bar">
+                <input type="number" id="mines-bet" class="bet-input" value="10" min="1">
+                <span>🪙</span>
             </div>
-
-            <div class="bet-input-group">
-                <label>Puntata: </label>
-                <input type="number" id="bet-amount" class="bet-input" value="10" min="1" step="1">
-            </div>
-
-            <button class="flip-btn" id="start-flip-btn">LANCIA!</button>
-            <div class="result-message" id="result-message"></div>
+            <button class="btn-main" id="mines-btn" onclick="handleMinesBtn()">INIZIA PARTITA</button>
+            <div class="status-msg" id="mines-msg"></div>
         </div>
 
+        <!-- COINFLIP -->
+        <div class="game-arena" id="arena-coinflip">
+            <div class="arena-top">
+                <button class="btn-back" onclick="showHome()">← Esci</button>
+                <div class="game-title-header">Coinflip</div>
+                <div></div>
+            </div>
+            <div class="coin-box">
+                <div class="coin-inner" id="coin-anim">
+                    <div class="coin-face">🍩</div>
+                    <div class="coin-face coin-back">🪙</div>
+                </div>
+            </div>
+            <div class="bet-bar">
+                <input type="number" id="coinflip-bet" class="bet-input" value="10" min="1">
+                <span>🪙</span>
+            </div>
+            <button class="btn-main" id="coinflip-btn" onclick="playCoinflip()">LANCIA</button>
+            <div class="status-msg" id="coinflip-msg"></div>
+        </div>
+
+        <!-- TOWERS -->
+        <div class="game-arena" id="arena-towers">
+            <div class="arena-top">
+                <button class="btn-back" onclick="showHome()">← Esci</button>
+                <div class="game-title-header">Towers</div>
+                <div></div>
+            </div>
+            <div class="towers-container" id="towers-board"></div>
+            <div class="bet-bar">
+                <input type="number" id="towers-bet" class="bet-input" value="10" min="1">
+                <span>🪙</span>
+            </div>
+            <button class="btn-main" id="towers-btn" onclick="handleTowersBtn()">INIZIA SCALATA</button>
+            <div class="status-msg" id="towers-msg"></div>
+        </div>
+
+        <!-- CASES -->
+        <div class="game-arena" id="arena-cases">
+            <div class="arena-top">
+                <button class="btn-back" onclick="showHome()">← Esci</button>
+                <div class="game-title-header">Cases</div>
+                <div></div>
+            </div>
+            <div style="font-size: 5rem; margin: 20px 0;" id="case-box-img">📦</div>
+            <p style="margin-bottom: 10px; color: #94a3b8;">Costo Cassa: <strong>20.00 🪙</strong></p>
+            <button class="btn-main" onclick="openCase()">APRI CASSA</button>
+            <div class="status-msg" id="cases-msg"></div>
+        </div>
+
+        <!-- BATTLES -->
+        <div class="game-arena" id="arena-casebattles">
+            <div class="arena-top">
+                <button class="btn-back" onclick="showHome()">← Esci</button>
+                <div class="game-title-header">Case Battles</div>
+                <div></div>
+            </div>
+            <div style="display: flex; gap: 30px; margin: 20px 0; text-align: center;">
+                <div><p style="color:#94a3b8;">TU</p><h2 id="cb-user-val">0</h2></div>
+                <div style="font-size: 1.5rem; font-weight: 900; color: #22c55e;">VS</div>
+                <div><p style="color:#94a3b8;">BOT</p><h2 id="cb-bot-val">0</h2></div>
+            </div>
+            <button class="btn-main" onclick="playCaseBattle()">ENTRA IN BATTAGLIA (30 🪙)</button>
+            <div class="status-msg" id="cb-msg"></div>
+        </div>
+
+        <!-- BLACKJACK -->
+        <div class="game-arena" id="arena-blackjack">
+            <div class="arena-top">
+                <button class="btn-back" onclick="showHome()">← Esci</button>
+                <div class="game-title-header">Blackjack</div>
+                <div></div>
+            </div>
+            <div style="margin: 20px 0; text-align: center; width: 100%;">
+                <p style="color:#94a3b8;">BANCO: <span id="bj-dealer-cards">-</span> (<span id="bj-dealer-score">0</span>)</p>
+                <br>
+                <p style="color:#94a3b8;">TU: <span id="bj-player-cards">-</span> (<span id="bj-player-score">0</span>)</p>
+            </div>
+            <div class="bet-bar">
+                <input type="number" id="bj-bet" class="bet-input" value="15" min="1">
+                <span>🪙</span>
+            </div>
+            <button class="btn-main" id="bj-btn" onclick="playBlackjack()">GIOCA</button>
+            <div class="status-msg" id="bj-msg"></div>
+        </div>
     </div>
+</div>
 
-    <!-- MODALE GENERICA -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close" id="close-modal">&times;</button>
-            <h3 class="modal-title" id="modal-title">Accedi</h3>
-            <div id="modal-body"></div>
-        </div>
+<!-- MODALE -->
+<div class="modal" id="modal-screen">
+    <div class="modal-box">
+        <h3 id="modal-title">Titolo</h3>
+        <div id="modal-content"></div>
+        <button class="btn-back" style="margin-top: 10px; width: 100%;" onclick="closeModal()">Chiudi</button>
     </div>
+</div>
 
-    <script>
-        // Stato dell'applicazione
-        let balance = 100.00;
-        let selectedChoice = 'heads';
-        let currentRotation = 0;
-        let isFlipping = false;
-        let currentUser = null;
+<script>
+    let userBalance = 100.00;
+    let username = null;
 
-        // Elementi DOM
-        const balanceDisplay = document.getElementById('user-balance');
-        const homeView = document.getElementById('home-view');
-        const coinflipView = document.getElementById('coinflip-view');
-        const coinflipCard = document.getElementById('coinflip-game-card');
-        const backBtn = document.getElementById('back-to-home');
-        const logoBtn = document.getElementById('logo-btn');
-        const coinElement = document.getElementById('coin-element');
-        const flipBtn = document.getElementById('start-flip-btn');
-        const betInput = document.getElementById('bet-amount');
-        const resultMsg = document.getElementById('result-message');
-        const choiceBtns = document.querySelectorAll('.choice-btn');
-        const gameCards = document.querySelectorAll('.game-card[data-game]');
+    function setBalance(val) {
+        userBalance = Math.max(0, val);
+        document.getElementById('balance').textContent = userBalance.toFixed(2);
+    }
 
-        // Modale
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const closeModal = document.getElementById('close-modal');
-        const openDepositBtn = document.getElementById('open-deposit-btn');
-        const openSigninBtn = document.getElementById('open-signin-btn');
+    function showHome() {
+        document.getElementById('view-home').style.display = 'block';
+        document.querySelectorAll('.game-arena').forEach(a => a.style.display = 'none');
+    }
 
-        // Aggiorna saldo
-        function updateBalance(amount) {
-            balance += amount;
-            balanceDisplay.textContent = balance.toFixed(2);
+    function openGame(id) {
+        document.getElementById('view-home').style.display = 'none';
+        document.querySelectorAll('.game-arena').forEach(a => a.style.display = 'none');
+        document.getElementById(`arena-${id}`).style.display = 'flex';
+        if(id === 'mines') initMinesBoard();
+        if(id === 'towers') initTowersBoard();
+    }
+
+    /* --- MINES (RIGGED DONUTFLIP MECHANICS) --- */
+    let minesState = { active: false, bet: 0, gemsFound: 0, multiplier: 1.0 };
+
+    function initMinesBoard() {
+        const board = document.getElementById('mines-board');
+        board.innerHTML = '';
+        for(let i=0; i<25; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'mine-cell';
+            cell.dataset.index = i;
+            cell.onclick = () => clickMineCell(i);
+            board.appendChild(cell);
         }
+    }
 
-        // Navigazione Giochi
-        coinflipCard.addEventListener('click', () => {
-            homeView.style.display = 'none';
-            coinflipView.style.display = 'block';
-        });
-
-        // Evento per gli altri giochi (Coming Soon)
-        gameCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const gameName = card.getAttribute('data-game');
-                modalTitle.textContent = gameName;
-                modalBody.innerHTML = `
-                    <div style="padding: 10px 0;">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🚧</div>
-                        <p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">In Arrivo!</p>
-                        <p style="color: #8a9ba8; font-size: 0.85rem;">Il gioco <strong>${gameName}</strong> sarà disponibile a breve.</p>
-                        <button class="modal-btn" id="close-coming-soon" style="margin-top: 16px;">Ho capito</button>
-                    </div>
-                `;
-                modalOverlay.style.display = 'flex';
-                document.getElementById('close-coming-soon').addEventListener('click', () => {
-                    modalOverlay.style.display = 'none';
-                });
-            });
-        });
-
-        function showHome() {
-            homeView.style.display = 'block';
-            coinflipView.style.display = 'none';
-        }
-
-        backBtn.addEventListener('click', showHome);
-        logoBtn.addEventListener('click', showHome);
-
-        // Selezione Scelta Coinflip
-        choiceBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (isFlipping) return;
-                choiceBtns.forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedChoice = btn.dataset.choice;
-            });
-        });
-
-        // Lancio Moneta
-        flipBtn.addEventListener('click', () => {
-            if (isFlipping) return;
-
-            const bet = parseFloat(betInput.value);
-
-            if (isNaN(bet) || bet <= 0) {
-                resultMsg.textContent = "❌ Importo non valido!";
-                resultMsg.style.color = "#ef4444";
-                return;
-            }
-
-            if (bet > balance) {
-                resultMsg.textContent = "❌ Saldo insufficiente!";
-                resultMsg.style.color = "#ef4444";
-                return;
-            }
-
-            updateBalance(-bet);
-            isFlipping = true;
-            flipBtn.disabled = true;
-            resultMsg.textContent = "Girando...";
-            resultMsg.style.color = "#ffffff";
-
-            const isHeads = Math.random() < 0.5;
-            const outcome = isHeads ? 'heads' : 'tails';
-
-            const extraRounds = 5 * 360;
-            const targetRotation = outcome === 'heads' ? 0 : 180;
+    function handleMinesBtn() {
+        const btn = document.getElementById('mines-btn');
+        if(!minesState.active) {
+            const bet = parseFloat(document.getElementById('mines-bet').value);
+            if(isNaN(bet) || bet <= 0 || bet > userBalance) return alert("Saldo insufficiente!");
+            setBalance(userBalance - bet);
             
-            currentRotation += extraRounds + (targetRotation - (currentRotation % 360));
-            if (currentRotation % 360 !== targetRotation) {
-                currentRotation += 180;
+            minesState = { active: true, bet: bet, gemsFound: 0, multiplier: 1.0 };
+            initMinesBoard();
+            
+            btn.textContent = "INCASSA (0.00 🪙)";
+            btn.classList.add('btn-cashout');
+            document.getElementById('mines-msg').textContent = "Seleziona le caselle!";
+            document.getElementById('mines-msg').style.color = "#ffffff";
+        } else {
+            if(minesState.gemsFound === 0) return;
+            const win = minesState.bet * minesState.multiplier;
+            setBalance(userBalance + win);
+            document.getElementById('mines-msg').textContent = `🎉 INCASSATO +${win.toFixed(2)} 🪙!`;
+            document.getElementById('mines-msg').style.color = "#22c55e";
+            resetMinesGame();
+        }
+    }
+
+    function clickMineCell(idx) {
+        if(!minesState.active) return;
+        const cell = document.querySelector(`.mine-cell[data-index='${idx}']`);
+        if(cell.classList.contains('revealed-gem') || cell.classList.contains('revealed-bomb')) return;
+
+        // RIGGED LOGIC: Se scopre più di 2 caselle o al 70% di probabilità avanzata, la bomba SPAWNA esattamente qui!
+        let forceBomb = false;
+        if(minesState.gemsFound >= 3 || Math.random() < 0.70) {
+            forceBomb = true;
+        }
+
+        if(forceBomb) {
+            cell.classList.add('revealed-bomb');
+            cell.textContent = '💣';
+            document.getElementById('mines-msg').textContent = "💥 BOOM! Hai beccato la bomba!";
+            document.getElementById('mines-msg').style.color = "#ef4444";
+            revealAllMines(idx);
+            resetMinesGame();
+        } else {
+            cell.classList.add('revealed-gem');
+            cell.textContent = '💎';
+            minesState.gemsFound++;
+            minesState.multiplier += 0.35;
+            const currentWin = minesState.bet * minesState.multiplier;
+            
+            const btn = document.getElementById('mines-btn');
+            btn.textContent = `INCASSA (${currentWin.toFixed(2)} 🪙)`;
+            document.getElementById('mines-msg').textContent = `Trovato! Moltiplicatore: x${minesState.multiplier.toFixed(2)}`;
+        }
+    }
+
+    function revealAllMines(hitIdx) {
+        document.querySelectorAll('.mine-cell').forEach((c, i) => {
+            if(i !== hitIdx && !c.classList.contains('revealed-gem')) {
+                c.textContent = Math.random() < 0.3 ? '💣' : '💎';
+                c.style.opacity = '0.6';
             }
-
-            coinElement.style.transform = `rotateY(${currentRotation}deg)`;
-
-            setTimeout(() => {
-                isFlipping = false;
-                flipBtn.disabled = false;
-
-                if (selectedChoice === outcome) {
-                    const winAmount = bet * 2;
-                    updateBalance(winAmount);
-                    resultMsg.textContent = `🎉 HAI VINTO +${winAmount.toFixed(2)} 🪙!`;
-                    resultMsg.style.color = "#22c55e";
-                } else {
-                    resultMsg.textContent = `😭 Hai perso ${bet.toFixed(2)} 🪙`;
-                    resultMsg.style.color = "#ef4444";
-                }
-            }, 3000);
         });
+    }
 
-        // Gestione Login / Profilo
-        openSigninBtn.addEventListener('click', () => {
-            if (currentUser) {
-                modalTitle.textContent = "Profilo Utente";
-                modalBody.innerHTML = `
-                    <p style="margin-bottom: 15px;">Connesso come <strong>${currentUser}</strong></p>
-                    <button class="modal-btn" style="background-color: #ef4444;" id="logout-btn">Esci (Logout)</button>
-                `;
-                document.getElementById('logout-btn').addEventListener('click', () => {
-                    currentUser = null;
-                    openSigninBtn.textContent = "➜] Sign In";
-                    modalOverlay.style.display = 'none';
-                });
+    function resetMinesGame() {
+        minesState.active = false;
+        const btn = document.getElementById('mines-btn');
+        btn.textContent = "INIZIA PARTITA";
+        btn.classList.remove('btn-cashout');
+    }
+
+    /* --- TOWERS (RIGGED DONUTFLIP) --- */
+    let towersState = { active: false, bet: 0, currentStep: 0 };
+
+    function initTowersBoard() {
+        const board = document.getElementById('towers-board');
+        board.innerHTML = '';
+        for(let r=0; r<5; r++) {
+            const row = document.createElement('div');
+            row.className = 'tower-row';
+            row.dataset.row = r;
+            for(let c=0; c<2; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'tower-cell';
+                cell.textContent = '❓';
+                cell.onclick = () => clickTowerCell(r, c);
+                row.appendChild(cell);
+            }
+            board.appendChild(row);
+        }
+    }
+
+    function handleTowersBtn() {
+        if(!towersState.active) {
+            const bet = parseFloat(document.getElementById('towers-bet').value);
+            if(isNaN(bet) || bet <= 0 || bet > userBalance) return alert("Saldo insufficiente!");
+            setBalance(userBalance - bet);
+
+            towersState = { active: true, bet: bet, currentStep: 0 };
+            initTowersBoard();
+            updateTowersRows();
+            
+            const btn = document.getElementById('towers-btn');
+            btn.textContent = "INCASSA (0.00 🪙)";
+            btn.classList.add('btn-cashout');
+            document.getElementById('towers-msg').textContent = "Scegli una colonna!";
+            document.getElementById('towers-msg').style.color = "#ffffff";
+        } else {
+            if(towersState.currentStep === 0) return;
+            const win = towersState.bet * (1 + towersState.currentStep * 0.8);
+            setBalance(userBalance + win);
+            document.getElementById('towers-msg').textContent = `🚀 INCASSATO +${win.toFixed(2)} 🪙!`;
+            document.getElementById('towers-msg').style.color = "#22c55e";
+            resetTowersGame();
+        }
+    }
+
+    function updateTowersRows() {
+        document.querySelectorAll('.tower-row').forEach(r => {
+            if(parseInt(r.dataset.row) === towersState.currentStep) {
+                r.classList.add('active');
             } else {
-                modalTitle.textContent = "Accedi al tuo Account";
-                modalBody.innerHTML = `
-                    <div class="form-group">
-                        <label>Username / Email</label>
-                        <input type="text" id="login-username" class="form-input" placeholder="Username">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="login-password" class="form-input" placeholder="••••••••">
-                    </div>
-                    <button class="modal-btn" id="submit-login">Accedi</button>
-                `;
-
-                document.getElementById('submit-login').addEventListener('click', () => {
-                    const usernameVal = document.getElementById('login-username').value.trim();
-                    if (usernameVal) {
-                        currentUser = usernameVal;
-                        openSigninBtn.textContent = `👤 ${currentUser}`;
-                        modalOverlay.style.display = 'none';
-                    } else {
-                        alert("Inserisci un username!");
-                    }
-                });
+                r.classList.remove('active');
             }
-            modalOverlay.style.display = 'flex';
         });
+    }
 
-        // Gestione Deposito
-        openDepositBtn.addEventListener('click', () => {
-            modalTitle.textContent = "Ricarica Saldo";
-            modalBody.innerHTML = `
-                <p style="color: #8a9ba8; margin-bottom: 15px;">Aggiungi +50.00 monete!</p>
-                <button class="modal-btn" id="deposit-action-btn">Aggiungi +50 🪙</button>
-            `;
+    function clickTowerCell(r, c) {
+        if(!towersState.active || r !== towersState.currentStep) return;
 
-            document.getElementById('deposit-action-btn').addEventListener('click', () => {
-                updateBalance(50);
-                modalOverlay.style.display = 'none';
-            });
+        let fail = (r >= 2 || Math.random() < 0.75);
+        const row = document.querySelector(`.tower-row[data-row='${r}']`);
+        const cells = row.children;
 
-            modalOverlay.style.display = 'flex';
-        });
+        if(fail) {
+            cells[c].textContent = '❌';
+            cells[c].style.background = '#7f1d1d';
+            document.getElementById('towers-msg').textContent = "💥 Trappola! Sei caduto.";
+            document.getElementById('towers-msg').style.color = "#ef4444";
+            resetTowersGame();
+        } else {
+            cells[c].textContent = '✅';
+            cells[c].style.background = '#14532d';
+            towersState.currentStep++;
+            
+            if(towersState.currentStep === 5) {
+                const win = towersState.bet * 4.0;
+                setBalance(userBalance + win);
+                document.getElementById('towers-msg').textContent = `🏆 VETTA RAGGIUNTA! +${win.toFixed(2)} 🪙!`;
+                document.getElementById('towers-msg').style.color = "#22c55e";
+                resetTowersGame();
+            } else {
+                updateTowersRows();
+                const curWin = towersState.bet * (1 + towersState.currentStep * 0.8);
+                const btn = document.getElementById('towers-btn');
+                btn.textContent = `INCASSA (${curWin.toFixed(2)} 🪙)`;
+            }
+        }
+    }
 
-        closeModal.addEventListener('click', () => {
-            modalOverlay.style.display = 'none';
-        });
+    function resetTowersGame() {
+        towersState.active = false;
+        document.querySelectorAll('.tower-row').forEach(r => r.classList.remove('active'));
+        const btn = document.getElementById('towers-btn');
+        btn.textContent = "INIZIA SCALATA";
+        btn.classList.remove('btn-cashout');
+    }
 
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) modalOverlay.style.display = 'none';
-        });
-    </script>
+    /* --- ALTRO --- */
+    let coinRot = 0;
+    function playCoinflip() {
+        const bet = parseFloat(document.getElementById('coinflip-bet').value);
+        if(isNaN(bet) || bet <= 0 || bet > userBalance) return alert("Saldo insufficiente!");
+        setBalance(userBalance - bet);
+
+        const btn = document.getElementById('coinflip-btn');
+        btn.disabled = true;
+
+        const isWin = Math.random() < 0.48;
+        coinRot += 1800 + (isWin ? 0 : 180);
+        document.getElementById('coin-anim').style.transform = `rotateY(${coinRot}deg)`;
+
+        setTimeout(() => {
+            btn.disabled = false;
+            if(isWin) {
+                const win = bet * 2;
+                setBalance(userBalance + win);
+                document.getElementById('coinflip-msg').textContent = `🎉 VINTO! +${win.toFixed(2)} 🪙`;
+                document.getElementById('coinflip-msg').style.color = "#22c55e";
+            } else {
+                document.getElementById('coinflip-msg').textContent = `😭 PERSO ${bet.toFixed(2)} 🪙`;
+                document.getElementById('coinflip-msg').style.color = "#ef4444";
+            }
+        }, 2500);
+    }
+
+    function openCase() {
+        if(userBalance < 20) return alert("Saldo insufficiente! Servono 20 🪙");
+        setBalance(userBalance - 20);
+        
+        const rewards = [2, 5, 10, 15, 25, 50];
+        const win = rewards[Math.floor(Math.random() * rewards.length)];
+
+        document.getElementById('case-box-img').textContent = '🎁';
+        setTimeout(() => {
+            document.getElementById('case-box-img').textContent = '📦';
+            setBalance(userBalance + win);
+            document.getElementById('cases-msg').textContent = `Hai trovato: ${win}.00 🪙!`;
+            document.getElementById('cases-msg').style.color = win >= 20 ? "#22c55e" : "#ef4444";
+        }, 800);
+    }
+
+    function playCaseBattle() {
+        if(userBalance < 30) return alert("Saldo insufficiente! Servono 30 🪙");
+        setBalance(userBalance - 30);
+
+        const uVal = Math.floor(Math.random() * 60);
+        const bVal = Math.floor(Math.random() * 70) + 5;
+
+        document.getElementById('cb-user-val').textContent = uVal;
+        document.getElementById('cb-bot-val').textContent = bVal;
+
+        if(uVal > bVal) {
+            setBalance(userBalance + 60);
+            document.getElementById('cb-msg').textContent = "🎉 BATTAGLIA VINTA! +60.00 🪙";
+            document.getElementById('cb-msg').style.color = "#22c55e";
+        } else {
+            document.getElementById('cb-msg').textContent = "😭 Il Bot ha vinto la battaglia!";
+            document.getElementById('cb-msg').style.color = "#ef4444";
+        }
+    }
+
+    function playBlackjack() {
+        const bet = parseFloat(document.getElementById('bj-bet').value);
+        if(isNaN(bet) || bet <= 0 || bet > userBalance) return alert("Saldo insufficiente!");
+        setBalance(userBalance - bet);
+
+        const pScore = Math.floor(Math.random() * 8) + 14;
+        const dScore = Math.floor(Math.random() * 6) + 17;
+
+        document.getElementById('bj-player-cards').textContent = '🎴 🎴';
+        document.getElementById('bj-player-score').textContent = pScore;
+        document.getElementById('bj-dealer-cards').textContent = '🎴 🎴';
+        document.getElementById('bj-dealer-score').textContent = dScore;
+
+        if(pScore <= 21 && (pScore > dScore || dScore > 21)) {
+            const win = bet * 2;
+            setBalance(userBalance + win);
+            document.getElementById('bj-msg').textContent = `🎉 VINTO! +${win.toFixed(2)} 🪙`;
+            document.getElementById('bj-msg').style.color = "#22c55e";
+        } else {
+            document.getElementById('bj-msg').textContent = "😭 Il Banco vince!";
+            document.getElementById('bj-msg').style.color = "#ef4444";
+        }
+    }
+
+    /* --- MODALE --- */
+    function openModal(type) {
+        const modal = document.getElementById('modal-screen');
+        const title = document.getElementById('modal-title');
+        const content = document.getElementById('modal-content');
+
+        if(type === 'auth') {
+            title.textContent = username ? "Profilo Utente" : "Accedi a Donut Cake";
+            content.innerHTML = username ? 
+                `<p>Connesso come: <strong>${username}</strong></p>` :
+                `<input type="text" id="user-input" placeholder="Username"><button class="btn-main" onclick="login()">Accedi</button>`;
+        } else if(type === 'deposit') {
+            title.textContent = "Ricarica Saldo";
+            content.innerHTML = `<button class="btn-main" onclick="setBalance(userBalance + 50); closeModal();">+50.00 🪙 Gratis</button>`;
+        }
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-screen').style.display = 'none';
+    }
+
+    function login() {
+        const val = document.getElementById('user-input').value;
+        if(val.trim() !== '') {
+            username = val;
+            document.getElementById('auth-btn').textContent = username;
+            closeModal();
+        }
+    }
+</script>
 </body>
 </html>
