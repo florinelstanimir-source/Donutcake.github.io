@@ -24,7 +24,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
+            padding: 12px 16px;
             background-color: #151c22;
             border-bottom: 1px solid #202b34;
             position: sticky;
@@ -35,9 +35,9 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-weight: 900;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             letter-spacing: 0.5px;
             color: #ffffff;
             font-style: italic;
@@ -51,18 +51,18 @@
         .user-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .balance-box {
             display: flex;
             align-items: center;
             background-color: #1e2730;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
-            gap: 8px;
+            gap: 6px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             border: 1px solid #2b3744;
         }
 
@@ -70,10 +70,10 @@
             background-color: #22c55e;
             color: white;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 8px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -90,10 +90,10 @@
             background-color: #22c55e;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -109,86 +109,86 @@
         .main-container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 24px 16px;
+            padding: 16px 12px;
         }
 
         .page-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
-        /* Card Banner */
+        /* Banners Grid (3 colonne in riga) */
         .banners-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-            margin-bottom: 36px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
         }
 
         .banner-card {
             background: linear-gradient(135deg, #1b242c 0%, #12181e 100%);
             border: 1px solid #28343f;
-            border-radius: 14px;
-            padding: 24px;
-            min-height: 130px;
+            border-radius: 10px;
+            padding: 12px 8px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .banner-card h3 {
-            font-size: 1.4rem;
+            font-size: 0.85rem;
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
         }
 
         .banner-card p {
-            font-size: 0.75rem;
+            font-size: 0.55rem;
             color: #8a9ba8;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            line-height: 1.1;
         }
 
-        /* Sezione Giochi */
+        /* Games Grid (3 colonne in riga) */
         .games-section {
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .games-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
         }
 
         .games-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #6c7d8c;
-            margin-bottom: 20px;
-            margin-top: 4px;
+            margin-bottom: 14px;
+            margin-top: 2px;
         }
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
         .game-card {
             background-color: #172027;
             border: 1px solid #23303a;
-            border-radius: 12px;
-            padding: 22px 12px;
+            border-radius: 10px;
+            padding: 14px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 6px;
             text-decoration: none;
             color: white;
             transition: all 0.2s ease;
@@ -196,18 +196,19 @@
         }
 
         .game-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             border-color: #22c55e;
             background-color: #1c2730;
         }
 
         .game-icon {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
         }
 
         .game-title {
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
+            text-align: center;
         }
 
         /* --- SEZIONE GIOCO COINFLIP --- */
@@ -216,20 +217,21 @@
             background-color: #151c22;
             border: 1px solid #23303a;
             border-radius: 16px;
-            padding: 30px;
+            padding: 20px 14px;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .back-btn {
             background-color: #23303a;
             color: #8a9ba8;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
             float: left;
         }
 
@@ -241,9 +243,9 @@
         /* Moneta 3D */
         .coin-container {
             perspective: 1000px;
-            width: 120px;
-            height: 120px;
-            margin: 20px auto;
+            width: 100px;
+            height: 100px;
+            margin: 15px auto;
         }
 
         .coin {
@@ -263,7 +265,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
+            font-size: 3rem;
             border: 4px solid #eab308;
             background: #1e2730;
             box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
@@ -275,17 +277,18 @@
         .choice-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
         }
 
         .choice-btn {
             background-color: #1e2730;
             border: 2px solid #2b3744;
             color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
             font-weight: 700;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -300,17 +303,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
         .bet-input {
             background-color: #1e2730;
             border: 1px solid #2b3744;
             color: white;
-            padding: 10px 14px;
+            padding: 8px 10px;
             border-radius: 8px;
-            width: 120px;
+            width: 100px;
             font-weight: 700;
             text-align: center;
         }
@@ -319,10 +322,10 @@
             background-color: #22c55e;
             color: white;
             border: none;
-            padding: 14px 40px;
-            border-radius: 10px;
+            padding: 12px 30px;
+            border-radius: 8px;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: background 0.2s;
         }
@@ -331,10 +334,10 @@
         .flip-btn:disabled { background-color: #2b3744; cursor: not-allowed; }
 
         .result-message {
-            margin-top: 15px;
+            margin-top: 12px;
             font-weight: 800;
-            font-size: 1.2rem;
-            min-height: 28px;
+            font-size: 1.1rem;
+            min-height: 26px;
         }
 
         /* --- MODALE ACCESS / DEPOSIT --- */
@@ -355,27 +358,27 @@
             background-color: #151c22;
             border: 1px solid #28343f;
             border-radius: 14px;
-            padding: 24px;
-            width: 90%;
-            max-width: 400px;
+            padding: 20px;
+            width: 88%;
+            max-width: 360px;
             text-align: center;
             position: relative;
         }
 
         .modal-close {
             position: absolute;
-            top: 12px;
-            right: 16px;
+            top: 10px;
+            right: 14px;
             background: none;
             border: none;
             color: #8a9ba8;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
         }
 
         .modal-title {
-            font-size: 1.3rem;
-            margin-bottom: 16px;
+            font-size: 1.2rem;
+            margin-bottom: 14px;
         }
 
         .modal-btn {
@@ -394,17 +397,16 @@
             background-color: #16a34a;
         }
 
-        /* Form di Login */
         .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             text-align: left;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #8a9ba8;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             font-weight: 600;
         }
 
@@ -413,9 +415,9 @@
             background-color: #1e2730;
             border: 1px solid #2b3744;
             color: white;
-            padding: 10px 12px;
+            padding: 8px 10px;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             outline: none;
         }
 
@@ -447,23 +449,23 @@
         <div id="home-view">
             <h1 class="page-title">DonutFlip</h1>
 
-            <!-- Top Banners -->
+            <!-- Top Banners (3 per riga) -->
             <div class="banners-grid">
                 <div class="banner-card">
                     <h3>RACE</h3>
-                    <p>CLIMB THE BOARD, WIN THE POT</p>
+                    <p>WIN THE POT</p>
                 </div>
                 <div class="banner-card">
                     <h3>REFERRALS</h3>
-                    <p>INVITE FRIENDS, EARN COMMISSION</p>
+                    <p>EARN COMMISSION</p>
                 </div>
                 <div class="banner-card">
                     <h3>DISCORD</h3>
-                    <p>JOIN THE COMMUNITY</p>
+                    <p>JOIN US</p>
                 </div>
             </div>
 
-            <!-- Games Grid -->
+            <!-- Games Grid (3 per riga) -->
             <div class="games-section">
                 <h2 class="games-title">Games</h2>
                 <p class="games-subtitle">Play using site balance</p>
@@ -511,8 +513,8 @@
             </div>
 
             <div class="choice-buttons">
-                <button class="choice-btn selected" data-choice="heads">🍩 Ciambella (Testa)</button>
-                <button class="choice-btn" data-choice="tails">🪙 Moneta (Croce)</button>
+                <button class="choice-btn selected" data-choice="heads">🍩 Ciambella</button>
+                <button class="choice-btn" data-choice="tails">🪙 Moneta</button>
             </div>
 
             <div class="bet-input-group">
@@ -526,14 +528,12 @@
 
     </div>
 
-    <!-- MODALE GENERICA -->
+    <!-- MODALE GENERICA (Login / Deposito) -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-content">
             <button class="modal-close" id="close-modal">&times;</button>
             <h3 class="modal-title" id="modal-title">Accedi</h3>
-            <div id="modal-body">
-                <!-- Il contenuto viene caricato dinamicamente via JS -->
-            </div>
+            <div id="modal-body"></div>
         </div>
     </div>
 
@@ -543,7 +543,7 @@
         let selectedChoice = 'heads';
         let currentRotation = 0;
         let isFlipping = false;
-        let currentUser = null; // Memorizza l'utente connesso
+        let currentUser = null;
 
         // Elementi DOM
         const balanceDisplay = document.getElementById('user-balance');
@@ -566,13 +566,13 @@
         const openDepositBtn = document.getElementById('open-deposit-btn');
         const openSigninBtn = document.getElementById('open-signin-btn');
 
-        // Aggiorna saldo visibile
+        // Aggiorna saldo
         function updateBalance(amount) {
             balance += amount;
             balanceDisplay.textContent = balance.toFixed(2);
         }
 
-        // Navigazione Viste
+        // Navigazione
         coinflipCard.addEventListener('click', () => {
             homeView.style.display = 'none';
             coinflipView.style.display = 'block';
@@ -596,14 +596,14 @@
             });
         });
 
-        // Logica del lancio della moneta
+        // Lancio Moneta
         flipBtn.addEventListener('click', () => {
             if (isFlipping) return;
 
             const bet = parseFloat(betInput.value);
 
             if (isNaN(bet) || bet <= 0) {
-                resultMsg.textContent = "❌ Inserisci un importo valido!";
+                resultMsg.textContent = "❌ Importo non valido!";
                 resultMsg.style.color = "#ef4444";
                 return;
             }
@@ -614,22 +614,18 @@
                 return;
             }
 
-            // Scala la puntata
             updateBalance(-bet);
             isFlipping = true;
             flipBtn.disabled = true;
             resultMsg.textContent = "Girando...";
             resultMsg.style.color = "#ffffff";
 
-            // Calcolo risultato (50/50)
             const isHeads = Math.random() < 0.5;
             const outcome = isHeads ? 'heads' : 'tails';
 
-            // Calcola rotazione (minimo 5 giri + posizione finale)
             const extraRounds = 5 * 360;
             const targetRotation = outcome === 'heads' ? 0 : 180;
             
-            // Assicura di girare sempre nella stessa direzione
             currentRotation += extraRounds + (targetRotation - (currentRotation % 360));
             if (currentRotation % 360 !== targetRotation) {
                 currentRotation += 180;
@@ -637,7 +633,6 @@
 
             coinElement.style.transform = `rotateY(${currentRotation}deg)`;
 
-            // Fine animazione (3 secondi)
             setTimeout(() => {
                 isFlipping = false;
                 flipBtn.disabled = false;
@@ -648,16 +643,15 @@
                     resultMsg.textContent = `🎉 HAI VINTO +${winAmount.toFixed(2)} 🪙!`;
                     resultMsg.style.color = "#22c55e";
                 } else {
-                    resultMsg.textContent = `😭 Hai perso ${bet.toFixed(2)} 🪙. Riprova!`;
+                    resultMsg.textContent = `😭 Hai perso ${bet.toFixed(2)} 🪙`;
                     resultMsg.style.color = "#ef4444";
                 }
             }, 3000);
         });
 
-        // Modale Gestione Accesso / Deposito
+        // Gestione Login / Profilo
         openSigninBtn.addEventListener('click', () => {
             if (currentUser) {
-                // Se è già loggato, mostra opzione Logout
                 modalTitle.textContent = "Profilo Utente";
                 modalBody.innerHTML = `
                     <p style="margin-bottom: 15px;">Connesso come <strong>${currentUser}</strong></p>
@@ -669,12 +663,11 @@
                     modalOverlay.style.display = 'none';
                 });
             } else {
-                // Altrimenti mostra form Login
                 modalTitle.textContent = "Accedi al tuo Account";
                 modalBody.innerHTML = `
                     <div class="form-group">
                         <label>Username / Email</label>
-                        <input type="text" id="login-username" class="form-input" placeholder="Inserisci username">
+                        <input type="text" id="login-username" class="form-input" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label>Password</label>
@@ -697,10 +690,11 @@
             modalOverlay.style.display = 'flex';
         });
 
+        // Gestione Deposito
         openDepositBtn.addEventListener('click', () => {
             modalTitle.textContent = "Ricarica Saldo";
             modalBody.innerHTML = `
-                <p style="color: #8a9ba8; margin-bottom: 15px;">Aggiungi +50.00 monete al tuo saldo!</p>
+                <p style="color: #8a9ba8; margin-bottom: 15px;">Aggiungi +50.00 monete!</p>
                 <button class="modal-btn" id="deposit-action-btn">Aggiungi +50 🪙</button>
             `;
 
