@@ -108,15 +108,17 @@
         .product-img-box {
             width: 100%;
             height: 320px;
-            background: linear-gradient(135deg, #334155, #1e293b);
             border-radius: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 80px;
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
+            background: #ffffff;
+        }
+        .product-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
         }
         .discount-tag {
             position: absolute;
@@ -128,6 +130,7 @@
             border-radius: 8px;
             font-weight: bold;
             font-size: 14px;
+            z-index: 10;
         }
         .price-box {
             display: flex;
@@ -188,7 +191,6 @@
             color: var(--text-muted);
             font-size: 14px;
         }
-        /* Sezione Modulo Ordine */
         .order-section {
             max-width: 600px;
             margin: 40px auto 80px auto;
@@ -276,7 +278,7 @@
         <div class="product-card-preview">
             <div class="product-img-box">
                 <span class="discount-tag">-40% Oggi</span>
-                🐈‍⬛
+                <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80" alt="PetClean Rullo Spazzola">
             </div>
             <div class="price-box">
                 <span class="old-price">€ 39,90</span>
