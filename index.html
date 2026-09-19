@@ -2,18 +2,16 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DonutFlip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donut Flip - Mini Games Hub</title>
     <style>
         :root {
-            --bg-main: #0c1015;
-            --card-bg: #131a23;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --green: #22c55e;
-            --green-glow: rgba(34, 197, 94, 0.4);
-            --pink: #ff2a85;
-            --gold: #ffd700;
-            --text-main: #ffffff;
+            --bg-color: #0f1016;
+            --card-bg: #1a1c29;
+            --primary: #ff477e;
+            --primary-hover: #ff2366;
+            --secondary: #00f5d4;
+            --text: #ffffff;
             --text-muted: #94a3b8;
         }
 
@@ -21,535 +19,471 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            color: var(--text);
             min-height: 100vh;
-            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Top Navbar */
-        nav {
-            background-color: #0f172a;
-            border-bottom: 1px solid var(--border-color);
-            padding: 10px 16px;
+        /* Navbar / Header */
+        header {
+            width: 100%;
+            max-width: 800px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-bottom: 2px solid #2a2e43;
         }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 900;
-            font-size: 1.1rem;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
-            cursor: pointer;
-        }
-
-        .nav-logo span {
-            color: var(--green);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .balance-pill {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 4px 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .balance-pill span {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--gold);
-        }
-
-        .plus-btn {
-            background: var(--green);
-            color: white;
-            border: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
+        .logo {
+            font-size: 24px;
             font-weight: bold;
+            color: var(--primary);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
         }
 
-        .signin-btn {
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            box-shadow: 0 2px 10px var(--green-glow);
+        .wallet {
+            background: #2a2e43;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: var(--secondary);
+            border: 1px solid rgba(0, 245, 212, 0.2);
         }
 
-        /* Container */
+        /* Container principale */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text-main);
-        }
-
-        .section-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        /* Top Banners Carousel */
-        .banners-scroll {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 24px;
-            scrollbar-width: none;
-        }
-
-        .banners-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .banner-card {
-            min-width: 240px;
-            height: 120px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
-            overflow: hidden;
+            align-items: center;
         }
 
-        .banner-card h3 {
-            font-size: 1rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .banner-card p {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        /* Games Grid (3x3) */
-        .games-section {
+        /* Schermata Iniziale (Home) */
+        #home-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            gap: 25px;
             margin-top: 20px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .hero-title span {
+            color: var(--primary);
         }
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border: 2px solid #2a2e43;
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 10px;
         }
 
-        .game-item-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 110px;
-            cursor: pointer;
-            transition: transform 0.1s ease, border-color 0.1s ease;
+        .game-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 71, 126, 0.2);
         }
 
-        .game-item-card:active {
-            transform: scale(0.95);
-            border-color: var(--green);
+        .game-card h3 {
+            font-size: 20px;
         }
 
-        .game-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .game-name {
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-align: center;
+        .game-card p {
             color: var(--text-muted);
+            font-size: 14px;
         }
 
-        /* Modal / Game Arena View */
-        #gameModal {
+        /* Sezione Gioco Singolo */
+        .game-container {
             display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(12, 16, 21, 0.98);
-            z-index: 200;
-            padding: 16px;
             flex-direction: column;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .close-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .modal-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 480px;
-            margin: 0 auto;
             width: 100%;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #2a2e43;
+            margin-top: 20px;
         }
 
-        /* Stile specifico per Mines 5x5 nel modale */
-        .mines-grid-modal {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 10px;
-            aspect-ratio: 1;
-        }
-
-        .mine-cell {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+        .back-btn {
+            align-self: flex-start;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
+            gap: 5px;
         }
 
-        .control-box {
+        .back-btn:hover {
+            color: var(--text);
+        }
+
+        /* Grafica Minigioco 1: Donut Flip */
+        .donut-stage {
+            width: 150px;
+            height: 150px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .donut {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #ff477e 40%, #8b4513 41%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 1s ease-in-out;
+            position: relative;
+        }
+
+        .donut::after {
+            content: '';
+            width: 40px;
+            height: 40px;
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 10px 14px;
+            border-radius: 50%;
+        }
+
+        .flipping {
+            transform: rotateX(720deg) rotateY(720deg) scale(1.1);
+        }
+
+        /* Controlli e Pulsanti */
+        .controls {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-        }
-
-        .control-box label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 800;
-        }
-
-        .control-row {
-            display: flex;
-            justify-content: space-between;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
             align-items: center;
         }
 
-        .control-row input {
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 800;
-            width: 100px;
-            outline: none;
-        }
-
-        .btn-action {
-            background: var(--green);
-            border: none;
-            color: white;
+        input[type="number"], input[type="text"] {
+            width: 100%;
             padding: 12px;
-            border-radius: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 4px 15px var(--green-glow);
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
+            border-radius: 8px;
+            border: 1px solid #2a2e43;
+            background: var(--bg-color);
+            color: var(--text);
+            text-align: center;
+            font-size: 16px;
         }
 
-        .status-text {
-            text-align: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            min-height: 18px;
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .result-msg {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            min-height: 27px;
+        }
+
+        /* Sezione Referral integrata sotto */
+        .referral-box {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #2a2e43;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .referral-box h4 {
+            color: var(--secondary);
+        }
+        
+        .referral-row {
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR PRINCIPALE (Uguale all'immagine iniziale) -->
-    <nav>
-        <div class="nav-logo" onclick="location.reload()">
-            🎲 DONUT<span>FLIP</span>
-        </div>
-        <div class="nav-right">
-            <div class="balance-pill">
-                <span>🪙</span>
-                <span id="userBalance">40.00</span>
-                <button class="plus-btn" onclick="balance += 50; updateBal()">+</button>
-            </div>
-            <button class="signin-btn" onclick="alert('Accesso effettuato!')">Sign In</button>
-        </div>
-    </nav>
+    <header>
+<div class="logo" onclick="goHome()">🍩 DONUT FLIP</div>
+        <div class="wallet">Saldo: <span id="balance">1000</span> Crediti</div>
+    </header>
 
-    <!-- CONTAINER PRINCIPALE -->
     <div class="container">
-        
-        <!-- BANNER SCROLLABILI IN ALTO -->
-        <div class="section-title">DonutFlip</div>
-        <div class="banners-scroll">
-            <div class="banner-card" style="border-color: rgba(147, 51, 234, 0.4);">
-                <h3>Race</h3>
-                <p>Climb the board, win the pot</p>
+        <!-- SCHERMATA INIZIALE (HOME) -->
+        <div id="home-screen">
+            <div>
+                <h1 class="hero-title">Ben su <span>Donut Flip</span></h1>
+                <p style="color: var(--text-muted);">Scegli un minigioco e prova a raddoppiare i tuoi crediti virtuali!</p>
             </div>
-            <div class="banner-card" style="border-color: rgba(34, 197, 94, 0.4);">
-                <h3>Referrals</h3>
-                <p>Invite friends, earn commission</p>
-            </div>
-            <div class="banner-card" style="border-color: rgba(59, 130, 246, 0.4);">
-                <h3>Discord</h3>
-                <p>Join the community</p>
-            </div>
-        </div>
-
-        <!-- GRIGLIA GIOCHI 3x3 -->
-        <div class="games-section">
-            <div class="section-title">Games</div>
-            <div class="section-sub">Play using site balance</div>
 
             <div class="games-grid">
-                <div class="game-item-card" onclick="openGame('cases')">
-                    <div class="game-icon">📦</div>
-                    <div class="game-name">Cases</div>
+                <div class="game-card" onclick="openGame('flip')">
+                    <span style="font-size: 40px;">🍩</span>
+                    <h3>Donut Flip</h3>
+                    <p>Lancio della ciambella: testa o croce in versione dolce.</p>
                 </div>
-                <div class="game-item-card" onclick="openGame('battles')">
-                    <div class="game-icon">⚔️</div>
-                    <div class="game-name">Case Battles</div>
+                <div class="game-card" onclick="openGame('wheel')">
+                    <span style="font-size: 40px;">🎯</span>
+                    <h3>Ciambella Fortunata</h3>
+                    <p>Gira la ruota dei moltiplicatori ed evita il disastro.</p>
                 </div>
-                <div class="game-item-card" onclick="openGame('mines')">
-                    <div class="game-icon">💣</div>
-                    <div class="game-name">Mines</div>
-                </div>
-                <div class="game-item-card" onclick="openGame('towers')">
-                    <div class="game-icon">📈</div>
-                    <div class="game-name">Towers</div>
-                </div>
-                <div class="game-item-card" onclick="openGame('coinflip')">
-                    <div class="game-icon">🪙</div>
-                    <div class="game-name">Coinflip</div>
-                </div>
-                <div class="game-item-card" onclick="openGame('blackjack')">
-                    <div class="game-icon">🃏</div>
-                    <div class="game-name">Blackjack</div>
+                <div class="game-card" onclick="openGame('dice')">
+                    <span style="font-size: 40px;">🎲</span>
+                    <h3>Zucchero o Vuoto</h3>
+                    <p>Indovina l'esito del lancio dei dadi speciali.</p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- MODALE INTERATTIVO PER I GIOCHI -->
-    <div id="gameModal">
-        <div class="modal-header">
-            <h2 id="modalTitle" style="color: var(--green); font-size: 0.95rem;">Game</h2>
-            <button class="close-btn" onclick="closeModal()">Chiudi</button>
+        <!-- GIOCO 1: DONUT FLIP -->
+        <div id="game-flip" class="game-container">
+            <button class="back-btn" onclick="goHome()">← Torna alla Home</button>
+            <h2>Donut Flip</h2>
+            <div class="donut-stage">
+                <div id="donut-el" class="donut"></div>
+            </div>
+            <div class="controls">
+                <label for="bet-flip" style="font-size: 14px; color: var(--text-muted);">Puntata:</label>
+                <input type="number" id="bet-flip" value="50" min="10">
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button class="btn" onclick="playFlip('glassa')">Glassa (Testa)</button>
+                    <button class="btn" style="background-color: #555;" onclick="playFlip('senza')">Base (Croce)</button>
+                </div>
+                <div id="result-flip" class="result-msg"></div>
+            </div>
         </div>
-        <div class="modal-body" id="modalBodyContent">
-            <!-- Dinamico -->
+
+        <!-- GIOCO 2: RUOTA / MOLTIPLICATORE -->
+        <div id="game-wheel" class="game-container">
+            <button class="back-btn" onclick="goHome()">← Torna alla Home</button>
+            <h2>Ciambella Fortunata</h2>
+            <div id="wheel-display" style="font-size: 60px; margin: 30px 0;">🎡</div>
+            <div class="controls">
+                <label for="bet-wheel" style="font-size: 14px; color: var(--text-muted);">Puntata:</label>
+                <input type="number" id="bet-wheel" value="50" min="10">
+                <button class="btn" onclick="playWheel()">Gira la Ruota</button>
+                <div id="result-wheel" class="result-msg"></div>
+            </div>
+        </div>
+
+        <!-- GIOCO 3: DADI -->
+        <div id="game-dice" class="game-container">
+            <button class="back-btn" onclick="goHome()">← Torna alla Home</button>
+            <h2>Zucchero o Vuoto</h2>
+            <div id="dice-display" style="font-size: 60px; margin: 30px 0;">🎲🎲</div>
+            <div class="controls">
+                <label for="bet-dice" style="font-size: 14px; color: var(--text-muted);">Puntata:</label>
+                <input type="number" id="bet-dice" value="50" min="10">
+                <button class="btn" onclick="playDice()">Lancia i Dadi (Pari vincono)</button>
+                <div id="result-dice" class="result-msg"></div>
+            </div>
+        </div>
+
+        <!-- SEZIONE REFERRAL INTEGRATA -->
+        <div class="referral-box">
+            <h4>Codice Referral & Bonus</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">Inserisci un codice invito per sbloccare crediti extra o gestisci il tuo codice.</p>
+            <div class="referral-row">
+                <input type="text" id="ref-code" placeholder="Inserisci codice (es. CALTORTOR)">
+                <button class="btn" style="width: 140px;" onclick="applyRef()">Riscatta</button>
+            </div>
+            <div id="ref-msg" style="font-size: 12px; color: var(--secondary);"></div>
         </div>
     </div>
 
     <script>
-        let balance = 40.00;
-        function updateBal() {
-            document.getElementById('userBalance').textContent = balance.toFixed(2);
+        let balance = 1000;
+
+        function updateBalance(amount) {
+            balance += amount;
+            document.getElementById('balance').innerText = balance;
         }
 
-        function closeModal() {
-            document.getElementById('gameModal').style.display = 'none';
+        function goHome() {
+            document.getElementById('home-screen').style.display = 'flex';
+            document.querySelectorAll('.game-container').forEach(el => el.style.display = 'none');
         }
 
-        function openGame(type) {
-            document.getElementById('gameModal').style.display = 'flex';
-            document.getElementById('modalTitle').textContent = type.toUpperCase();
-            const body = document.getElementById('modalBodyContent');
+        function openGame(gameType) {
+            document.getElementById('home-screen').style.display = 'none';
+            document.querySelectorAll('.game-container').forEach(el => el.style.display = 'none');
+            document.getElementById('game-' + gameType).style.display = 'flex';
+        }
 
-            if (type === 'mines') {
-                body.innerHTML = `
-                    <div class="mines-grid-modal" id="minesGrid"></div>
-                    <div class="control-box">
-                        <label>Puntata (🪙)</label>
-                        <div class="control-row"><input type="number" id="betInput" value="10" min="1"></div>
-                    </div>
-                    <div class="control-box">
-                        <label>Numero Mine (1-24)</label>
-                        <div class="control-row"><input type="number" id="minesCount" value="1" min="1" max="24"></div>
-                    </div>
-                    <button class="btn-action" id="playMinesBtn" onclick="toggleMines()">Inizia Partita</button>
-                    <div class="status-text" id="statusMsg">Tocca "Inizia Partita"</div>
-                `;
-                initMinesGrid();
-            } else {
-                body.innerHTML = `
-                    <div style="background:var(--card-bg); border:1px solid var(--border-color); border-radius:12px; height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;">
-                        <div style="font-size:2.5rem;">🎮</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">Area di gioco ${type}</div>
-                    </div>
-                    <button class="btn-action" onclick="alert('Funzione attiva!')">Gioca Subito</button>
-                `;
+        // Logica Minigioco 1: Donut Flip
+        function playFlip(sceltaUtente) {
+            let bet = parseInt(document.getElementById('bet-flip').value);
+            let resMsg = document.getElementById('result-flip');
+            let donut = document.getElementById('donut-el');
+
+            if (isNaN(bet) || bet <= 0) {
+                resMsg.innerText = "Inserisci una puntata valida!";
+                resMsg.style.color = "#ff477e";
+                return;
             }
-        }
-
-        /* LOGICA MINES 5x5 PERFETTA */
-        let minesActive = false;
-        let minePos = [];
-        let gemsFound = 0;
-
-        function initMinesGrid() {
-            const grid = document.getElementById('minesGrid');
-            grid.innerHTML = '';
-            for (let i = 0; i < 25; i++) {
-                let cell = document.createElement('div');
-                cell.className = 'mine-cell';
-                cell.textContent = '💎';
-                grid.appendChild(cell);
+            if (bet > balance) {
+                resMsg.innerText = "Crediti insufficienti!";
+                resMsg.style.color = "#ff477e";
+                return;
             }
-        }
 
-        function toggleMines() {
-            const btn = document.getElementById('playMinesBtn');
-            const status = document.getElementById('statusMsg');
-            const grid = document.getElementById('minesGrid');
+            updateBalance(-bet);
+            resMsg.innerText = "La ciambella sta girando...";
+            resMsg.style.color = "var(--text)";
+            donut.classList.add('flipping');
 
-            if (!minesActive) {
-                let bet = parseFloat(document.getElementById('betInput').value) || 0;
-                let numMines = parseInt(document.getElementById('minesCount').value) || 1;
+            setTimeout(() => {
+                donut.classList.remove('flipping');
+                let esito = Math.random() < 0.5 ? 'glassa' : 'senza';
 
-                if (bet <= 0 || bet > balance) {
-                    status.textContent = "Fondi insufficienti!";
-                    return;
+                if (esito === sceltaUtente) {
+                    let vincita = bet * 2;
+                    updateBalance(vincita);
+                    resMsg.innerText = `Hai vinto! (+${vincita} crediti)`;
+                    resMsg.style.color = "var(--secondary)";
+                } else {
+                    resMsg.innerText = `Hai perso! La ciambella è uscita ${esito === 'glassa' ? 'Glassa' : 'Base'}.`;
+                    resMsg.style.color = "#ff477e";
                 }
-
-                balance -= bet;
-                updateBal();
-
-                minePos = [];
-                while (minePos.length < numMines) {
-                    let r = Math.floor(Math.random() * 25);
-                    if (!minePos.includes(r)) minePos.push(r);
-                }
-
-                minesActive = true;
-                gemsFound = 0;
-                btn.textContent = "Incassa Vincita";
-                btn.style.background = "var(--gold)";
-                status.textContent = "Trova le gemme ed evita le mine!";
-
-                grid.innerHTML = '';
-                for (let i = 0; i < 25; i++) {
-                    let cell = document.createElement('div');
-                    cell.className = 'mine-cell';
-                    cell.onclick = () => revealMineCell(i, cell);
-                    grid.appendChild(cell);
-                }
-            } else {
-                let bet = parseFloat(document.getElementById('betInput').value);
-                let win = bet * (1 + (gemsFound * 0.25));
-                balance += win;
-                updateBal();
-                status.innerHTML = `<span style="color:var(--gold);">Incassato! Vinti $${win.toFixed(2)}</span>`;
-                endMinesGame();
-            }
+            }, 1000);
         }
 
-        function revealMineCell(idx, cell) {
-            if (!minesActive || cell.classList.contains('opened')) return;
-            cell.classList.add('opened');
+        // Logica Minigioco 2: Ruota
+        function playWheel() {
+            let bet = parseInt(document.getElementById('bet-wheel').value);
+            let resMsg = document.getElementById('result-wheel');
+            let wheelDisplay = document.getElementById('wheel-display');
 
-            const status = document.getElementById('statusMsg');
-            const grid = document.getElementById('minesGrid');
-
-            if (minePos.includes(idx)) {
-                cell.textContent = '💣';
-                cell.style.background = 'rgba(255, 42, 133, 0.3)';
-                status.innerHTML = `<span style="color:var(--pink);">Bomba esplosa! Hai perso.</span>`;
-
-                Array.from(grid.children).forEach((c, i) => {
-                    if (minePos.includes(i)) {
-                        c.textContent = '💣';
-                        c.style.background = 'rgba(255, 42, 133, 0.2)';
-                    }
-                });
-                endMinesGame();
-            } else {
-                cell.textContent = '💎';
-                cell.style.background = 'rgba(34, 197, 94, 0.2)';
-                gemsFound++;
-                status.textContent = `Gemma trovata! Totale: ${gemsFound}`;
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                resMsg.innerText = "Puntata non valida o crediti scarsi!";
+                resMsg.style.color = "#ff477e";
+                return;
             }
+
+            updateBalance(-bet);
+            wheelDisplay.innerText = "🌀";
+
+            setTimeout(() => {
+                let moltiplicatore = [0, 0, 1.5, 2, 5][Math.floor(Math.random() * 5)];
+                if (moltiplicatore > 0) {
+                    let vincita = Math.floor(bet * moltiplicatore);
+                    updateBalance(vincita);
+                    resMsg.innerText = `Moltiplicatore x${moltiplicatore}! Hai vinto ${vincita} crediti!`;
+                    resMsg.style.color = "var(--secondary)";
+                } else {
+                    resMsg.innerText = "Ops! La ciambella è bruciata (x0). Hai perso.";
+                    resMsg.style.color = "#ff477e";
+                }
+                wheelDisplay.innerText = "🎡";
+            }, 800);
         }
 
-        function endMinesGame() {
-            minesActive = false;
-            const btn = document.getElementById('playMinesBtn');
-            btn.textContent = "Inizia Partita";
-            btn.style.background = "var(--green)";
+        // Logica Minigioco 3: Dadi
+        function playDice() {
+            let bet = parseInt(document.getElementById('bet-dice').value);
+            let resMsg = document.getElementById('result-dice');
+            let diceDisplay = document.getElementById('dice-display');
+
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                resMsg.innerText = "Controlla la puntata!";
+                resMsg.style.color = "#ff477e";
+                return;
+            }
+
+            updateBalance(-bet);
+            diceDisplay.innerText = "🎲🎲 ...";
+
+            setTimeout(() => {
+                let d1 = Math.floor(Math.random() * 6) + 1;
+                let d2 = Math.floor(Math.random() * 6) + 1;
+                let somma = d1 + d2;
+                diceDisplay.innerText = `🎲 ${d1} | 🎲 ${d2}`;
+
+                if (somma % 2 === 0) {
+                    let vincita = bet * 2;
+                    updateBalance(vincita);
+                    resMsg.innerText = `Totale ${somma} (Pari)! Hai vinto ${vincita} crediti!`;
+                    resMsg.style.color = "var(--secondary)";
+                } else {
+                    resMsg.innerText = `Totale ${somma} (Dispari). Hai perso.`;
+                    resMsg.style.color = "#ff477e";
+                }
+            }, 800);
+        }
+
+        // Logica Codice Referral
+        function applyRef() {
+            let code = document.getElementById('ref-code').value.trim().toUpperCase();
+            let refMsg = document.getElementById('ref-msg');
+
+            if (code === "") {
+                refMsg.innerText = "Inserisci un codice prima di riscattare.";
+                return;
+            }
+
+            updateBalance(250);
+            refMsg.innerText = `Codice '${code}' applicato! +250 crediti bonus aggiunti al saldo.`;
+            document.getElementById('ref-code').value = "";
         }
     </script>
 </body>
