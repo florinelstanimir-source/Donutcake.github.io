@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DonutMoney - Casino</title>
+    <title>DonutMoney - Mines</title>
     <style>
         * {
             margin: 0;
@@ -44,9 +44,129 @@
         main {
             flex: 1;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
+        }
+
+        /* Stili del gioco Mines */
+        .game-container {
+            background: #121722;
+            border: 2px solid #1f2638;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .game-info span {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .controls-row label {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            flex: 1;
+        }
+
+        .controls-row select, .controls-row input {
+            background: #0b0e14;
+            border: 1px solid #ff3399;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            outline: none;
+            width: 110px;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .tile {
+            aspect-ratio: 1;
+            background: #1a2233;
+            border: 2px solid #28334d;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            transition: all 0.2s ease;
+        }
+
+        .tile:hover:not(.revealed):not(:disabled) {
+            border-color: #ff3399;
+            box-shadow: 0 0 8px rgba(255, 51, 153, 0.4);
+            transform: scale(1.03);
+        }
+
+        .tile.revealed {
+            background: #0b0e14;
+            border-color: #1f2638;
+            cursor: default;
+        }
+
+        .tile.gem {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .tile.mine {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, #ff3399, #cc0066);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 51, 153, 0.5);
+            transition: opacity 0.2s;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            background: #374151;
+            box-shadow: none;
+            cursor: not-allowed;
+            color: #9ca3af;
         }
 
         footer {
@@ -67,12 +187,170 @@
     </header>
 
     <main>
-        <!-- Area centrale pulita -->
+        <div class="game-container">
+            <div class="game-info">
+                Moltiplicatore: <span id="multiplier">1.00x</span>
+            </div>
+
+            <div class="controls-row">
+                <label for="mineCount">Numero Mine:</label>
+                <select id="mineCount">
+                    <option value="3">3 Mine</option>
+                    <option value="5" selected>5 Mine</option>
+                    <option value="10">10 Mine</option>
+                    <option value="15">15 Mine</option>
+                </select>
+            </div>
+
+            <div class="controls-row">
+                <label for="betAmount">Puntata (🍩):</label>
+                <input type="number" id="betAmount" value="10" min="1">
+            </div>
+
+            <div class="grid" id="minesGrid">
+                <!-- Generata via JavaScript -->
+            </div>
+
+            <button id="actionBtn" class="btn-action" onclick="startGame()">GIOCA</button>
+        </div>
     </main>
 
     <footer>
         &copy; 2026 DonutMoney. Tutti i diritti riservati.
     </footer>
 
+    <script>
+        const GRID_SIZE = 25; // Griglia 5x5
+        let board = [];
+        let mines = new Set();
+        let revealedCount = 0;
+        let gameActive = false;
+        let currentMultiplier = 1.00;
+
+        const gridEl = document.getElementById('minesGrid');
+        const actionBtn = document.getElementById('actionBtn');
+        const mineCountSelect = document.getElementById('mineCount');
+        const betInput = document.getElementById('betAmount');
+        const multiplierEl = document.getElementById('multiplier');
+
+        // Inizializza la griglia visiva vuota
+        function initGrid() {
+            gridEl.innerHTML = '';
+            for (let i = 0; i < GRID_SIZE; i++) {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.dataset.index = i;
+                tile.addEventListener('click', () => handleTileClick(i));
+                gridEl.appendChild(tile);
+            }
+        }
+
+        function startGame() {
+            gameActive = true;
+            revealedCount = 0;
+            currentMultiplier = 1.00;
+            multiplierEl.innerText = "1.00x";
+            actionBtn.innerText = "INCASSA";
+            actionBtn.disabled = true; // Si abilita dopo il primo click o serve per incassare
+            actionBtn.style.background = "#374151";
+
+            mineCountSelect.disabled = true;
+            betInput.disabled = true;
+
+            const mineCount = parseInt(mineCountSelect.value);
+            mines.clear();
+            while (mines.size < mineCount) {
+                let randomIdx = Math.floor(Math.random() * GRID_SIZE);
+                mines.add(randomIdx);
+            }
+
+            // Pulisci caselle
+            const tiles = gridEl.children;
+            for (let tile of tiles) {
+                tile.className = 'tile';
+                tile.innerText = '';
+            }
+        }
+
+        function handleTileClick(index) {
+            if (!gameActive) return;
+            const tile = gridEl.children[index];
+            if (tile.classList.contains('revealed')) return;
+
+            tile.classList.add('revealed');
+
+            if (mines.has(index)) {
+                // Presa una mina! Fine partita
+                tile.classList.add('mine');
+                tile.innerText = '💣';
+                endGame(false);
+            } else {
+                // Trovata una gemma sicura
+                tile.classList.add('gem');
+                tile.innerText = '💎';
+                revealedCount++;
+                
+                // Calcola incremento moltiplicatore semplice
+                currentMultiplier = +(1 + (revealedCount * 0.25)).toFixed(2);
+                multiplierEl.innerText = currentMultiplier + 'x';
+
+                actionBtn.disabled = false;
+                actionBtn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+                actionBtn.innerText = `INCASSA (${(betInput.value * currentMultiplier).toFixed(0)} 🍩)`;
+            }
+        }
+
+        function endGame(won) {
+            gameActive = false;
+            const tiles = gridEl.children;
+            
+            // Rivela tutte le mine
+            mines.forEach(idx => {
+                const t = tiles[idx];
+                t.classList.add('revealed', 'mine');
+                t.innerText = '💣';
+            });
+
+            if (won) {
+                actionBtn.innerText = "HAI VINTO!";
+            } else {
+                actionBtn.innerText = "HAI PERSO!";
+                actionBtn.style.background = "linear-gradient(135deg, #ef4444, #b91c1c)";
+            }
+
+            setTimeout(() => {
+                actionBtn.innerText = "GIOCA ANCORA";
+                actionBtn.disabled = false;
+                actionBtn.style.background = "linear-gradient(135deg, #ff3399, #cc0066)";
+                mineCountSelect.disabled = false;
+                betInput.disabled = false;
+            }, 1500);
+        }
+
+        // Gestione pulsante azione (Gioca / Incassa)
+        actionBtn.addEventListener('click', () => {
+            if (!gameActive && actionBtn.innerText === "GIOCA ANCORA") {
+                startGame();
+            } else if (gameActive && revealedCount > 0) {
+                // Incasso manuale
+                gameActive = false;
+                const tiles = gridEl.children;
+                mines.forEach(idx => {
+                    tiles[idx].classList.add('revealed');
+                    tiles[idx].innerText = '💣';
+                });
+                actionBtn.innerText = `INCASSATO! 🎉`;
+                actionBtn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+                
+                setTimeout(() => {
+                    actionBtn.innerText = "GIOCA ANCORA";
+                    mineCountSelect.disabled = false;
+                    betInput.disabled = false;
+                }, 1500);
+            }
+        });
+
+        initGrid();
+    </script>
 </body>
 </html>
