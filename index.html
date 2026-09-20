@@ -18,7 +18,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-bottom: 60px; /* Spazio per la navbar inferiore */
+            padding-bottom: 60px;
         }
 
         header {
@@ -53,49 +53,6 @@
             width: 100%;
         }
 
-        /* Banner Principale */
-        .hero-banner {
-            background: linear-gradient(135deg, #1a1025, #121722);
-            border: 2px solid #ff3399;
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(255, 51, 153, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .hero-banner h1 {
-            font-size: 1.6rem;
-            color: #ffffff;
-            text-shadow: 0 0 8px rgba(255, 51, 153, 0.6);
-        }
-
-        .hero-banner p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        .btn-play-now {
-            background: linear-gradient(135deg, #ff3399, #cc0066);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 51, 153, 0.5);
-            transition: transform 0.2s;
-            margin-top: 5px;
-        }
-
-        .btn-play-now:active {
-            transform: scale(0.97);
-        }
-
-        /* Sezione Giochi in Evidenza */
         .section-title {
             font-size: 1.1rem;
             font-weight: 700;
@@ -108,7 +65,7 @@
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 15px;
         }
 
@@ -139,16 +96,15 @@
 
         .game-name {
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #ffffff;
         }
 
         .game-desc {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #9ca3af;
         }
 
-        /* Navbar Inferiore */
         nav.bottom-nav {
             position: fixed;
             bottom: 0;
@@ -200,14 +156,6 @@
     </header>
 
     <main>
-        <!-- Banner principale -->
-        <div class="hero-banner">
-            <h1>Benvenuto su DonutMoney</h1>
-            <p>Scopri i mini-giochi esclusivi in stile neon e vinci fantastici premi.</p>
-            <button class="btn-play-now" onclick="alert('Seleziona un gioco qui sotto!')">GIOCA ORA</button>
-        </div>
-
-        <!-- Giochi in evidenza -->
         <div class="section-title">🔥 Giochi in Evidenza</div>
         
         <div class="games-grid">
@@ -216,11 +164,6 @@
                 <div class="game-name">Mines</div>
                 <div class="game-desc">Trova le gemme ed evita le mine</div>
             </div>
-            <div class="game-card" onclick="alert('Presto disponibile!')">
-                <div class="game-icon">🍩</div>
-                <div class="game-name">Donut Flip</div>
-                <div class="game-desc">Testa la fortuna con il lancio</div>
-            </div>
         </div>
 
         <footer>
@@ -228,7 +171,6 @@
         </footer>
     </main>
 
-    <!-- Barra di navigazione in basso -->
     <nav class="bottom-nav">
         <button class="nav-item active">
             <span class="nav-icon">🏠</span>
