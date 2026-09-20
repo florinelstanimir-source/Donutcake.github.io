@@ -32,36 +32,39 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
+        /* Il cerchio con il bordo rosa luminoso */
         .logo-badge {
-            width: 42px;
-            height: 42px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: 2px solid #ff3399;
-            box-shadow: 0 0 10px rgba(255, 51, 153, 0.7);
+            box-shadow: 0 0 12px rgba(255, 51, 153, 0.7);
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #1a1a1a;
+            background-color: #000;
             flex-shrink: 0;
         }
 
+        /* La foto inserita dentro il cerchio e zoomata sull'insegna */
         .logo-badge img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.3);
+            transform: scale(3.5);
+            object-position: 48% 45%;
         }
 
         .brand-title {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 800;
             letter-spacing: 0.5px;
             color: #ffffff;
-            text-shadow: 0 0 8px rgba(255, 51, 153, 0.8);
+            text-shadow: 0 0 8px rgba(255, 51, 153, 0.8), 0 0 20px rgba(255, 51, 153, 0.4);
         }
 
         .brand-title span {
@@ -91,16 +94,16 @@
     <header>
         <div class="logo-container">
             <div class="logo-badge">
+                <!-- La foto esatta inserita all'interno del cerchio -->
                 <img src="http://googleusercontent.com/image_collection/image_retrieval/10782868531433145201_0" alt="Logo DonutMoney">
             </div>
             <div class="brand-title">Donut<span>Money</span></div>
         </div>
-        <!-- Spazio in alto a destra ora vuoto -->
         <div></div>
     </header>
 
     <main>
-        <!-- Area centrale vuota -->
+        <!-- Area centrale pulita -->
     </main>
 
     <footer>
