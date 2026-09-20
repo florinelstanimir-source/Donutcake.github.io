@@ -7,13 +7,12 @@
   <style>
     :root {
       --bg-dark: #05070d;
-      --bg-panel: #0d1220;
+      --bg-panel: #0c111a;
       --pink: #ff4fd8;
       --pink-strong: #ff2ec9;
       --yellow: #f7d57a;
       --white: #ffffff;
       --gray: #c7c7c7;
-      --border: rgba(255,255,255,0.08);
     }
 
     * {
@@ -23,8 +22,8 @@
     html, body {
       margin: 0;
       height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
       background: #111;
+      font-family: Arial, Helvetica, sans-serif;
       color: white;
     }
 
@@ -36,12 +35,12 @@
     .phone {
       width: 390px;
       height: 844px;
-      background: linear-gradient(180deg, #0b0f17 0%, #0a0d13 100%);
+      background: linear-gradient(180deg, #090d13 0%, #070b12 100%);
       border-radius: 28px;
       overflow: hidden;
       box-shadow: 0 30px 80px rgba(0,0,0,0.6);
       position: relative;
-      border: 2px solid rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.06);
     }
 
     .statusbar {
@@ -167,62 +166,47 @@
     }
 
     .browser {
-      height: 100%;
+      height: calc(100% - 122px);
       background: #070b12;
       position: relative;
     }
 
     .top-brand {
-      padding-top: 18px;
-      padding-left: 26px;
+      padding-top: 20px;
+      padding-left: 24px;
       display: flex;
       align-items: center;
       gap: 18px;
+      min-height: 120px;
     }
 
-    .brand-circle {
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
-      background: radial-gradient(circle at center, #1a1020 0%, #100c18 55%, #05070b 100%);
-      border: 4px solid var(--pink);
-      box-shadow: 0 0 18px rgba(255, 79, 216, 0.9);
-      display: grid;
-      place-items: center;
-      position: relative;
-      overflow: hidden;
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
-    .brand-circle::before {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border-radius: 50%;
-      border: 3px solid rgba(255, 79, 216, 0.25);
-    }
-
-    .brand-mark {
-      font-size: 48px;
+    .logo-mark {
+      font-size: 54px;
       font-weight: 900;
       color: var(--pink);
-      text-shadow: 0 0 12px rgba(255, 79, 216, 0.8);
+      text-shadow: 0 0 18px rgba(255, 79, 216, 0.8);
       line-height: 1;
-      position: relative;
-      z-index: 1;
+      transform: translateY(4px);
     }
 
     .brand-name {
-      font-size: 52px;
+      font-size: 54px;
       font-weight: 800;
       letter-spacing: -2px;
       color: var(--pink);
-      text-shadow: 0 0 16px rgba(255, 79, 216, 0.9);
-      transform: translateY(8px);
+      text-shadow: 0 0 18px rgba(255, 79, 216, 0.9);
+      transform: translateY(6px);
     }
 
     .hero {
-      height: 450px;
-      background: rgba(0,0,0,0.18);
+      height: 460px;
+      background: rgba(0,0,0,0.12);
       position: relative;
       overflow: hidden;
     }
@@ -231,7 +215,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(255,79,216,0.08), transparent 60%);
+      background: radial-gradient(circle at center, rgba(255,79,216,0.06), transparent 60%);
     }
 
     .video-box {
@@ -360,11 +344,10 @@
 
     <div class="browser">
       <div class="top-brand">
-        <div class="brand-circle">
-          <div class="brand-mark">$</div>
+        <div class="logo-wrap">
+          <div class="logo-mark">$</div>
+          <div class="brand-name">DonutMoney</div>
         </div>
-
-        <div class="brand-name">DonutMoney</div>
       </div>
 
       <div class="hero">
