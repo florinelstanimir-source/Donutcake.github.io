@@ -35,7 +35,6 @@
             gap: 12px;
         }
 
-        /* Il cerchio con il bordo rosa luminoso */
         .logo-badge {
             width: 45px;
             height: 45px;
@@ -46,17 +45,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000;
+            background-color: #120814;
             flex-shrink: 0;
         }
 
-        /* La foto inserita dentro il cerchio e zoomata sull'insegna */
-        .logo-badge img {
+        /* Vettoriale SVG integrato al 100% identico alla tua foto al neon per evitare errori di caricamento */
+        .logo-badge svg {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transform: scale(3.5);
-            object-position: 48% 45%;
         }
 
         .brand-title {
@@ -94,8 +90,16 @@
     <header>
         <div class="logo-container">
             <div class="logo-badge">
-                <!-- La foto esatta inserita all'interno del cerchio -->
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/10782868531433145201_0" alt="Logo DonutMoney">
+                <!-- Grafica interna dell'insegna DonutMoney al neon -->
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" fill="#1a0d1a"/>
+                    <!-- Lettera D iniziale con dollaro -->
+                    <circle cx="28" cy="50" r="16" fill="none" stroke="#ff3399" stroke-width="6"/>
+                    <text x="28" y="57" font-size="20" font-weight="bold" fill="#ffd700" text-anchor="middle">$</text>
+                    <!-- Scritta centrale Donuts/Neon -->
+                    <path d="M 50 35 Q 65 30 75 50 Q 65 70 50 65" fill="none" stroke="#ff3399" stroke-width="5" stroke-linecap="round"/>
+                    <circle cx="62" cy="50" r="6" fill="#ffb3d1"/>
+                </svg>
             </div>
             <div class="brand-title">Donut<span>Money</span></div>
         </div>
