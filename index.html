@@ -227,21 +227,19 @@
         }
 
         .game-card {
-            background-size: cover;
-            background-position: center;
-            border: 1px solid #1e293b;
             border-radius: 14px;
-            padding: 12px 6px;
+            padding: 10px 6px 8px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
             text-align: center;
             position: relative;
             cursor: pointer;
             transition: transform 0.1s, border-color 0.1s;
             overflow: hidden;
             height: 125px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .game-card:active {
@@ -258,7 +256,7 @@
         }
 
         .game-card span.game-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0,0,0,0.9);
@@ -286,25 +284,148 @@
             z-index: 3;
         }
 
-        /* STILI SPECIFICI COINFLIP */
-        .card-coinflip-custom {
-            background: radial-gradient(circle at 50% 30%, #3d2c1d 0%, #120d08 70%, #080503 100%);
-            border-color: #382717;
-            justify-content: space-between;
-        }
-
-        .coin-graphic-wrap {
+        .graphic-wrap {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
             z-index: 2;
-            margin-top: 6px;
+            width: 100%;
+        }
+
+        /* STILI CASSA REALISTICA / CARTOON (CASES) */
+        .card-cases {
+            background: radial-gradient(circle at 50% 35%, #3b1559 0%, #170728 70%, #090212 100%);
+            border-color: #4a1d70;
+        }
+
+        .chest-box {
+            width: 44px;
+            height: 32px;
+            background: linear-gradient(180deg, #8b5cf6 0%, #5b21b6 100%);
+            border: 2px solid #fbbf24;
+            border-radius: 6px;
+            position: relative;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.6), 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .chest-lid {
+            position: absolute;
+            top: -10px;
+            left: -2px;
+            width: 44px;
+            height: 14px;
+            background: linear-gradient(180deg, #a78bfa 0%, #7c3aed 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 6px 6px 2px 2px;
+        }
+
+        .chest-lock {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 10px;
+            background: #f59e0b;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* STILI CASE BATTLES */
+        .card-case-battles {
+            background: radial-gradient(circle at 50% 35%, #4c1d95 0%, #1e0938 70%, #0a0214 100%);
+            border-color: #5b21b6;
+        }
+
+        .battle-chest-mini {
+            width: 28px;
+            height: 22px;
+            background: linear-gradient(180deg, #7c3aed 0%, #4c1d95 100%);
+            border: 1.5px solid #fbbf24;
+            border-radius: 4px;
+            position: absolute;
+        }
+
+        .chest-left-battle {
+            transform: translateX(-12px) rotate(-15deg);
+        }
+
+        .chest-right-battle {
+            transform: translateX(12px) rotate(15deg);
+        }
+
+        .battle-spark {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle, #fef08a 0%, #f97316 100%);
+            border-radius: 50%;
+            filter: blur(2px);
+            box-shadow: 0 0 10px #f97316;
+            z-index: 3;
+        }
+
+        /* STILI MINES */
+        .card-mines {
+            background: radial-gradient(circle at 50% 35%, #450a0a 0%, #1c0303 70%, #0a0101 100%);
+            border-color: #7f1d1d;
+        }
+
+        .bomb-body {
+            width: 26px;
+            height: 26px;
+            background: radial-gradient(circle at 30% 30%, #3f3f46 0%, #18181b 100%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+        }
+
+        .bomb-wick {
+            position: absolute;
+            top: -6px;
+            right: 0px;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid #ef4444;
+            border-top: 2px solid #ef4444;
+            border-radius: 0 4px 0 0;
+        }
+
+        .diamond-gem {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #fca5a5 0%, #ef4444 100%);
+            transform: rotate(45deg);
+            border-radius: 2px;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+            margin-left: 6px;
+        }
+
+        /* STILI TOWERS */
+        .card-towers {
+            background: radial-gradient(circle at 50% 35%, #0c4a6e 0%, #031b2e 70%, #010a12 100%);
+            border-color: #0369a1;
+        }
+
+        .tower-castle {
+            width: 32px;
+            height: 42px;
+            background: linear-gradient(180deg, #bae6fd 0%, #38bdf8 50%, #0284c7 100%);
+            clip-path: polygon(0% 0%, 25% 0%, 25% 15%, 50% 15%, 50% 0%, 75% 0%, 75% 15%, 100% 15%, 100% 0%, 85% 100%, 15% 100%);
+            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+        }
+
+        /* STILI COINFLIP */
+        .card-coinflip-custom {
+            background: radial-gradient(circle at 50% 35%, #3d2c1d 0%, #120d08 70%, #080503 100%);
+            border-color: #382717;
         }
 
         .coin-3d {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #854d0e 100%);
             border-radius: 50%;
             border: 3px solid #fef9c3;
@@ -318,28 +439,16 @@
 
         .coin-3d::after {
             content: '';
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border: 2px dashed #a16207;
             border-radius: 50%;
         }
 
-        /* STILI SPECIFICI BLACKJACK */
+        /* STILI BLACKJACK */
         .card-blackjack-custom {
-            background: radial-gradient(circle at 50% 30%, #064e3b 0%, #022c22 60%, #011711 100%);
+            background: radial-gradient(circle at 50% 35%, #064e3b 0%, #022c22 60%, #011711 100%);
             border-color: #065f46;
-            justify-content: space-between;
-        }
-
-        .blackjack-graphic-wrap {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            margin-top: 6px;
         }
 
         .mini-card {
@@ -416,8 +525,15 @@
 
         <!-- Games Grid -->
         <div class="games-grid">
+            
             <!-- Cases -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.3), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=300&auto=format&fit=crop');">
+            <div class="game-card card-cases">
+                <div class="graphic-wrap">
+                    <div class="chest-box">
+                        <div class="chest-lid"></div>
+                        <div class="chest-lock"></div>
+                    </div>
+                </div>
                 <div class="game-info">
                     <span class="game-title">Cases</span>
                     <div class="edge-text">3% edge</div>
@@ -425,16 +541,25 @@
             </div>
 
             <!-- Case Battles -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.3), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=300&auto=format&fit=crop');">
+            <div class="game-card card-case-battles">
                 <span class="badge-hot">Hot</span>
+                <div class="graphic-wrap">
+                    <div class="battle-chest-mini chest-left-battle"></div>
+                    <div class="battle-spark"></div>
+                    <div class="battle-chest-mini chest-right-battle"></div>
+                </div>
                 <div class="game-info">
                     <span class="game-title">Case Battles</span>
                     <div class="edge-text">3% edge</div>
                 </div>
             </div>
 
-            <!-- Mines (Con l'immagine personalizzata stile castello) -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop');">
+            <!-- Mines -->
+            <div class="game-card card-mines">
+                <div class="graphic-wrap">
+                    <div class="bomb-body"><div class="bomb-wick"></div></div>
+                    <div class="diamond-gem"></div>
+                </div>
                 <div class="game-info">
                     <span class="game-title">Mines</span>
                     <div class="edge-text">3% edge</div>
@@ -442,16 +567,19 @@
             </div>
 
             <!-- Towers -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.3), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=300&auto=format&fit=crop');">
+            <div class="game-card card-towers">
+                <div class="graphic-wrap">
+                    <div class="tower-castle"></div>
+                </div>
                 <div class="game-info">
                     <span class="game-title">Towers</span>
                     <div class="edge-text">3% edge</div>
                 </div>
             </div>
 
-            <!-- Coinflip (Stile screenshot donutbunny) -->
+            <!-- Coinflip -->
             <div class="game-card card-coinflip-custom">
-                <div class="coin-graphic-wrap">
+                <div class="graphic-wrap">
                     <div class="coin-3d"></div>
                 </div>
                 <div class="game-info">
@@ -460,9 +588,9 @@
                 </div>
             </div>
 
-            <!-- Blackjack (Stile screenshot donutbunny) -->
+            <!-- Blackjack -->
             <div class="game-card card-blackjack-custom">
-                <div class="blackjack-graphic-wrap">
+                <div class="graphic-wrap">
                     <div class="mini-card card-1">
                         <span>A</span>
                         <span style="text-align: right;">♠</span>
@@ -477,6 +605,7 @@
                     <div class="edge-text">0.5% edge</div>
                 </div>
             </div>
+
         </div>
 
     </div>
