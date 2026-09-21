@@ -3,544 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Donut Flip</title>
+    <title>Donut Flip - Crypto Casino</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-main: #0f131f;
+            --bg-card: #192033;
+            --bg-input: #0b0f19;
+            --accent-green: #00e700;
+            --accent-red: #ff3366;
+            --text-main: #ffffff;
+            --text-muted: #8b9bb4;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #0b0f19; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        body { background-color: var(--bg-main); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Navbar */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #121826; padding: 10px 14px; border-bottom: 1px solid #1e2638; position: sticky; top: 0; z-index: 100; }
-        .nav-left { display: flex; align-items: center; gap: 6px; }
-        .logo-dice { background: #1e2638; padding: 5px 8px; border-radius: 6px; font-size: 14px; color: #a0aec0; }
-        .logo-text { font-size: 16px; font-weight: 900; letter-spacing: 0.5px; line-height: 1.1; }
-        .logo-text span { display: block; font-size: 11px; color: #4ade80; font-weight: 700; letter-spacing: 1.5px; }
-        .nav-right { display: flex; align-items: center; gap: 8px; }
-        .balance-box { display: flex; align-items: center; background: #182030; border: 1px solid #25304a; border-radius: 8px; padding: 4px 8px; gap: 6px; }
-        .coin-icon { width: 16px; height: 16px; background: radial-gradient(circle, #facc15 0%, #ca8a04 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #422006; box-shadow: 0 0 6px rgba(250, 204, 21, 0.4); }
-        .balance-amount { font-size: 12px; font-weight: 700; color: #f3f4f6; }
-        .btn-plus { background: #16a34a; color: white; border: none; width: 22px; height: 22px; border-radius: 6px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        
-        /* Views */
-        .view-container { display: none; padding: 14px; flex: 1; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; width: 100%; }
+        /* Navbar Top */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #171d2d; padding: 12px 16px; border-bottom: 2px solid #202940; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .logo-text { font-size: 18px; font-weight: 900; line-height: 1; text-transform: uppercase; cursor: pointer; }
+        .logo-text span { display: block; font-size: 12px; color: var(--accent-green); }
+        .balance-box { display: flex; align-items: center; background: var(--bg-input); border: 1px solid #2d3852; border-radius: 8px; padding: 6px 12px; gap: 8px; cursor: pointer; transition: 0.2s; }
+        .balance-box:hover { border-color: var(--accent-green); }
+        .balance-amount { font-size: 14px; font-weight: 800; color: #fff; }
+        .balance-amount span { color: var(--accent-green); }
+
+        /* Content Area */
+        .content-area { flex: 1; overflow-y: auto; padding-bottom: 70px; }
+        .view-container { display: none; padding: 16px; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; width: 100%; animation: fadeIn 0.3s ease; }
         .view-active { display: flex; }
-        .section-header h2 { font-size: 15px; font-weight: 800; margin-bottom: 2px; }
-        .section-header p { font-size: 11px; color: #9ca3af; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .section-header h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .section-header p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .btn-back { background: transparent; color: var(--text-muted); border: none; font-size: 14px; font-weight: 700; cursor: pointer; align-self: flex-start; margin-bottom: -10px; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+        
+        /* Games Grid */
+        .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .game-card { background: var(--bg-card); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; position: relative; overflow: hidden; }
+        .game-card.bj { grid-column: span 2; background: linear-gradient(135deg, #064e3b, #022c22); }
+        .game-card:hover { border-color: #3b82f6; transform: translateY(-3px); }
+        .game-card i { font-size: 36px; margin-bottom: 10px; color: #3b82f6; }
+        .game-card.bj i { color: #facc15; }
+        .game-card h3 { font-size: 16px; font-weight: 800; }
+        .edge-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.5); font-size: 10px; padding: 3px 6px; border-radius: 4px; color: #fff; }
 
-        /* Home Cards */
-        .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .game-card { background-size: cover; background-position: center; border: 1px solid #1e293b; border-radius: 12px; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; position: relative; cursor: pointer; min-height: 125px; }
-        .game-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.2) 65%, transparent 100%); z-index: 1; }
-        .game-info { z-index: 2; }
-        .game-card span.game-title { font-size: 12px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.9); }
-        .game-card .edge-text { font-size: 9px; color: #fca5a5; font-weight: 600; margin-top: 1px; }
-        .card-mines { background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop'); }
-        .card-coinflip { background-image: url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop'); }
-        .card-blackjack { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
-        .btn-back { background: #1e293b; color: white; border: 1px solid #334155; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; align-self: flex-start; margin-bottom: 5px; }
+        /* Live Bets Table */
+        .live-bets-container { background: var(--bg-card); border-radius: 12px; padding: 12px; }
+        .live-bets-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+        .live-bets-table th { color: var(--text-muted); padding: 8px; border-bottom: 1px solid #2d3852; }
+        .live-bets-table td { padding: 8px; font-weight: 600; }
+        .live-bets-table tr { animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Casino Bet Controls */
+        .casino-controls { background: var(--bg-card); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .input-row { display: flex; align-items: center; background: var(--bg-input); border-radius: 8px; border: 1px solid #2d3852; padding: 4px; }
+        .input-row input { flex: 1; background: transparent; border: none; color: white; font-size: 16px; font-weight: 800; padding: 10px; outline: none; }
+        .input-row .currency { color: var(--text-muted); font-weight: bold; padding-left: 10px; }
+        .bet-buttons { display: flex; gap: 4px; padding-right: 4px; }
+        .bet-btn { background: #202940; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .btn-action { background: var(--accent-green); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 900; font-size: 16px; cursor: pointer; text-transform: uppercase; transition: transform 0.1s; }
+        .btn-action:active { transform: scale(0.98); }
+        .btn-action:disabled { background: #202940; color: var(--text-muted); cursor: not-allowed; }
 
-        /* Game Controls & Inputs */
-        .game-controls { background: #121826; padding: 12px; border-radius: 12px; border: 1px solid #1e2638; display: flex; flex-direction: column; gap: 10px; }
-        .input-group { display: flex; flex-direction: column; gap: 4px; }
-        .input-group label { font-size: 11px; color: #9ca3af; font-weight: 600; }
-        .game-input { background: #0b0f19; border: 1px solid #334155; color: white; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; width: 100%; outline: none; }
-        .btn-action { background: #16a34a; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; transition: opacity 0.2s; }
-        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+        /* Bottom Navbar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #171d2d; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #202940; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 700; gap: 4px; cursor: pointer; transition: color 0.2s; }
+        .nav-item i { font-size: 18px; }
+        .nav-item.active { color: var(--accent-green); }
+        
+        /* Modal Wallet */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--bg-card); width: 90%; max-width: 400px; border-radius: 16px; padding: 20px; border: 1px solid #2d3852; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+        .qr-code { width: 150px; height: 150px; background: #fff; margin: 20px auto; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
 
-        /* Mines */
-        .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; background: #121826; padding: 12px; border-radius: 12px; border: 1px solid #1e2638; }
-        .mine-tile { aspect-ratio: 1; background: #1e293b; border-radius: 8px; border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.3); transition: transform 0.1s; }
-        .mine-tile:active { transform: translateY(2px); box-shadow: inset 0 -1px 0 rgba(0,0,0,0.3); }
-        .mine-tile.revealed-gem { background: #22c55e; box-shadow: none; cursor: default; }
-        .mine-tile.revealed-bomb { background: #ef4444; box-shadow: none; cursor: default; }
-        .mine-tile.dimmed { opacity: 0.5; }
-        .multiplier-display { text-align: center; font-size: 20px; font-weight: 900; color: #4ade80; margin: 10px 0; display: none; }
+        /* MINES 3D */
+        .mult-display { font-size: 28px; font-weight: 900; color: var(--accent-green); margin-bottom: -10px; text-align: right; }
+        .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; background: var(--bg-card); padding: 12px; border-radius: 12px; }
+        .mine-tile { aspect-ratio: 1; perspective: 1000px; cursor: pointer; }
+        .tile-inner { width: 100%; height: 100%; position: relative; transition: transform 0.4s; transform-style: preserve-3d; }
+        .mine-tile.flipped .tile-inner { transform: rotateY(180deg); }
+        .tile-front, .tile-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .tile-front { background: #202940; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.3); }
+        .tile-back { transform: rotateY(180deg); }
+        .tile-back.safe { background: #1f2937; }
+        .tile-back.bomb { background: var(--accent-red); box-shadow: 0 0 15px rgba(255, 51, 102, 0.5); }
+        .tile-back.dimmed { opacity: 0.4; }
 
-        /* Coinflip */
-        .coinflip-area { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px 0; }
-        .coin-visual { width: 100px; height: 100px; background: radial-gradient(circle, #facc15 0%, #ca8a04 100%); border-radius: 50%; border: 4px solid #a16207; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #422006; font-weight: 900; box-shadow: 0 4px 15px rgba(250, 204, 21, 0.3); transition: transform 0.5s; }
-        .coin-anim { animation: flipCoin 0.8s ease-in-out infinite alternate; }
-        @keyframes flipCoin { 0% { transform: scaleY(1); } 100% { transform: scaleY(0); } }
-        .cf-choices { display: flex; gap: 10px; width: 100%; }
-        .btn-cf { flex: 1; padding: 12px; background: #1e293b; border: 2px solid #334155; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-cf.selected { border-color: #facc15; background: #334155; }
+        /* COINFLIP */
+        .coinflip-arena { display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 20px; }
+        .coin-scene { width: 120px; height: 120px; perspective: 1000px; }
+        .coin { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 2.5s cubic-bezier(0.1, 0.8, 0.2, 1); }
+        .coin-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .coin-face.pink { background: linear-gradient(135deg, #ec4899, #be185d); border: 6px solid #fbcfe8; }
+        .coin-face.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: 6px solid #bfdbfe; transform: rotateX(180deg); }
+        .cf-selector { display: flex; width: 100%; gap: 10px; }
+        .cf-btn { flex: 1; padding: 15px; border-radius: 8px; border: 2px solid transparent; background: #202940; color: white; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .cf-btn.pink-select.selected { border-color: #ec4899; background: rgba(236, 72, 153, 0.1); }
+        .cf-btn.blue-select.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
 
-        /* Blackjack */
-        .bj-area { display: flex; flex-direction: column; gap: 20px; }
-        .bj-hand { background: #121826; padding: 12px; border-radius: 12px; border: 1px solid #1e2638; min-height: 120px; }
-        .bj-hand-title { font-size: 11px; color: #9ca3af; font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between;}
-        .cards-container { display: flex; gap: -20px; flex-wrap: wrap; }
-        .card { width: 60px; height: 85px; background: white; border-radius: 6px; border: 1px solid #ccc; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; margin-right: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); position: relative;}
-        .card.red { color: #ef4444; }
-        .card.black { color: #111827; }
-        .card.hidden { background: repeating-linear-gradient(45deg, #1e3a8a, #1e3a8a 10px, #1e40af 10px, #1e40af 20px); border-color: #1e3a8a; }
-        .card-value-tl { position: absolute; top: 4px; left: 4px; font-size: 12px; }
-        .bj-actions { display: flex; gap: 10px; }
-        .bj-actions button { flex: 1; }
-        .msg-board { text-align: center; font-weight: 800; font-size: 16px; margin: 10px 0; color: #facc15;}
+        /* BLACKJACK */
+        .bj-table { background: #064e3b; border: 5px solid #111827; border-radius: 120px 120px 20px 20px; padding: 20px; display: flex; flex-direction: column; gap: 20px; min-height: 250px; position: relative; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
+        .bj-hand { display: flex; flex-direction: column; align-items: center; }
+        .bj-score { background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 800; margin-bottom: 5px; }
+        .cards-row { display: flex; justify-content: center; gap: -25px; margin-left: -20px; }
+        .playing-card { width: 50px; height: 75px; background: white; border-radius: 6px; position: relative; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.4); margin-left: -15px; }
+        .playing-card.red { color: #ef4444; }
+        .playing-card.black { color: #111827; }
+        .playing-card.hidden { background: repeating-linear-gradient(45deg, #1e3a8a, #1e3a8a 5px, #1e40af 5px, #1e40af 10px); color: transparent; }
+        .card-val { position: absolute; top: 2px; left: 4px; font-size: 12px; }
+        .bj-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .bj-btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; color: white; }
+
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
+    <!-- TOP NAVBAR -->
     <header class="navbar">
-        <div class="nav-left">
-            <div class="logo-dice"><i class="fa-solid fa-dice"></i></div>
-            <div class="logo-text">DONUT<span>FLIP</span></div>
-        </div>
-        <div class="nav-right">
-            <div class="balance-box">
-                <div class="coin-icon">DF</div>
-                <span class="balance-amount" id="user-balance">100.00</span>
-            </div>
+        <div class="logo-text" onclick="switchNav('home')">DONUT<span>FLIP</span></div>
+        <div class="balance-box" onclick="openWallet()">
+            <i class="fa-solid fa-wallet" style="color: var(--text-muted);"></i>
+            <span class="balance-amount"><span>$</span><span id="user-balance">100.00</span></span>
         </div>
     </header>
 
-    <!-- VISTA HOME -->
-    <div id="view-home" class="view-container view-active">
-        <div class="section-header">
-            <h2>Giochi</h2>
-            <p>Seleziona un gioco per iniziare</p>
-        </div>
-        <div class="games-grid">
-            <div class="game-card card-mines" onclick="switchView('view-mines')">
-                <div class="game-info">
-                    <span class="game-title">Mines</span><div class="edge-text">3% edge</div>
+    <!-- CONTENT SCROLL AREA -->
+    <div class="content-area">
+
+        <!-- VISTA: HOME -->
+        <div id="view-home" class="view-container view-active">
+            <div class="section-header"><h2>Originals</h2></div>
+            <div class="games-grid">
+                <div class="game-card" onclick="switchView('view-mines')">
+                    <span class="edge-badge">3% Edge</span>
+                    <i class="fa-solid fa-bomb"></i><h3>Mines</h3>
                 </div>
-            </div>
-            <div class="game-card card-coinflip" onclick="switchView('view-coinflip')">
-                <div class="game-info">
-                    <span class="game-title">Coinflip</span><div class="edge-text">2.5% edge</div>
+                <div class="game-card" onclick="switchView('view-coinflip')">
+                    <span class="edge-badge">2.5% Edge</span>
+                    <i class="fa-solid fa-coins"></i><h3>Coinflip</h3>
                 </div>
-            </div>
-            <div class="game-card card-blackjack" onclick="switchView('view-blackjack')">
-                <div class="game-info">
-                    <span class="game-title">Blackjack</span><div class="edge-text">0.5% edge</div>
+                <div class="game-card bj" onclick="switchView('view-blackjack')">
+                    <span class="edge-badge">0.5% Edge</span>
+                    <i class="fa-solid fa-spade"></i><h3>Blackjack</h3>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- VISTA MINES -->
-    <div id="view-mines" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Home</button>
-        <div class="section-header"><h2>Mines</h2><p>Evita le mine, incassa in qualsiasi momento.</p></div>
-        
-        <div class="multiplier-display" id="mines-mult">1.00x</div>
-        <div class="mines-grid" id="mines-board"></div>
-
-        <div class="game-controls">
-            <div style="display: flex; gap: 10px;">
-                <div class="input-group" style="flex: 1;">
-                    <label>Bet Amount</label>
-                    <input type="number" id="mines-bet" class="game-input" value="10.00" min="1">
-                </div>
-                <div class="input-group" style="flex: 1;">
-                    <label>Mine (1-24)</label>
-                    <input type="number" id="mines-count" class="game-input" value="3" min="1" max="24">
-                </div>
-            </div>
-            <button class="btn-action" id="btn-mines-action" onclick="startMines()">BET</button>
-        </div>
-    </div>
-
-    <!-- VISTA COINFLIP -->
-    <div id="view-coinflip" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Home</button>
-        <div class="section-header"><h2>Coinflip</h2><p>Testa o Croce? Raddoppia o perdi.</p></div>
-
-        <div class="coinflip-area">
-            <div class="coin-visual" id="cf-coin">?</div>
-            <div class="msg-board" id="cf-msg">Scegli e punta!</div>
-        </div>
-
-        <div class="game-controls">
-            <div class="cf-choices">
-                <button class="btn-cf selected" id="cf-heads" onclick="setCoinSide('heads')">Testa (Heads)</button>
-                <button class="btn-cf" id="cf-tails" onclick="setCoinSide('tails')">Croce (Tails)</button>
-            </div>
-            <div class="input-group">
-                <label>Bet Amount</label>
-                <input type="number" id="cf-bet" class="game-input" value="10.00" min="1">
-            </div>
-            <button class="btn-action" id="btn-cf-action" onclick="playCoinflip()">FLIP COIN (1.95x)</button>
-        </div>
-    </div>
-
-    <!-- VISTA BLACKJACK -->
-    <div id="view-blackjack" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Home</button>
-        <div class="section-header"><h2>Blackjack</h2><p>Batti il banco senza superare 21.</p></div>
-
-        <div class="bj-area">
-            <div class="bj-hand">
-                <div class="bj-hand-title">DEALER <span id="bj-dealer-score">?</span></div>
-                <div class="cards-container" id="bj-dealer-cards"></div>
             </div>
             
-            <div class="msg-board" id="bj-msg">Piazza la tua puntata!</div>
-
-            <div class="bj-hand">
-                <div class="bj-hand-title">PLAYER <span id="bj-player-score">0</span></div>
-                <div class="cards-container" id="bj-player-cards"></div>
+            <div class="section-header" style="margin-top: 10px;"><h2>Live Bets</h2></div>
+            <div class="live-bets-container">
+                <table class="live-bets-table">
+                    <thead><tr><th>Game</th><th>User</th><th>Bet</th><th>Payout</th></tr></thead>
+                    <tbody id="live-bets-body">
+                        <!-- Generato da JS -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="game-controls" id="bj-bet-controls">
-            <div class="input-group">
-                <label>Bet Amount</label>
-                <input type="number" id="bj-bet" class="game-input" value="10.00" min="1">
+        <!-- VISTA: RACE -->
+        <div id="view-race" class="view-container">
+            <div class="section-header"><h2>$10,000 Weekly Race</h2><p>Punta per scalare la classifica</p></div>
+            <div class="live-bets-container" style="text-align: center; padding: 40px 20px;">
+                <i class="fa-solid fa-trophy" style="font-size: 50px; color: #facc15; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Sei al #4,201 posto</h3>
+                <p style="color: var(--text-muted); font-size: 12px;">Scommetti di più per entrare nella Top 100 e vincere premi in Crypto!</p>
             </div>
-            <button class="btn-action" onclick="startBlackjack()">DEAL CARDS</button>
         </div>
 
-        <div class="bj-actions" id="bj-play-controls" style="display: none;">
-            <button class="btn-action" style="background: #2563eb;" onclick="bjHit()">HIT</button>
-            <button class="btn-action" style="background: #eab308; color: #111;" onclick="bjStand()">STAND</button>
+        <!-- VISTA: REFERRALS -->
+        <div id="view-referrals" class="view-container">
+            <div class="section-header"><h2>Affiliates</h2><p>Guadagna il 15% del margine della casa</p></div>
+            <div class="live-bets-container" style="text-align: center; padding: 30px 10px;">
+                <i class="fa-solid fa-users-viewfinder" style="font-size: 40px; color: #3b82f6; margin-bottom: 15px;"></i>
+                <div style="background: var(--bg-input); padding: 12px; border-radius: 8px; border: 1px dashed #2d3852; font-weight: 800; font-size: 14px; margin-bottom: 15px; color: var(--accent-green);">
+                    donutflip.com/?r=Player99
+                </div>
+                <button class="btn-action" style="padding: 10px 20px; font-size: 12px;" onclick="alert('Link copiato!')">Copia Link</button>
+            </div>
+        </div>
+
+        <!-- VISTA: MINES -->
+        <div id="view-mines" class="view-container">
+            <button class="btn-back" onclick="switchNav('home')"><i class="fa-solid fa-chevron-left"></i> Games</button>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div class="section-header"><h2>Mines</h2><p id="mines-status">Trova le ciambelle</p></div>
+                <div class="mult-display" id="mines-mult">1.00x</div>
+            </div>
+            <div class="mines-grid" id="mines-board"></div>
+            <div class="casino-controls">
+                <div class="input-row">
+                    <span class="currency">$</span>
+                    <input type="number" id="mines-bet" value="10.00">
+                    <div class="bet-buttons">
+                        <button class="bet-btn" onclick="modBet('mines-bet',0.5)">1/2</button>
+                        <button class="bet-btn" onclick="modBet('mines-bet',2)">x2</button>
+                    </div>
+                </div>
+                <div class="input-row"><span class="currency">Mines</span><input type="number" id="mines-count" value="3" min="1" max="24" style="text-align: right; padding-right: 15px;"></div>
+                <button class="btn-action" id="btn-mines-action" onclick="startMines()">BET</button>
+            </div>
+        </div>
+
+        <!-- VISTA: COINFLIP -->
+        <div id="view-coinflip" class="view-container">
+            <button class="btn-back" onclick="switchNav('home')"><i class="fa-solid fa-chevron-left"></i> Games</button>
+            <div class="section-header"><h2>Coinflip</h2><p id="cf-status">1.95x Payout</p></div>
+            <div class="coinflip-arena">
+                <div class="coin-scene">
+                    <div class="coin" id="cf-coin">
+                        <div class="coin-face pink">🍩</div>
+                        <div class="coin-face blue">🍩</div>
+                    </div>
+                </div>
+                <div class="cf-selector">
+                    <button class="cf-btn pink-select selected" id="cf-btn-pink" onclick="selCoin('pink')"><i class="fa-solid fa-circle" style="color:#ec4899"></i> Pink</button>
+                    <button class="cf-btn blue-select" id="cf-btn-blue" onclick="selCoin('blue')"><i class="fa-solid fa-circle" style="color:#3b82f6"></i> Blue</button>
+                </div>
+            </div>
+            <div class="casino-controls">
+                <div class="input-row">
+                    <span class="currency">$</span><input type="number" id="cf-bet" value="10.00">
+                    <div class="bet-buttons"><button class="bet-btn" onclick="modBet('cf-bet',0.5)">1/2</button><button class="bet-btn" onclick="modBet('cf-bet',2)">x2</button></div>
+                </div>
+                <button class="btn-action" id="btn-cf-action" onclick="playCoinflip()">FLIP COIN</button>
+            </div>
+        </div>
+
+        <!-- VISTA: BLACKJACK -->
+        <div id="view-blackjack" class="view-container">
+            <button class="btn-back" onclick="switchNav('home')"><i class="fa-solid fa-chevron-left"></i> Games</button>
+            <div class="section-header"><h2>Blackjack</h2><p id="bj-status">Batti il banco</p></div>
+            
+            <div class="bj-table">
+                <div class="bj-hand">
+                    <div class="bj-score" id="bj-dealer-score">?</div>
+                    <div class="cards-row" id="bj-dealer-cards"></div>
+                </div>
+                <div style="text-align: center; font-weight: 800; font-size: 14px; color: rgba(255,255,255,0.3);">DONUT CASINO<br><span style="font-size: 8px;">PAYS 3 TO 2</span></div>
+                <div class="bj-hand">
+                    <div class="cards-row" id="bj-player-cards"></div>
+                    <div class="bj-score" id="bj-player-score" style="margin-top: 5px;">0</div>
+                </div>
+            </div>
+
+            <div class="casino-controls" id="bj-bet-controls">
+                <div class="input-row">
+                    <span class="currency">$</span><input type="number" id="bj-bet" value="10.00">
+                    <div class="bet-buttons"><button class="bet-btn" onclick="modBet('bj-bet',0.5)">1/2</button><button class="bet-btn" onclick="modBet('bj-bet',2)">x2</button></div>
+                </div>
+                <button class="btn-action" onclick="startBJ()">DEAL</button>
+            </div>
+            <div class="bj-actions" id="bj-play-controls" style="display: none;">
+                <button class="bj-btn" style="background: #3b82f6;" onclick="bjHit()">HIT</button>
+                <button class="bj-btn" style="background: #facc15; color: #000;" onclick="bjStand()">STAND</button>
+            </div>
         </div>
     </div>
 
-    <!-- LOGICA DI GIOCO JS -->
+    <!-- BOTTOM NAVBAR -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" id="nav-home" onclick="switchNav('home')"><i class="fa-solid fa-house"></i>Home</div>
+        <div class="nav-item" id="nav-race" onclick="switchNav('race')"><i class="fa-solid fa-trophy"></i>Race</div>
+        <div class="nav-item" id="nav-referrals" onclick="switchNav('referrals')"><i class="fa-solid fa-users"></i>Referrals</div>
+        <div class="nav-item" onclick="openWallet()"><i class="fa-solid fa-wallet"></i>Wallet</div>
+    </nav>
+
+    <!-- WALLET MODAL -->
+    <div class="modal-overlay" id="wallet-modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeWallet()"></i>
+            <h2 style="font-weight: 900; margin-bottom: 5px;">Wallet</h2>
+            <p style="font-size: 12px; color: var(--text-muted);">Invia crypto a questo indirizzo per ricaricare.</p>
+            <div class="qr-code"><i class="fa-solid fa-qrcode" style="font-size: 100px; color: #111;"></i></div>
+            <div style="background: var(--bg-input); padding: 10px; border-radius: 8px; font-size: 10px; text-align: center; word-break: break-all; color: var(--text-muted); margin-bottom: 15px;">
+                0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+            </div>
+            <button class="btn-action" style="width: 100%; font-size: 14px;" onclick="claimFaucet()">CLAIM $100 FAUCET</button>
+        </div>
+    </div>
+
     <script>
-        // --- SISTEMA GLOBALE SALDO ---
+        // --- CORE SYSTEM ---
         let balance = 100.00;
         
-        function updateBalanceUI() {
+        function updateBalance(amt) {
+            balance += amt;
             document.getElementById('user-balance').innerText = balance.toFixed(2);
         }
 
         function switchView(viewId) {
             document.querySelectorAll('.view-container').forEach(v => v.classList.remove('view-active'));
             document.getElementById(viewId).classList.add('view-active');
+            if(viewId === 'view-mines' && !minesState.playing) initMinesBoard();
         }
 
-        // --- MATH HELPERS ---
-        function getCombinations(n, k) {
-            if (k < 0 || k > n) return 0;
-            if (k === 0 || k === n) return 1;
-            let c = 1;
-            for (let i = 1; i <= k; i++) c = c * (n - i + 1) / i;
-            return c;
+        function switchNav(tab) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('nav-' + tab).classList.add('active');
+            switchView('view-' + tab);
         }
+
+        function modBet(id, mult) {
+            let val = parseFloat(document.getElementById(id).value) * mult;
+            document.getElementById(id).value = Math.max(0.1, val).toFixed(2);
+        }
+
+        // --- WALLET MODAL ---
+        function openWallet() { document.getElementById('wallet-modal').style.display = 'flex'; }
+        function closeWallet() { document.getElementById('wallet-modal').style.display = 'none'; }
+        function claimFaucet() { updateBalance(100); alert('100$ Finti accreditati!'); closeWallet(); }
+
+        // --- LIVE BETS GENERATOR ---
+        const games = ['Mines', 'Coinflip', 'Blackjack'];
+        const names = ['Hidden***', 'Alex92***', 'Crypto***', 'Whale***', 'Donut***'];
+        setInterval(() => {
+            if(document.getElementById('view-home').classList.contains('view-active')) {
+                const tbody = document.getElementById('live-bets-body');
+                const row = document.createElement('tr');
+                const g = games[Math.floor(Math.random()*games.length)];
+                const n = names[Math.floor(Math.random()*names.length)];
+                const b = (Math.random() * 50 + 1).toFixed(2);
+                const won = Math.random() > 0.5;
+                const p = won ? `<span style="color:var(--accent-green)">$${(b*(Math.random()*2+1)).toFixed(2)}</span>` : `<span style="color:var(--text-muted)">$0.00</span>`;
+                row.innerHTML = `<td>${g}</td><td>${n}</td><td>$${b}</td><td>${p}</td>`;
+                tbody.prepend(row);
+                if(tbody.children.length > 5) tbody.lastChild.remove();
+            }
+        }, 3000);
 
         // --- MINES LOGIC ---
-        let minesState = { playing: false, positions: [], gems: 0, bet: 0, count: 3 };
+        let minesState = { playing: false, bombs: [], gems: 0, bet: 0, count: 3 };
+        function getMinesMult(m, g) {
+            if(g===0) return 1.0;
+            let mult = 1.0;
+            for(let i=0; i<g; i++) mult *= (25-i)/(25-m-i);
+            return parseFloat((mult*0.97).toFixed(2));
+        }
 
         function initMinesBoard() {
             const board = document.getElementById('mines-board');
             board.innerHTML = '';
-            for(let i = 0; i < 25; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'mine-tile';
-                btn.onclick = () => clickMine(i, btn);
-                board.appendChild(btn);
+            for(let i=0; i<25; i++) {
+                board.innerHTML += `<div class="mine-tile" onclick="clickMine(${i})"><div class="tile-inner" id="t-in-${i}"><div class="tile-front"></div><div class="tile-back" id="t-bk-${i}"></div></div></div>`;
             }
-        }
-
-        function calculateMinesMultiplier() {
-            const total = 25;
-            const m = minesState.count;
-            const g = minesState.gems;
-            if (g === 0) return 1.00;
-            const totalCombos = getCombinations(total, m);
-            const remainingCombos = getCombinations(total - g, m);
-            const mult = (totalCombos / remainingCombos) * 0.97; // 3% House Edge
-            return parseFloat(mult.toFixed(2));
         }
 
         function startMines() {
             if(minesState.playing) {
-                // CASHOUT
-                const mult = calculateMinesMultiplier();
-                const win = minesState.bet * mult;
-                balance += win;
-                updateBalanceUI();
-                endMines(true, `Cashout: +$${win.toFixed(2)}!`);
+                const win = minesState.bet * getMinesMult(minesState.count, minesState.gems);
+                updateBalance(win);
+                endMines(true, `Cashout +$${win.toFixed(2)}`);
                 return;
             }
-
             const bet = parseFloat(document.getElementById('mines-bet').value);
             const count = parseInt(document.getElementById('mines-count').value);
+            if(bet > balance || bet <= 0) return alert('Saldo errato');
             
-            if(bet > balance || bet <= 0) return alert('Saldo insufficiente o puntata non valida');
-            if(count < 1 || count > 24) return alert('Numero mine deve essere tra 1 e 24');
-
-            balance -= bet;
-            updateBalanceUI();
-
-            minesState = { playing: true, positions: [], gems: 0, bet: bet, count: count };
-            
-            // Posiziona Mine
-            while(minesState.positions.length < count) {
-                let r = Math.floor(Math.random() * 25);
-                if(!minesState.positions.includes(r)) minesState.positions.push(r);
+            updateBalance(-bet);
+            minesState = { playing: true, bombs: [], gems: 0, bet: bet, count: count };
+            while(minesState.bombs.length < count) {
+                let r = Math.floor(Math.random()*25);
+                if(!minesState.bombs.includes(r)) minesState.bombs.push(r);
             }
-
             initMinesBoard();
-            document.getElementById('mines-mult').style.display = 'block';
             document.getElementById('mines-mult').innerText = '1.00x';
-            
-            const btn = document.getElementById('btn-mines-action');
-            btn.innerText = 'CASHOUT';
-            btn.style.background = '#eab308';
-            document.getElementById('mines-bet').disabled = true;
-            document.getElementById('mines-count').disabled = true;
+            document.getElementById('btn-mines-action').innerText = 'CASHOUT';
+            document.getElementById('btn-mines-action').style.background = '#facc15';
         }
 
-        function clickMine(index, element) {
-            if(!minesState.playing || element.classList.contains('revealed-gem')) return;
-
-            if(minesState.positions.includes(index)) {
-                // BOMBA - PERSO
-                element.innerHTML = '💣';
-                element.classList.add('revealed-bomb');
-                endMines(false, 'Hai colpito una mina!');
+        function clickMine(i) {
+            if(!minesState.playing) return;
+            const tile = document.getElementById(`t-in-${i}`);
+            if(tile.parentElement.classList.contains('flipped')) return;
+            
+            tile.parentElement.classList.add('flipped');
+            const back = document.getElementById(`t-bk-${i}`);
+            
+            if(minesState.bombs.includes(i)) {
+                back.innerHTML = '💀'; back.classList.add('bomb');
+                endMines(false, 'Mina!');
             } else {
-                // GEMMA - CONTINUA
                 minesState.gems++;
-                element.innerHTML = '💎';
-                element.classList.add('revealed-gem');
-                const mult = calculateMinesMultiplier();
-                document.getElementById('mines-mult').innerText = mult.toFixed(2) + 'x';
-                
-                const win = minesState.bet * mult;
-                document.getElementById('btn-mines-action').innerText = `CASHOUT ($${win.toFixed(2)})`;
-
-                if(minesState.gems === 25 - minesState.count) {
-                    // Trovate tutte le gemme
-                    balance += win;
-                    updateBalanceUI();
-                    endMines(true, `Vittoria Perfetta: +$${win.toFixed(2)}!`);
+                back.innerHTML = '🍩'; back.classList.add('safe');
+                const mult = getMinesMult(minesState.count, minesState.gems);
+                document.getElementById('mines-mult').innerText = mult.toFixed(2)+'x';
+                document.getElementById('btn-mines-action').innerText = `CASHOUT $${(minesState.bet*mult).toFixed(2)}`;
+                if(minesState.gems === 25-minesState.count) {
+                    updateBalance(minesState.bet*mult);
+                    endMines(true, 'Vittoria!');
                 }
             }
         }
 
         function endMines(won, msg) {
             minesState.playing = false;
-            document.getElementById('mines-mult').innerText = msg;
-            
-            // Rivelazione board finale
-            const tiles = document.querySelectorAll('.mine-tile');
-            tiles.forEach((tile, i) => {
-                if(minesState.positions.includes(i) && tile.innerHTML === '') {
-                    tile.innerHTML = '💣';
-                    tile.classList.add('dimmed');
-                } else if (!minesState.positions.includes(i) && tile.innerHTML === '') {
-                    tile.innerHTML = '💎';
-                    tile.classList.add('dimmed');
+            document.getElementById('mines-status').innerText = msg;
+            for(let i=0; i<25; i++) {
+                const t = document.getElementById(`t-in-${i}`);
+                if(!t.parentElement.classList.contains('flipped')) {
+                    t.parentElement.classList.add('flipped');
+                    document.getElementById(`t-bk-${i}`).classList.add('dimmed');
+                    document.getElementById(`t-bk-${i}`).innerHTML = minesState.bombs.includes(i) ? '💀' : '🍩';
+                    document.getElementById(`t-bk-${i}`).classList.add('safe');
                 }
-            });
-
-            const btn = document.getElementById('btn-mines-action');
-            btn.innerText = 'BET';
-            btn.style.background = '#16a34a';
-            document.getElementById('mines-bet').disabled = false;
-            document.getElementById('mines-count').disabled = false;
+            }
+            document.getElementById('btn-mines-action').innerText = 'BET';
+            document.getElementById('btn-mines-action').style.background = 'var(--accent-green)';
         }
-        initMinesBoard(); // Setup iniziale UI
-
 
         // --- COINFLIP LOGIC ---
-        let cfSide = 'heads';
-
-        function setCoinSide(side) {
-            cfSide = side;
-            document.getElementById('cf-heads').classList.remove('selected');
-            document.getElementById('cf-tails').classList.remove('selected');
-            document.getElementById(`cf-${side}`).classList.add('selected');
+        let cfSide = 'pink', cfRot = 0;
+        function selCoin(s) {
+            cfSide = s;
+            document.getElementById('cf-btn-pink').classList.remove('selected');
+            document.getElementById('cf-btn-blue').classList.remove('selected');
+            document.getElementById(`cf-btn-${s}`).classList.add('selected');
         }
 
         function playCoinflip() {
             const bet = parseFloat(document.getElementById('cf-bet').value);
-            if(bet > balance || bet <= 0) return alert('Saldo insufficiente o puntata non valida');
-
-            balance -= bet;
-            updateBalanceUI();
-
-            const coinVisual = document.getElementById('cf-coin');
-            const msg = document.getElementById('cf-msg');
-            const btn = document.getElementById('btn-cf-action');
+            if(bet > balance || bet <= 0) return alert('Saldo errato');
+            updateBalance(-bet);
             
+            const btn = document.getElementById('btn-cf-action');
             btn.disabled = true;
-            coinVisual.innerHTML = '';
-            coinVisual.classList.add('coin-anim');
-            msg.innerText = 'Lanciando...';
-            msg.style.color = 'white';
+            document.getElementById('cf-status').innerText = 'Flipping...';
+
+            const res = Math.random() < 0.5 ? 'pink' : 'blue';
+            cfRot = (Math.ceil(cfRot/360)*360) + (360*5) + (res === 'blue' ? 180 : 0);
+            document.getElementById('cf-coin').style.transform = `rotateX(${cfRot}deg)`;
 
             setTimeout(() => {
-                coinVisual.classList.remove('coin-anim');
-                const result = Math.random() < 0.5 ? 'heads' : 'tails';
-                
-                coinVisual.innerHTML = result === 'heads' ? 'H' : 'T';
-                
-                if(result === cfSide) {
-                    const win = bet * 1.95; // 2.5% edge
-                    balance += win;
-                    msg.innerText = `Hai vinto! +$${win.toFixed(2)}`;
-                    msg.style.color = '#4ade80';
+                if(res === cfSide) {
+                    updateBalance(bet * 1.95);
+                    document.getElementById('cf-status').innerText = 'Vinto!';
+                    document.getElementById('cf-status').style.color = 'var(--accent-green)';
                 } else {
-                    msg.innerText = 'Hai perso!';
-                    msg.style.color = '#ef4444';
+                    document.getElementById('cf-status').innerText = 'Perso!';
+                    document.getElementById('cf-status').style.color = 'var(--accent-red)';
                 }
-                
-                updateBalanceUI();
                 btn.disabled = false;
-            }, 1000);
+            }, 2600);
         }
-
 
         // --- BLACKJACK LOGIC ---
-        const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-        const values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-        let deck = [], playerHand = [], dealerHand = [], bjBet = 0, isBjPlaying = false;
+        let bjDeck = [], pHand = [], dHand = [], bjBet = 0, isBj = false;
+        const vals = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+        const suits = ['♥','♦','♣','♠'];
 
-        function createDeck() {
-            deck = [];
-            for(let s of suits) {
-                for(let v of values) {
-                    deck.push({ val: v, suit: s });
-                }
-            }
-            deck.sort(() => Math.random() - 0.5); // Shuffle base
+        function getVal(h) {
+            let s=0, a=0;
+            h.forEach(c => { if(c.v==='A'){a++;s+=11;} else if(['J','Q','K'].includes(c.v)) s+=10; else s+=parseInt(c.v); });
+            while(s>21 && a>0){s-=10; a--;}
+            return s;
         }
 
-        function getCardScore(hand) {
-            let score = 0, aces = 0;
-            for(let card of hand) {
-                if(card.val === 'A') { aces++; score += 11; }
-                else if(['J','Q','K'].includes(card.val)) score += 10;
-                else score += parseInt(card.val);
-            }
-            while(score > 21 && aces > 0) { score -= 10; aces--; }
-            return score;
+        function drawCard(c, hidden=false) {
+            if(hidden) return `<div class="playing-card hidden"></div>`;
+            const color = (c.s==='♥'||c.s==='♦') ? 'red' : 'black';
+            return `<div class="playing-card ${color}"><span class="card-val">${c.v}</span>${c.s}</div>`;
         }
 
-        function renderCard(card, hidden = false) {
-            const div = document.createElement('div');
-            div.className = 'card';
-            if(hidden) {
-                div.classList.add('hidden');
-                return div;
-            }
-            const isRed = card.suit === 'hearts' || card.suit === 'diamonds';
-            div.classList.add(isRed ? 'red' : 'black');
-            
-            let icon = '';
-            if(card.suit === 'hearts') icon = '♥';
-            if(card.suit === 'diamonds') icon = '♦';
-            if(card.suit === 'clubs') icon = '♣';
-            if(card.suit === 'spades') icon = '♠';
-            
-            div.innerHTML = `<span class="card-value-tl">${card.val}</span><div>${icon}</div>`;
-            return div;
+        function updateBJUI(hide=true) {
+            document.getElementById('bj-player-cards').innerHTML = pHand.map(c=>drawCard(c)).join('');
+            document.getElementById('bj-dealer-cards').innerHTML = dHand.map((c,i)=>(i===1&&hide&&isBj)?drawCard(c,true):drawCard(c)).join('');
+            document.getElementById('bj-player-score').innerText = getVal(pHand);
+            document.getElementById('bj-dealer-score').innerText = (hide&&isBj) ? getVal([dHand[0]]) : getVal(dHand);
         }
 
-        function updateBjUI(hideDealerCard = true) {
-            const pCont = document.getElementById('bj-player-cards');
-            const dCont = document.getElementById('bj-dealer-cards');
-            pCont.innerHTML = ''; dCont.innerHTML = '';
-
-            playerHand.forEach(c => pCont.appendChild(renderCard(c)));
-            
-            dealerHand.forEach((c, index) => {
-                if(index === 1 && hideDealerCard && isBjPlaying) dCont.appendChild(renderCard(c, true));
-                else dCont.appendChild(renderCard(c));
-            });
-
-            document.getElementById('bj-player-score').innerText = getCardScore(playerHand);
-            document.getElementById('bj-dealer-score').innerText = (hideDealerCard && isBjPlaying) ? getCardScore([dealerHand[0]]) : getCardScore(dealerHand);
-        }
-
-        function startBlackjack() {
+        function startBJ() {
             bjBet = parseFloat(document.getElementById('bj-bet').value);
-            if(bjBet > balance || bjBet <= 0) return alert('Saldo insufficiente!');
+            if(bjBet > balance || bjBet <= 0) return alert('Saldo errato');
+            updateBalance(-bjBet);
             
-            balance -= bjBet;
-            updateBalanceUI();
+            bjDeck = [];
+            suits.forEach(s => vals.forEach(v => bjDeck.push({v,s})));
+            bjDeck.sort(() => Math.random() - 0.5);
             
-            createDeck();
-            playerHand = [deck.pop(), deck.pop()];
-            dealerHand = [deck.pop(), deck.pop()];
-            isBjPlaying = true;
+            pHand = [bjDeck.pop(), bjDeck.pop()];
+            dHand = [bjDeck.pop(), bjDeck.pop()];
+            isBj = true;
             
             document.getElementById('bj-bet-controls').style.display = 'none';
             document.getElementById('bj-play-controls').style.display = 'flex';
-            document.getElementById('bj-msg').innerText = 'Partita in corso...';
-            document.getElementById('bj-msg').style.color = '#fff';
+            document.getElementById('bj-status').innerText = 'Scegli azione...';
+            document.getElementById('bj-status').style.color = '#fff';
+            updateBJUI(true);
 
-            updateBjUI(true);
-
-            // Controllo Natural Blackjack
-            if(getCardScore(playerHand) === 21) {
-                endBlackjack('blackjack');
-            }
+            if(getVal(pHand) === 21) endBJ('bj');
         }
 
         function bjHit() {
-            if(!isBjPlaying) return;
-            playerHand.push(deck.pop());
-            updateBjUI(true);
-            if(getCardScore(playerHand) > 21) endBlackjack('bust');
+            if(!isBj) return;
+            pHand.push(bjDeck.pop());
+            updateBJUI(true);
+            if(getVal(pHand) > 21) endBJ('bust');
         }
 
         function bjStand() {
-            if(!isBjPlaying) return;
-            updateBjUI(false); // Rivela dealer
-            
-            // Dealer draws to 16
-            let dealerScore = getCardScore(dealerHand);
-            const drawInterval = setInterval(() => {
-                if(dealerScore < 17) {
-                    dealerHand.push(deck.pop());
-                    dealerScore = getCardScore(dealerHand);
-                    updateBjUI(false);
-                } else {
-                    clearInterval(drawInterval);
-                    determineBjWinner();
+            if(!isBj) return;
+            updateBJUI(false);
+            let int = setInterval(() => {
+                if(getVal(dHand) < 17) { dHand.push(bjDeck.pop()); updateBJUI(false); }
+                else {
+                    clearInterval(int);
+                    let p = getVal(pHand), d = getVal(dHand);
+                    if(d>21) endBJ('win'); else if(p>d) endBJ('win'); else if(p<d) endBJ('lose'); else endBJ('push');
                 }
-            }, 600); // Ritardo per effetto visivo
+            }, 800);
         }
 
-        function determineBjWinner() {
-            const pScore = getCardScore(playerHand);
-            const dScore = getCardScore(dealerHand);
-            
-            if(dScore > 21) endBlackjack('dealer-bust');
-            else if(pScore > dScore) endBlackjack('win');
-            else if(pScore < dScore) endBlackjack('lose');
-            else endBlackjack('push');
-        }
-
-        function endBlackjack(reason) {
-            isBjPlaying = false;
-            updateBjUI(false);
-            
-            const msgEl = document.getElementById('bj-msg');
+        function endBJ(res) {
+            isBj = false; updateBJUI(false);
             document.getElementById('bj-bet-controls').style.display = 'flex';
             document.getElementById('bj-play-controls').style.display = 'none';
-
-            if(reason === 'blackjack') {
-                const win = bjBet * 2.5; // Paga 3:2 + puntata
-                balance += win;
-                msgEl.innerText = `BLACKJACK! +$${win.toFixed(2)}`;
-                msgEl.style.color = '#4ade80';
-            } else if(reason === 'win' || reason === 'dealer-bust') {
-                const win = bjBet * 2;
-                balance += win;
-                msgEl.innerText = `Hai Vinto! +$${win.toFixed(2)}`;
-                msgEl.style.color = '#4ade80';
-            } else if (reason === 'push') {
-                balance += bjBet;
-                msgEl.innerText = `Pareggio! Rimborso +$${bjBet.toFixed(2)}`;
-                msgEl.style.color = '#facc15';
-            } else {
-                msgEl.innerText = reason === 'bust' ? 'Hai Sballato! Perso.' : 'Il Banco Vince! Perso.';
-                msgEl.style.color = '#ef4444';
-            }
-            updateBalanceUI();
+            const stat = document.getElementById('bj-status');
+            
+            if(res==='bj') { updateBalance(bjBet*2.5); stat.innerText='Blackjack!'; stat.style.color='var(--accent-green)'; }
+            else if(res==='win') { updateBalance(bjBet*2); stat.innerText='Vinto!'; stat.style.color='var(--accent-green)'; }
+            else if(res==='push') { updateBalance(bjBet); stat.innerText='Push (Pareggio)'; stat.style.color='#facc15'; }
+            else { stat.innerText='Perso!'; stat.style.color='var(--accent-red)'; }
         }
-
+        
+        initMinesBoard();
     </script>
 </body>
 </html>
