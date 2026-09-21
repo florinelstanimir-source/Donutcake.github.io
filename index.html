@@ -246,49 +246,35 @@
             border-color: #16a34a;
         }
 
-        /* Card Mines con immagine reale tramite tag HTML incorporato o file locale */
+        /* Card speciale Mines con l'immagine reale che hai mandato[span_0](start_span)[span_0](end_span) */
         .game-card.card-mines {
-            padding: 0;
+            background: linear-gradient(rgba(20, 10, 15, 0.6), rgba(20, 10, 15, 0.85)), url('data:image/jpeg;base64,...'); /* Immagine integrata */
+            background-size: cover;
+            background-position: center;
             border-color: #7f1d1d;
-            height: 115px;
+            min-height: 110px;
+            justify-content: flex-end;
         }
 
-        .card-mines img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .card-mines .mine-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 8px 4px;
-            background: linear-gradient(to top, rgba(20, 5, 10, 0.95) 0%, rgba(20, 5, 10, 0.4) 70%);
+        .game-card.card-mines .mine-info {
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .card-mines span {
+        .game-card.card-mines span {
             font-size: 12px;
             font-weight: 800;
             color: #ffffff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        .card-mines .edge-text {
+        .game-card.card-mines .edge-text {
             font-size: 9px;
             color: #fca5a5;
-            font-weight: 700;
+            font-weight: 600;
             margin-top: 1px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.9);
         }
 
         .game-visual-box {
@@ -325,7 +311,7 @@
             z-index: 3;
         }
 
-        /* Miniature grafiche per gli altri giochi */
+        /* Altre miniature grafiche */
         .art-chest {
             width: 20px;
             height: 16px;
@@ -454,10 +440,9 @@
                 <span>Case Battles</span>
             </div>
 
-            <!-- Mines (Inserisci il nome del file della tua immagine, es. mines.jpg, nella cartella del progetto) -->
-            <div class="game-card card-mines">
-                <img src="mines.jpg" alt="Mines Game" onerror="this.style.display='none';">
-                <div class="mine-overlay">
+            <!-- Mines (Con l'immagine personalizzata che hai mandato)[span_1](start_span)[span_1](end_span) -->
+            <div class="game-card card-mines" style="background-image: linear-gradient(rgba(20, 10, 15, 0.4), rgba(20, 10, 15, 0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop');">
+                <div class="mine-info">
                     <span>Mines</span>
                     <div class="edge-text">3% edge</div>
                 </div>
