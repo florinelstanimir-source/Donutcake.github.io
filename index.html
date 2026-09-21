@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Donut Flip</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -134,16 +132,20 @@
             box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
         }
 
-        /* Main Container */
-        .main-container {
+        /* View Containers */
+        .view-container {
+            display: none; /* Nascosto di default */
             padding: 14px;
             flex: 1;
-            display: flex;
             flex-direction: column;
             gap: 16px;
             max-width: 600px;
             margin: 0 auto;
             width: 100%;
+        }
+
+        .view-active {
+            display: flex; /* Mostra la vista attiva */
         }
 
         /* Section Header */
@@ -184,15 +186,11 @@
             overflow: hidden;
             flex-shrink: 0;
             border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
         }
 
-        .card-race {
-            background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%);
-        }
-
-        .card-referrals {
-            background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%);
-        }
+        .card-race { background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%); }
+        .card-referrals { background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%); }
 
         .promo-card h3 {
             font-size: 13px;
@@ -219,7 +217,7 @@
             z-index: 1;
         }
 
-        /* Games Grid Section */
+        /* Games Grid */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -279,24 +277,82 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        .badge-hot {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: #ef4444;
-            color: white;
-            font-size: 7px;
-            font-weight: 800;
-            padding: 1px 4px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            z-index: 3;
-        }
-
-        /* Card Background Images */
         .card-mines { background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop'); }
         .card-coinflip { background-image: url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop'); }
         .card-blackjack { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
+
+        /* Generic Back Button */
+        .btn-back {
+            background: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+
+        /* Mines Game UI */
+        .mines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            background: #121826;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #1e2638;
+        }
+
+        .mine-tile {
+            aspect-ratio: 1;
+            background: #1e293b;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .mine-tile:hover {
+            background: #334155;
+        }
+
+        .game-controls {
+            background: #121826;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #1e2638;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bet-input {
+            width: 100%;
+            background: #0b0f19;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn-bet {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -313,7 +369,7 @@
         <div class="nav-right">
             <div class="balance-box">
                 <div class="coin-icon">DF</div>
-                <span class="balance-amount">0.00</span>
+                <span class="balance-amount">100.00</span>
                 <button class="btn-plus">+</button>
             </div>
             <button class="btn-signin">
@@ -322,17 +378,17 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <div class="main-container">
+    <!-- VISTA PRINCIPALE (HOME) -->
+    <div id="view-home" class="view-container view-active">
         
         <!-- Top Promos -->
         <div class="top-cards-scroll">
-            <div class="promo-card card-race">
+            <div class="promo-card card-race" onclick="switchView('view-race')">
                 <i class="fa-solid fa-trophy card-icon-bg"></i>
                 <h3>RACE</h3>
                 <p>Climb the board, win the pot</p>
             </div>
-            <div class="promo-card card-referrals">
+            <div class="promo-card card-referrals" onclick="switchView('view-referrals')">
                 <i class="fa-solid fa-users card-icon-bg"></i>
                 <h3>REFERRALS</h3>
                 <p>Invite friends, earn commission</p>
@@ -347,32 +403,147 @@
 
         <!-- Games Grid -->
         <div class="games-grid">
-            <!-- Mines -->
-            <div class="game-card card-mines">
+            <div class="game-card card-mines" onclick="switchView('view-mines')">
                 <div class="game-info">
                     <span class="game-title">Mines</span>
                     <div class="edge-text">3% edge</div>
                 </div>
             </div>
 
-            <!-- Coinflip -->
-            <div class="game-card card-coinflip">
+            <div class="game-card card-coinflip" onclick="alert('Coinflip in arrivo!')">
                 <div class="game-info">
                     <span class="game-title">Coinflip</span>
                     <div class="edge-text">2.5% edge</div>
                 </div>
             </div>
 
-            <!-- Blackjack -->
-            <div class="game-card card-blackjack">
+            <div class="game-card card-blackjack" onclick="alert('Blackjack in arrivo!')">
                 <div class="game-info">
                     <span class="game-title">Blackjack</span>
                     <div class="edge-text">0.5% edge</div>
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- VISTA MINES -->
+    <div id="view-mines" class="view-container">
+        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
+        <div class="section-header">
+            <h2>Mines</h2>
+            <p>Trova le gemme, evita le mine.</p>
+        </div>
+
+        <div class="mines-grid" id="mines-board">
+            <!-- Griglia generata via JS -->
+        </div>
+
+        <div class="game-controls">
+            <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
+            <input type="number" class="bet-input" value="10.00" min="1">
+            <button class="btn-bet" onclick="startMines()">BET</button>
+        </div>
+    </div>
+
+    <!-- VISTA REFERRALS -->
+    <div id="view-referrals" class="view-container">
+        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
+        <div class="section-header">
+            <h2>Referrals</h2>
+            <p>Condividi il tuo link e guadagna.</p>
+        </div>
+
+        <div class="game-controls" style="text-align: center; padding: 30px 10px;">
+            <i class="fa-solid fa-link" style="font-size: 40px; color: #16a34a; margin-bottom: 10px;"></i>
+            <h3 style="margin-bottom: 5px;">Il tuo link di invito:</h3>
+            <div style="background: #0b0f19; padding: 10px; border-radius: 6px; border: 1px solid #334155; color: #4ade80; font-size: 12px; margin-bottom: 15px;">
+                donutflip.com/r/tua_id
+            </div>
+            <button class="btn-bet">COPIA LINK</button>
+        </div>
+    </div>
+
+    <!-- VISTA RACE -->
+    <div id="view-race" class="view-container">
+        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
+        <div class="section-header">
+            <h2>Weekly Race</h2>
+            <p>I migliori giocatori della settimana.</p>
+        </div>
+
+        <div class="game-controls">
+            <p style="text-align: center; font-size: 14px; color: #9ca3af; padding: 20px;">Classifica attualmente vuota. Gioca per salire di livello!</p>
+        </div>
+    </div>
+
+    <!-- Script per Logica UI -->
+    <script>
+        // Funzione per navigare tra le schermate
+        function switchView(viewId) {
+            // Nascondi tutte le viste
+            const views = document.querySelectorAll('.view-container');
+            views.forEach(view => view.classList.remove('view-active'));
+
+            // Mostra la vista richiesta
+            document.getElementById(viewId).classList.add('view-active');
+        }
+
+        // Setup base della griglia di Mines (5x5)
+        function initMinesBoard() {
+            const board = document.getElementById('mines-board');
+            board.innerHTML = '';
+            for(let i = 0; i < 25; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'mine-tile';
+                btn.onclick = function() { clickTile(this); };
+                board.appendChild(btn);
+            }
+        }
+
+        // Simulazione di una partita a Mines
+        let isPlaying = false;
+        function startMines() {
+            initMinesBoard();
+            isPlaying = true;
+            document.querySelector('.btn-bet').innerText = 'CASHOUT';
+            document.querySelector('.btn-bet').style.background = '#eab308'; // Giallo per cashout
+            document.querySelector('.btn-bet').onclick = cashoutMines;
+        }
+
+        function clickTile(btn) {
+            if(!isPlaying || btn.innerHTML !== '') return;
+            
+            // Simula logica: 80% probabilità di gemma, 20% mina
+            const isMine = Math.random() < 0.2;
+            
+            if(isMine) {
+                btn.innerHTML = '💣';
+                btn.style.background = '#ef4444'; // Rosso
+                endGame(false);
+            } else {
+                btn.innerHTML = '💎';
+                btn.style.background = '#22c55e'; // Verde
+            }
+        }
+
+        function cashoutMines() {
+            if(!isPlaying) return;
+            endGame(true);
+        }
+
+        function endGame(won) {
+            isPlaying = false;
+            const btnBet = document.querySelector('.btn-bet');
+            btnBet.innerText = won ? 'Vittoria! Rigioca' : 'Perso! Rigioca';
+            btnBet.style.background = won ? '#16a34a' : '#ef4444';
+            btnBet.onclick = startMines;
+        }
+
+        // Inizializza la board vuota all'avvio
+        initMinesBoard();
+    </script>
 </body>
 </html>
