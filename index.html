@@ -227,18 +227,21 @@
         }
 
         .game-card {
-            background: #131b2e;
+            background-size: cover;
+            background-position: center;
             border: 1px solid #1e293b;
             border-radius: 12px;
             padding: 14px 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-end;
             text-align: center;
             position: relative;
             cursor: pointer;
             transition: transform 0.1s, border-color 0.1s;
             overflow: hidden;
+            min-height: 110px;
         }
 
         .game-card:active {
@@ -246,55 +249,36 @@
             border-color: #16a34a;
         }
 
-        /* Card speciale Mines con l'immagine reale che hai mandato[span_0](start_span)[span_0](end_span) */
-        .game-card.card-mines {
-            background: linear-gradient(rgba(20, 10, 15, 0.6), rgba(20, 10, 15, 0.85)), url('data:image/jpeg;base64,...'); /* Immagine integrata */
-            background-size: cover;
-            background-position: center;
-            border-color: #7f1d1d;
-            min-height: 110px;
-            justify-content: flex-end;
-        }
-
-        .game-card.card-mines .mine-info {
+        .game-info {
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .game-card.card-mines span {
+        .game-card span.game-title {
             font-size: 12px;
             font-weight: 800;
             color: #ffffff;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        .game-card.card-mines .edge-text {
+        .game-card .edge-text {
             font-size: 9px;
             color: #fca5a5;
             font-weight: 600;
             margin-top: 1px;
         }
 
-        .game-visual-box {
-            width: 52px;
-            height: 44px;
-            background: linear-gradient(180deg, #182238 0%, #0f1626 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 6px rgba(0,0,0,0.3);
-            position: relative;
+        /* Varianti grafiche per Coinflip e Blackjack */
+        .card-coinflip {
+            background-color: #14110f;
+            border-color: #45341c;
         }
 
-        .game-card:not(.card-mines) span {
-            font-size: 11px;
-            font-weight: 700;
-            color: #e5e7eb;
+        .card-blackjack {
+            background-color: #0b1a14;
+            border-color: #1b4332;
         }
 
         .badge-hot {
@@ -311,67 +295,51 @@
             z-index: 3;
         }
 
-        /* Altre miniature grafiche */
-        .art-chest {
-            width: 20px;
-            height: 16px;
-            background: #10b981;
-            border-radius: 3px;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-            position: relative;
-        }
-        .art-chest::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 6px;
-            width: 8px;
-            height: 4px;
-            background: #064e3b;
-            border-radius: 1px;
-        }
-
-        .art-swords {
-            font-size: 16px;
-            color: #facc15;
-            text-shadow: 0 0 6px rgba(250, 204, 21, 0.5);
-        }
-
-        .art-towers {
-            display: flex;
-            align-items: flex-end;
-            gap: 3px;
-            height: 18px;
-        }
-        .art-towers span {
-            width: 4px;
-            background: #38bdf8;
-            border-radius: 1px;
-            box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
-        }
-
-        .art-coins {
-            position: relative;
-            width: 18px;
-            height: 16px;
-        }
-        .art-coins span {
-            position: absolute;
-            width: 18px;
-            height: 8px;
-            background: #4ade80;
+        /* Icone / Illustrazioni SVG Personalizzate */
+        .coinflip-art {
+            width: 38px;
+            height: 38px;
+            margin-bottom: 8px;
+            background: radial-gradient(circle, #facc15 0%, #b45309 100%);
             border-radius: 50%;
-            box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+            border: 2px solid #fef08a;
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #451a03;
+            font-weight: 900;
+            font-size: 18px;
+            transform: rotateX(45deg);
         }
-        .art-coins span:nth-child(1) { bottom: 0; }
-        .art-coins span:nth-child(2) { bottom: 5px; background: #22c55e; }
 
-        .art-cards {
-            width: 16px;
-            height: 14px;
-            background: #c084fc;
-            border-radius: 2px;
-            box-shadow: 0 0 6px rgba(192, 132, 252, 0.5);
+        .blackjack-art {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+
+        .card-item {
+            width: 20px;
+            height: 28px;
+            background: #ffffff;
+            border-radius: 3px;
+            color: #000;
+            font-size: 8px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .card-item.spade {
+            transform: rotate(-8deg);
+        }
+
+        .card-item.heart {
+            color: #dc2626;
+            transform: rotate(8deg);
         }
     </style>
 </head>
@@ -424,59 +392,54 @@
         <!-- Games Grid -->
         <div class="games-grid">
             <!-- Cases -->
-            <div class="game-card">
-                <div class="game-visual-box">
-                    <div class="art-chest"></div>
+            <div class="game-card" style="background-image: linear-gradient(rgba(20, 10, 15, 0.4), rgba(20, 10, 15, 0.85)), url('URL_IMMAGINE_CASES');">
+                <div class="game-info">
+                    <span class="game-title">Cases</span>
                 </div>
-                <span>Cases</span>
             </div>
 
             <!-- Case Battles -->
-            <div class="game-card">
+            <div class="game-card" style="background-image: linear-gradient(rgba(20, 10, 15, 0.4), rgba(20, 10, 15, 0.85)), url('URL_IMMAGINE_CASE_BATTLES');">
                 <span class="badge-hot">Hot</span>
-                <div class="game-visual-box">
-                    <div class="art-swords">⚔️</div>
+                <div class="game-info">
+                    <span class="game-title">Case Battles</span>
                 </div>
-                <span>Case Battles</span>
             </div>
 
-            <!-- Mines (Con l'immagine personalizzata che hai mandato)[span_1](start_span)[span_1](end_span) -->
-            <div class="game-card card-mines" style="background-image: linear-gradient(rgba(20, 10, 15, 0.4), rgba(20, 10, 15, 0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop');">
-                <div class="mine-info">
-                    <span>Mines</span>
+            <!-- Mines -->
+            <div class="game-card" style="background-image: linear-gradient(rgba(20, 10, 15, 0.4), rgba(20, 10, 15, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop');">
+                <div class="game-info">
+                    <span class="game-title">Mines</span>
                     <div class="edge-text">3% edge</div>
                 </div>
             </div>
 
             <!-- Towers -->
-            <div class="game-card">
-                <div class="game-visual-box">
-                    <div class="art-towers">
-                        <span style="height: 8px;"></span>
-                        <span style="height: 13px;"></span>
-                        <span style="height: 18px;"></span>
-                    </div>
+            <div class="game-card" style="background-image: linear-gradient(rgba(20, 10, 15, 0.4), rgba(20, 10, 15, 0.85)), url('URL_IMMAGINE_TOWERS');">
+                <div class="game-info">
+                    <span class="game-title">Towers</span>
                 </div>
-                <span>Towers</span>
             </div>
 
             <!-- Coinflip -->
-            <div class="game-card" style="border-color: rgba(22, 163, 74, 0.4); background: #15222e;">
-                <div class="game-visual-box">
-                    <div class="art-coins">
-                        <span></span>
-                        <span></span>
-                    </div>
+            <div class="game-card card-coinflip" style="background-image: linear-gradient(rgba(20, 10, 15, 0.5), rgba(20, 10, 15, 0.85)), url('URL_IMMAGINE_COINFLIP');">
+                <div class="coinflip-art"><i class="fa-solid fa-coins"></i></div>
+                <div class="game-info">
+                    <span class="game-title">Coinflip</span>
+                    <div class="edge-text">2.5% edge</div>
                 </div>
-                <span>Coinflip</span>
             </div>
 
             <!-- Blackjack -->
-            <div class="game-card">
-                <div class="game-visual-box">
-                    <div class="art-cards"></div>
+            <div class="game-card card-blackjack" style="background-image: linear-gradient(rgba(20, 10, 15, 0.5), rgba(20, 10, 15, 0.85)), url('URL_IMMAGINE_BLACKJACK');">
+                <div class="blackjack-art">
+                    <div class="card-item spade">A♠</div>
+                    <div class="card-item heart">10♥</div>
                 </div>
-                <span>Blackjack</span>
+                <div class="game-info">
+                    <span class="game-title">Blackjack</span>
+                    <div class="edge-text">0.5% edge</div>
+                </div>
             </div>
         </div>
 
