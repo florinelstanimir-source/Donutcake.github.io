@@ -1,55 +1,386 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mines Minigame</title>
-  <style>
-    body {
-      background-color: #0f0a14;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Donut Flip</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .mines-card {
-      width: 280px;
-      border-radius: 20px;
-      overflow: hidden;
-      background-color: #1a0f1a;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      border: 2px solid #2a162a;
-      transition: transform 0.2s ease;
-      cursor: pointer;
-    }
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
 
-    .mines-card:hover {
-      transform: scale(1.03);
-    }
+        /* Top Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #121826;
+            padding: 10px 14px;
+            border-bottom: 1px solid #1e2638;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    .mines-img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-  </style>
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-dice {
+            background: #1e2638;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 11px;
+            color: #4ade80;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-box {
+            display: flex;
+            align-items: center;
+            background: #182030;
+            border: 1px solid #25304a;
+            border-radius: 8px;
+            padding: 4px 8px;
+            gap: 6px;
+        }
+
+        .coin-icon {
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle, #facc15 0%, #ca8a04 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 900;
+            color: #422006;
+            box-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
+        }
+
+        .balance-amount {
+            font-size: 12px;
+            font-weight: 700;
+            color: #f3f4f6;
+        }
+
+        .btn-plus {
+            background: #16a34a;
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(22, 163, 74,.3);
+        }
+
+        .btn-signin {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
+        }
+
+        /* Main Container */
+        .main-container {
+            padding: 14px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Section Header */
+        .section-header h2 {
+            font-size: 15px;
+            font-weight: 800;
+            color: #f9fafb;
+            margin-bottom: 2px;
+        }
+
+        .section-header p {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        /* Banner Carousel / Cards top */
+        .top-cards-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .top-cards-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .promo-card {
+            min-width: 180px;
+            height: 95px;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .card-race {
+            background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%);
+        }
+
+        .card-referrals {
+            background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%);
+        }
+
+        .card-discord {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+        }
+
+        .promo-card h3 {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .promo-card p {
+            font-size: 9px;
+            color: #d1d5db;
+            z-index: 2;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        .promo-card .card-icon-bg {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            font-size: 32px;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        /* Games Grid Section */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .game-card {
+            background: #131b2e;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.1s, border-color 0.1s;
+        }
+
+        .game-card:active {
+            transform: scale(0.96);
+            border-color: #16a34a;
+        }
+
+        .game-icon-wrap {
+            width: 42px;
+            height: 42px;
+            background: #1a233a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            color: #38bdf8;
+            font-size: 18px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .game-card span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .badge-hot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #ef4444;
+            color: white;
+            font-size: 7px;
+            font-weight: 800;
+            padding: 1px 4px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="mines-card" onclick="avviaGioco()">
-    <!-- Assicurati che il nome del file dell'immagine corrisponda -->
-    <img src="tua-immagine.jpg" alt="Mines 3% edge" class="mines-img">
-  </div>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="logo-dice"><i class="fa-solid fa-dice"></i></div>
+            <div class="logo-text">
+                DONUT
+                <span>FLIP</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="balance-box">
+                <div class="coin-icon">DF</div>
+                <span class="balance-amount">0.00</span>
+                <button class="btn-plus">+</button>
+            </div>
+            <button class="btn-signin">
+                <i class="fa-solid fa-right-to-bracket"></i> Sign In
+            </button>
+        </div>
+    </header>
 
-  <script>
-    function avviaGioco() {
-      console.log("Hai cliccato sulla card di Mines!");
-      // Qui puoi aggiungere la logica del tuo minigioco
-    }
-  </script>
+    <!-- Main Content Area -->
+    <div class="main-container">
+        
+        <!-- Top Promos (Race, Referrals, Discord) -->
+        <div class="top-cards-scroll">
+            <div class="promo-card card-race">
+                <i class="fa-solid fa-trophy card-icon-bg"></i>
+                <h3>RACE</h3>
+                <p>Climb the board, win the pot</p>
+            </div>
+            <div class="promo-card card-referrals">
+                <i class="fa-solid fa-users card-icon-bg"></i>
+                <h3>REFERRALS</h3>
+                <p>Invite friends, earn commission</p>
+            </div>
+            <div class="promo-card card-discord">
+                <i class="fa-brands fa-discord card-icon-bg"></i>
+                <h3>DISCORD</h3>
+                <p>Join the community</p>
+            </div>
+        </div>
+
+        <!-- Games Section Header -->
+        <div class="section-header" style="margin-top: 4px;">
+            <h2>Games</h2>
+            <p>Play using site balance</p>
+        </div>
+
+        <!-- Games Grid -->
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-icon-wrap" style="color: #4ade80;">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+                <span>Cases</span>
+            </div>
+
+            <div class="game-card">
+                <span class="badge-hot">Hot</span>
+                <div class="game-icon-wrap" style="color: #facc15;">
+                    <i class="fa-solid fa-swords"></i>
+                </div>
+                <span>Case Battles</span>
+            </div>
+
+            <div class="game-card">
+                <div class="game-icon-wrap" style="color: #f87171;">
+                    <i class="fa-solid fa-bomb"></i>
+                </div>
+                <span>Mines</span>
+            </div>
+
+            <div class="game-card">
+                <div class="game-icon-wrap" style="color: #38bdf8;">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <span>Towers</span>
+            </div>
+
+            <div class="game-card" style="border-color: rgba(22, 163, 74, 0.4); background: #15222e;">
+                <div class="game-icon-wrap" style="color: #4ade80;">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <span>Coinflip</span>
+            </div>
+
+            <div class="game-card">
+                <div class="game-icon-wrap" style="color: #c084fc;">
+                    <i class="fa-solid fa-clone"></i>
+                </div>
+                <span>Blackjack</span>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>
