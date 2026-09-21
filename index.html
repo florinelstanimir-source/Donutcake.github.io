@@ -230,18 +230,18 @@
             background-size: cover;
             background-position: center;
             border: 1px solid #1e293b;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 12px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
             text-align: center;
             position: relative;
             cursor: pointer;
             transition: transform 0.1s, border-color 0.1s;
             overflow: hidden;
-            min-height: 115px;
+            height: 125px;
         }
 
         .game-card:active {
@@ -254,10 +254,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         .game-card span.game-title {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 800;
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0,0,0,0.9);
@@ -283,6 +284,85 @@
             border-radius: 4px;
             text-transform: uppercase;
             z-index: 3;
+        }
+
+        /* STILI SPECIFICI COINFLIP (Sfondo scuro caverna + moneta 3D) */
+        .card-coinflip-custom {
+            background: radial-gradient(circle at 50% 30%, #3d2c1d 0%, #120d08 70%, #080503 100%);
+            border-color: #382717;
+        }
+
+        .coin-graphic-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            margin-top: 6px;
+        }
+
+        .coin-3d {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #854d0e 100%);
+            border-radius: 50%;
+            border: 3px solid #fef9c3;
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.4), inset 0 0 8px rgba(0,0,0,0.5);
+            transform: rotateX(55deg) rotateY(-15deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .coin-3d::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            border: 2px dashed #a16207;
+            border-radius: 50%;
+        }
+
+        /* STILI SPECIFICI BLACKJACK (Sfondo verde scuro + Carte) */
+        .card-blackjack-custom {
+            background: radial-gradient(circle at 50% 30%, #064e3b 0%, #022c22 60%, #011711 100%);
+            border-color: #065f46;
+        }
+
+        .blackjack-graphic-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .mini-card {
+            width: 26px;
+            height: 36px;
+            background: #f8fafc;
+            border-radius: 4px;
+            position: absolute;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2px 3px;
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .card-1 {
+            transform: translateX(-10px) rotate(-12deg);
+            color: #1e293b;
+        }
+
+        .card-2 {
+            transform: translateX(6px) rotate(8deg);
+            color: #059669;
         }
     </style>
 </head>
@@ -335,21 +415,21 @@
         <!-- Games Grid -->
         <div class="games-grid">
             <!-- Cases -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('URL_IMMAGINE_CASES');">
+            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.4), rgba(10, 15, 25, 0.85)), url('URL_IMMAGINE_CASES');">
                 <div class="game-info">
                     <span class="game-title">Cases</span>
                 </div>
             </div>
 
             <!-- Case Battles -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('URL_IMMAGINE_CASE_BATTLES');">
+            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.4), rgba(10, 15, 25, 0.85)), url('URL_IMMAGINE_CASE_BATTLES');">
                 <span class="badge-hot">Hot</span>
                 <div class="game-info">
                     <span class="game-title">Case Battles</span>
                 </div>
             </div>
 
-            <!-- Mines -->
+            <!-- Mines (Con l'immagine personalizzata stile castello) -->
             <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop');">
                 <div class="game-info">
                     <span class="game-title">Mines</span>
@@ -358,22 +438,35 @@
             </div>
 
             <!-- Towers -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('URL_IMMAGINE_TOWERS');">
+            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.4), rgba(10, 15, 25, 0.85)), url('URL_IMMAGINE_TOWERS');">
                 <div class="game-info">
                     <span class="game-title">Towers</span>
                 </div>
             </div>
 
-            <!-- Coinflip -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop');">
+            <!-- Coinflip (Stile screenshot donutbunny) -->
+            <div class="game-card card-coinflip-custom">
+                <div class="coin-graphic-wrap">
+                    <div class="coin-3d"></div>
+                </div>
                 <div class="game-info">
                     <span class="game-title">Coinflip</span>
                     <div class="edge-text">2.5% edge</div>
                 </div>
             </div>
 
-            <!-- Blackjack -->
-            <div class="game-card" style="background-image: linear-gradient(rgba(10, 15, 25, 0.2), rgba(10, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop');">
+            <!-- Blackjack (Stile screenshot donutbunny) -->
+            <div class="game-card card-blackjack-custom">
+                <div class="blackjack-graphic-wrap">
+                    <div class="mini-card card-1">
+                        <span>A</span>
+                        <span style="text-align: right;">♠</span>
+                    </div>
+                    <div class="mini-card card-2">
+                        <span>10</span>
+                        <span style="text-align: right;">♠</span>
+                    </div>
+                </div>
                 <div class="game-info">
                     <span class="game-title">Blackjack</span>
                     <div class="edge-text">0.5% edge</div>
