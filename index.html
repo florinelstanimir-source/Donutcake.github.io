@@ -228,7 +228,7 @@
 
         .game-card {
             border-radius: 14px;
-            padding: 10px 6px 8px 6px;
+            padding: 8px 4px 8px 4px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -294,85 +294,51 @@
             width: 100%;
         }
 
-        /* STILI CASSA REALISTICA / CARTOON (CASES) */
+        /* SFONDI UNIFORMATI SULLO STILE DI ORIGINE */
         .card-cases {
             background: radial-gradient(circle at 50% 35%, #3b1559 0%, #170728 70%, #090212 100%);
             border-color: #4a1d70;
         }
 
-        .chest-box {
-            width: 44px;
-            height: 32px;
-            background: linear-gradient(180deg, #8b5cf6 0%, #5b21b6 100%);
-            border: 2px solid #fbbf24;
-            border-radius: 6px;
-            position: relative;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.6), 0 0 15px rgba(139, 92, 246, 0.4);
-        }
-
-        .chest-lid {
-            position: absolute;
-            top: -10px;
-            left: -2px;
-            width: 44px;
-            height: 14px;
-            background: linear-gradient(180deg, #a78bfa 0%, #7c3aed 100%);
-            border: 2px solid #f59e0b;
-            border-radius: 6px 6px 2px 2px;
-        }
-
-        .chest-lock {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 10px;
-            background: #f59e0b;
-            border-radius: 2px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-
-        /* STILI CASE BATTLES */
         .card-case-battles {
             background: radial-gradient(circle at 50% 35%, #4c1d95 0%, #1e0938 70%, #0a0214 100%);
             border-color: #5b21b6;
         }
 
-        .battle-chest-mini {
-            width: 28px;
-            height: 22px;
-            background: linear-gradient(180deg, #7c3aed 0%, #4c1d95 100%);
-            border: 1.5px solid #fbbf24;
-            border-radius: 4px;
-            position: absolute;
-        }
-
-        .chest-left-battle {
-            transform: translateX(-12px) rotate(-15deg);
-        }
-
-        .chest-right-battle {
-            transform: translateX(12px) rotate(15deg);
-        }
-
-        .battle-spark {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: radial-gradient(circle, #fef08a 0%, #f97316 100%);
-            border-radius: 50%;
-            filter: blur(2px);
-            box-shadow: 0 0 10px #f97316;
-            z-index: 3;
-        }
-
-        /* STILI MINES */
         .card-mines {
             background: radial-gradient(circle at 50% 35%, #450a0a 0%, #1c0303 70%, #0a0101 100%);
             border-color: #7f1d1d;
         }
 
+        .card-towers {
+            background: radial-gradient(circle at 50% 35%, #0c4a6e 0%, #031b2e 70%, #010a12 100%);
+            border-color: #0369a1;
+        }
+
+        .card-coinflip-custom {
+            background: radial-gradient(circle at 50% 35%, #3d2c1d 0%, #120d08 70%, #080503 100%);
+            border-color: #382717;
+        }
+
+        .card-blackjack-custom {
+            background: radial-gradient(circle at 50% 35%, #064e3b 0%, #022c22 60%, #011711 100%);
+            border-color: #065f46;
+        }
+
+        /* SVG SIZING */
+        .svg-chest {
+            width: 60px;
+            height: 55px;
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.7));
+        }
+
+        .svg-battle {
+            width: 90px;
+            height: 55px;
+            filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.8));
+        }
+
+        /* ALTRI ELEMENTI GRAFICI */
         .bomb-body {
             width: 26px;
             height: 26px;
@@ -403,24 +369,12 @@
             margin-left: 6px;
         }
 
-        /* STILI TOWERS */
-        .card-towers {
-            background: radial-gradient(circle at 50% 35%, #0c4a6e 0%, #031b2e 70%, #010a12 100%);
-            border-color: #0369a1;
-        }
-
         .tower-castle {
             width: 32px;
             height: 42px;
             background: linear-gradient(180deg, #bae6fd 0%, #38bdf8 50%, #0284c7 100%);
             clip-path: polygon(0% 0%, 25% 0%, 25% 15%, 50% 15%, 50% 0%, 75% 0%, 75% 15%, 100% 15%, 100% 0%, 85% 100%, 15% 100%);
             filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
-        }
-
-        /* STILI COINFLIP */
-        .card-coinflip-custom {
-            background: radial-gradient(circle at 50% 35%, #3d2c1d 0%, #120d08 70%, #080503 100%);
-            border-color: #382717;
         }
 
         .coin-3d {
@@ -443,12 +397,6 @@
             height: 28px;
             border: 2px dashed #a16207;
             border-radius: 50%;
-        }
-
-        /* STILI BLACKJACK */
-        .card-blackjack-custom {
-            background: radial-gradient(circle at 50% 35%, #064e3b 0%, #022c22 60%, #011711 100%);
-            border-color: #065f46;
         }
 
         .mini-card {
@@ -526,13 +474,39 @@
         <!-- Games Grid -->
         <div class="games-grid">
             
-            <!-- Cases -->
+            <!-- Cases (Cassa Realistica Vettoriale 3D) -->
             <div class="game-card card-cases">
                 <div class="graphic-wrap">
-                    <div class="chest-box">
-                        <div class="chest-lid"></div>
-                        <div class="chest-lock"></div>
-                    </div>
+                    <svg class="svg-chest" viewBox="0 0 100 90">
+                        <defs>
+                            <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#374151" />
+                                <stop offset="50%" stop-color="#1f2937" />
+                                <stop offset="100%" stop-color="#111827" />
+                            </linearGradient>
+                            <linearGradient id="goldBorder" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#fde047" />
+                                <stop offset="50%" stop-color="#ca8a04" />
+                                <stop offset="100%" stop-color="#854d0e" />
+                            </linearGradient>
+                            <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#c084fc" />
+                                <stop offset="50%" stop-color="#e879f9" />
+                                <stop offset="100%" stop-color="#a855f7" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Base Cassa -->
+                        <rect x="10" y="38" width="80" height="42" rx="4" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="3"/>
+                        <!-- Rinforzi Verticali -->
+                        <rect x="18" y="38" width="10" height="42" fill="url(#goldBorder)"/>
+                        <rect x="72" y="38" width="10" height="42" fill="url(#goldBorder)"/>
+                        <!-- Coperchio 3D -->
+                        <path d="M 8 38 Q 50 15 92 38 Z" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="3"/>
+                        <path d="M 12 36 Q 50 18 88 36" fill="none" stroke="url(#purpleGlow)" stroke-width="3"/>
+                        <!-- Lucchetto Metallico Centrale -->
+                        <rect x="42" y="36" width="16" height="18" rx="2" fill="url(#goldBorder)"/>
+                        <circle cx="50" cy="43" r="3" fill="#111827"/>
+                    </svg>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Cases</span>
@@ -540,13 +514,28 @@
                 </div>
             </div>
 
-            <!-- Case Battles -->
+            <!-- Case Battles (Due Casse Realistiche in Scontro) -->
             <div class="game-card card-case-battles">
                 <span class="badge-hot">Hot</span>
                 <div class="graphic-wrap">
-                    <div class="battle-chest-mini chest-left-battle"></div>
-                    <div class="battle-spark"></div>
-                    <div class="battle-chest-mini chest-right-battle"></div>
+                    <svg class="svg-battle" viewBox="0 0 140 90">
+                        <!-- Bagliore Scontro -->
+                        <circle cx="70" cy="45" r="25" fill="#facc15" opacity="0.25" filter="blur(6px)"/>
+                        <!-- Cassa Sinistra Inclinata -->
+                        <g transform="translate(15, 12) rotate(-16 40 40)">
+                            <rect x="10" y="30" width="50" height="28" rx="3" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
+                            <path d="M 8 30 Q 35 12 62 30 Z" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
+                            <rect x="31" y="28" width="10" height="12" rx="1" fill="url(#goldBorder)"/>
+                        </g>
+                        <!-- Cassa Destra Inclinata -->
+                        <g transform="translate(55, 12) rotate(16 40 40)">
+                            <rect x="10" y="30" width="50" height="28" rx="3" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
+                            <path d="M 8 30 Q 35 12 62 30 Z" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
+                            <rect x="31" y="28" width="10" height="12" rx="1" fill="url(#goldBorder)"/>
+                        </g>
+                        <!-- Scintilla Centrale -->
+                        <polygon points="70,25 73,40 85,45 73,50 70,65 67,50 55,45 67,40" fill="#fef08a"/>
+                    </svg>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Case Battles</span>
