@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Donut Flip</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome per icone di servizio -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -18,7 +16,7 @@
         }
 
         body {
-            background-color: #0b0f19;
+            background-color: #080c14;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -31,9 +29,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #121826;
-            padding: 10px 14px;
-            border-bottom: 1px solid #1e2638;
+            background-color: #0f172a;
+            padding: 12px 16px;
+            border-bottom: 1px solid #1e293b;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -42,15 +40,15 @@
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .logo-dice {
-            background: #1e2638;
-            padding: 5px 8px;
-            border-radius: 6px;
+            background: #1e293b;
+            padding: 6px 10px;
+            border-radius: 8px;
             font-size: 14px;
-            color: #a0aec0;
+            color: #94a3b8;
         }
 
         .logo-text {
@@ -64,7 +62,7 @@
             display: block;
             font-size: 11px;
             color: #4ade80;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 1.5px;
         }
 
@@ -77,8 +75,8 @@
         .balance-box {
             display: flex;
             align-items: center;
-            background: #182030;
-            border: 1px solid #25304a;
+            background: #1e293b;
+            border: 1px solid #334155;
             border-radius: 8px;
             padding: 4px 8px;
             gap: 6px;
@@ -92,79 +90,59 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 900;
             color: #422006;
-            box-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
         }
 
         .balance-amount {
             font-size: 12px;
             font-weight: 700;
-            color: #f3f4f6;
+            color: #f8fafc;
         }
 
         .btn-plus {
-            background: #16a34a;
+            background: #22c55e;
             color: white;
             border: none;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 6px;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(22, 163, 74,.3);
         }
 
         .btn-signin {
-            background: #16a34a;
+            background: #22c55e;
             color: white;
             border: none;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 8px;
             font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
         }
 
         /* Main Container */
         .main-container {
-            padding: 14px;
+            padding: 16px;
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
             width: 100%;
         }
 
-        /* Section Header */
-        .section-header h2 {
-            font-size: 15px;
-            font-weight: 800;
-            color: #f9fafb;
-            margin-bottom: 2px;
-        }
-
-        .section-header p {
-            font-size: 11px;
-            color: #9ca3af;
-        }
-
-        /* Top Promos */
+        /* Promos Horizontal Scroll */
         .top-cards-scroll {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             overflow-x: auto;
-            padding-bottom: 4px;
             scrollbar-width: none;
         }
 
@@ -173,62 +151,73 @@
         }
 
         .promo-card {
-            min-width: 180px;
-            height: 95px;
-            border-radius: 12px;
-            padding: 12px;
+            min-width: 200px;
+            height: 100px;
+            border-radius: 16px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .card-race {
-            background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%);
+            background: linear-gradient(135deg, #241242 0%, #120824 100%);
         }
 
         .card-referrals {
-            background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%);
+            background: linear-gradient(135deg, #093b32 0%, #031a16 100%);
         }
 
         .promo-card h3 {
-            font-size: 13px;
-            font-weight: 800;
+            font-size: 14px;
+            font-weight: 900;
             letter-spacing: 0.5px;
             z-index: 2;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         .promo-card p {
-            font-size: 9px;
-            color: #d1d5db;
+            font-size: 10px;
+            color: #94a3b8;
             z-index: 2;
             margin-top: 2px;
-            line-height: 1.2;
         }
 
         .promo-card .card-icon-bg {
             position: absolute;
-            right: 8px;
-            top: 8px;
-            font-size: 32px;
-            opacity: 0.25;
+            right: 12px;
+            top: 12px;
+            font-size: 36px;
+            opacity: 0.2;
             z-index: 1;
         }
 
-        /* Games Grid Section */
+        /* Section Header */
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .section-header p {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Games Grid */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
 
         .game-card {
-            border-radius: 14px;
-            padding: 8px 4px 8px 4px;
+            border-radius: 16px;
+            padding: 12px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -236,52 +225,13 @@
             text-align: center;
             position: relative;
             cursor: pointer;
-            transition: transform 0.1s, border-color 0.1s;
-            overflow: hidden;
-            height: 125px;
+            height: 135px;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.1s ease;
         }
 
         .game-card:active {
             transform: scale(0.96);
-            border-color: #16a34a;
-        }
-
-        .game-info {
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .game-card span.game-title {
-            font-size: 12px;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
-        }
-
-        .game-card .edge-text {
-            font-size: 9px;
-            color: #fca5a5;
-            font-weight: 600;
-            margin-top: 1px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
-        }
-
-        .badge-hot {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: #ef4444;
-            color: white;
-            font-size: 7px;
-            font-weight: 800;
-            padding: 1px 4px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            z-index: 3;
         }
 
         .graphic-wrap {
@@ -290,144 +240,211 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            z-index: 2;
             width: 100%;
         }
 
-        /* SFONDI UNIFORMATI SULLO STILE DI ORIGINE */
+        .game-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .edge-text {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-top: 1px;
+        }
+
+        .badge-hot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ef4444;
+            color: white;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- STILI SPECIFICI SCHEDE (ORIGINALI) --- */
+
+        /* 1. Cases */
         .card-cases {
-            background: radial-gradient(circle at 50% 35%, #3b1559 0%, #170728 70%, #090212 100%);
-            border-color: #4a1d70;
+            background: radial-gradient(circle at 50% 35%, #2a1040 0%, #12071c 70%, #09030e 100%);
+            border-color: #3a1859;
         }
 
+        .case-box {
+            width: 44px;
+            height: 34px;
+            background: #1e0b30;
+            border: 2px solid #eab308;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 0 12px rgba(234, 179, 8, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .case-box::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            height: 2px;
+            background: #eab308;
+        }
+
+        .case-lock-dot {
+            width: 8px;
+            height: 6px;
+            background: #fef08a;
+            border-radius: 2px;
+            z-index: 2;
+        }
+
+        /* 2. Case Battles */
         .card-case-battles {
-            background: radial-gradient(circle at 50% 35%, #4c1d95 0%, #1e0938 70%, #0a0214 100%);
-            border-color: #5b21b6;
+            background: radial-gradient(circle at 50% 35%, #2a1040 0%, #12071c 70%, #09030e 100%);
+            border-color: #3a1859;
         }
 
+        .battle-box-mini {
+            width: 28px;
+            height: 22px;
+            background: #1e0b30;
+            border: 1.5px solid #a855f7;
+            border-radius: 5px;
+            position: absolute;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+        }
+
+        .battle-left {
+            transform: translateX(-12px) rotate(-12deg);
+        }
+
+        .battle-right {
+            transform: translateX(12px) rotate(12deg);
+        }
+
+        .battle-glow {
+            width: 14px;
+            height: 14px;
+            background: #eab308;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #eab308;
+            z-index: 3;
+        }
+
+        /* 3. Mines */
         .card-mines {
-            background: radial-gradient(circle at 50% 35%, #450a0a 0%, #1c0303 70%, #0a0101 100%);
-            border-color: #7f1d1d;
+            background: radial-gradient(circle at 50% 35%, #380a0a 0%, #170404 70%, #0a0202 100%);
+            border-color: #521111;
         }
 
-        .card-towers {
-            background: radial-gradient(circle at 50% 35%, #0c4a6e 0%, #031b2e 70%, #010a12 100%);
-            border-color: #0369a1;
-        }
-
-        .card-coinflip-custom {
-            background: radial-gradient(circle at 50% 35%, #3d2c1d 0%, #120d08 70%, #080503 100%);
-            border-color: #382717;
-        }
-
-        .card-blackjack-custom {
-            background: radial-gradient(circle at 50% 35%, #064e3b 0%, #022c22 60%, #011711 100%);
-            border-color: #065f46;
-        }
-
-        /* SVG SIZING */
-        .svg-chest {
-            width: 60px;
-            height: 55px;
-            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.7));
-        }
-
-        .svg-battle {
-            width: 90px;
-            height: 55px;
-            filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.8));
-        }
-
-        /* ALTRI ELEMENTI GRAFICI */
-        .bomb-body {
+        .mine-ball {
             width: 26px;
             height: 26px;
-            background: radial-gradient(circle at 30% 30%, #3f3f46 0%, #18181b 100%);
+            background: #1f1f22;
             border-radius: 50%;
             position: relative;
             box-shadow: 0 4px 8px rgba(0,0,0,0.8);
         }
 
-        .bomb-wick {
+        .mine-ball::after {
+            content: '';
             position: absolute;
-            top: -6px;
-            right: 0px;
-            width: 8px;
-            height: 8px;
-            border-right: 2px solid #ef4444;
+            top: -3px;
+            right: -2px;
+            width: 6px;
+            height: 6px;
             border-top: 2px solid #ef4444;
-            border-radius: 0 4px 0 0;
+            border-right: 2px solid #ef4444;
+            border-radius: 0 3px 0 0;
         }
 
-        .diamond-gem {
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #fca5a5 0%, #ef4444 100%);
+        .red-gem {
+            width: 18px;
+            height: 18px;
+            background: #ef4444;
             transform: rotate(45deg);
             border-radius: 2px;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+            box-shadow: 0 0 12px #ef4444;
             margin-left: 6px;
         }
 
-        .tower-castle {
-            width: 32px;
-            height: 42px;
-            background: linear-gradient(180deg, #bae6fd 0%, #38bdf8 50%, #0284c7 100%);
-            clip-path: polygon(0% 0%, 25% 0%, 25% 15%, 50% 15%, 50% 0%, 75% 0%, 75% 15%, 100% 15%, 100% 0%, 85% 100%, 15% 100%);
-            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+        /* 4. Towers */
+        .card-towers {
+            background: radial-gradient(circle at 50% 35%, #082d47 0%, #041421 70%, #020a10 100%);
+            border-color: #0e4369;
         }
 
-        .coin-3d {
-            width: 42px;
-            height: 42px;
+        .tower-icon {
+            width: 32px;
+            height: 40px;
+            background: #38bdf8;
+            clip-path: polygon(0% 0%, 25% 0%, 25% 15%, 50% 15%, 50% 0%, 75% 0%, 75% 15%, 100% 15%, 100% 0%, 85% 100%, 15% 100%);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        /* 5. Coinflip */
+        .card-coinflip {
+            background: radial-gradient(circle at 50% 35%, #3d290c 0%, #1a1004 70%, #0a0601 100%);
+            border-color: #543810;
+        }
+
+        .coin-3d-glow {
+            width: 38px;
+            height: 38px;
             background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #854d0e 100%);
             border-radius: 50%;
-            border: 3px solid #fef9c3;
-            box-shadow: 0 0 15px rgba(234, 179, 8, 0.4), inset 0 0 8px rgba(0,0,0,0.5);
-            transform: rotateX(55deg) rotateY(-15deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            border: 2px solid #fef9c3;
+            box-shadow: 0 0 14px rgba(234, 179, 8, 0.6);
+            transform: rotateX(55deg);
         }
 
-        .coin-3d::after {
-            content: '';
-            width: 28px;
-            height: 28px;
-            border: 2px dashed #a16207;
-            border-radius: 50%;
+        /* 6. Blackjack */
+        .card-blackjack {
+            background: radial-gradient(circle at 50% 35%, #0a3323 0%, #031710 70%, #010a07 100%);
+            border-color: #104732;
         }
 
-        .mini-card {
-            width: 26px;
-            height: 36px;
-            background: #f8fafc;
+        .card-shape {
+            width: 24px;
+            height: 34px;
+            background: #ffffff;
             border-radius: 4px;
             position: absolute;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 2px 3px;
-            font-size: 8px;
+            padding: 2px;
             font-weight: 900;
+            font-size: 8px;
+            color: #0f172a;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
 
-        .card-1 {
-            transform: translateX(-10px) rotate(-12deg);
-            color: #1e293b;
+        .card-left {
+            transform: translateX(-8px) rotate(-10deg);
         }
 
-        .card-2 {
-            transform: translateX(6px) rotate(8deg);
+        .card-right {
+            transform: translateX(8px) rotate(10deg);
             color: #059669;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Navigation Bar -->
+    <!-- Top Navbar -->
     <header class="navbar">
         <div class="nav-left">
             <div class="logo-dice"><i class="fa-solid fa-dice"></i></div>
@@ -442,14 +459,12 @@
                 <span class="balance-amount">0.00</span>
                 <button class="btn-plus">+</button>
             </div>
-            <button class="btn-signin">
-                <i class="fa-solid fa-right-to-bracket"></i> Sign In
-            </button>
+            <button class="btn-signin">Sign In</button>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <div class="main-container">
+    <!-- Main Container -->
+    <main class="main-container">
         
         <!-- Top Promos -->
         <div class="top-cards-scroll">
@@ -465,8 +480,8 @@
             </div>
         </div>
 
-        <!-- Games Section Header -->
-        <div class="section-header" style="margin-top: 4px;">
+        <!-- Section Header -->
+        <div class="section-header">
             <h2>Games</h2>
             <p>Play using site balance</p>
         </div>
@@ -474,130 +489,82 @@
         <!-- Games Grid -->
         <div class="games-grid">
             
-            <!-- Cases (Cassa Realistica Vettoriale 3D) -->
+            <!-- Cases -->
             <div class="game-card card-cases">
                 <div class="graphic-wrap">
-                    <svg class="svg-chest" viewBox="0 0 100 90">
-                        <defs>
-                            <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#374151" />
-                                <stop offset="50%" stop-color="#1f2937" />
-                                <stop offset="100%" stop-color="#111827" />
-                            </linearGradient>
-                            <linearGradient id="goldBorder" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#fde047" />
-                                <stop offset="50%" stop-color="#ca8a04" />
-                                <stop offset="100%" stop-color="#854d0e" />
-                            </linearGradient>
-                            <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#c084fc" />
-                                <stop offset="50%" stop-color="#e879f9" />
-                                <stop offset="100%" stop-color="#a855f7" />
-                            </linearGradient>
-                        </defs>
-                        <!-- Base Cassa -->
-                        <rect x="10" y="38" width="80" height="42" rx="4" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="3"/>
-                        <!-- Rinforzi Verticali -->
-                        <rect x="18" y="38" width="10" height="42" fill="url(#goldBorder)"/>
-                        <rect x="72" y="38" width="10" height="42" fill="url(#goldBorder)"/>
-                        <!-- Coperchio 3D -->
-                        <path d="M 8 38 Q 50 15 92 38 Z" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="3"/>
-                        <path d="M 12 36 Q 50 18 88 36" fill="none" stroke="url(#purpleGlow)" stroke-width="3"/>
-                        <!-- Lucchetto Metallico Centrale -->
-                        <rect x="42" y="36" width="16" height="18" rx="2" fill="url(#goldBorder)"/>
-                        <circle cx="50" cy="43" r="3" fill="#111827"/>
-                    </svg>
+                    <div class="case-box">
+                        <div class="case-lock-dot"></div>
+                    </div>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Cases</span>
-                    <div class="edge-text">3% edge</div>
+                    <span class="edge-text">3% edge</span>
                 </div>
             </div>
 
-            <!-- Case Battles (Due Casse Realistiche in Scontro) -->
+            <!-- Case Battles -->
             <div class="game-card card-case-battles">
                 <span class="badge-hot">Hot</span>
                 <div class="graphic-wrap">
-                    <svg class="svg-battle" viewBox="0 0 140 90">
-                        <!-- Bagliore Scontro -->
-                        <circle cx="70" cy="45" r="25" fill="#facc15" opacity="0.25" filter="blur(6px)"/>
-                        <!-- Cassa Sinistra Inclinata -->
-                        <g transform="translate(15, 12) rotate(-16 40 40)">
-                            <rect x="10" y="30" width="50" height="28" rx="3" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
-                            <path d="M 8 30 Q 35 12 62 30 Z" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
-                            <rect x="31" y="28" width="10" height="12" rx="1" fill="url(#goldBorder)"/>
-                        </g>
-                        <!-- Cassa Destra Inclinata -->
-                        <g transform="translate(55, 12) rotate(16 40 40)">
-                            <rect x="10" y="30" width="50" height="28" rx="3" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
-                            <path d="M 8 30 Q 35 12 62 30 Z" fill="url(#metalDark)" stroke="url(#goldBorder)" stroke-width="2"/>
-                            <rect x="31" y="28" width="10" height="12" rx="1" fill="url(#goldBorder)"/>
-                        </g>
-                        <!-- Scintilla Centrale -->
-                        <polygon points="70,25 73,40 85,45 73,50 70,65 67,50 55,45 67,40" fill="#fef08a"/>
-                    </svg>
+                    <div class="battle-box-mini battle-left"></div>
+                    <div class="battle-glow"></div>
+                    <div class="battle-box-mini battle-right"></div>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Case Battles</span>
-                    <div class="edge-text">3% edge</div>
+                    <span class="edge-text">3% edge</span>
                 </div>
             </div>
 
             <!-- Mines -->
             <div class="game-card card-mines">
                 <div class="graphic-wrap">
-                    <div class="bomb-body"><div class="bomb-wick"></div></div>
-                    <div class="diamond-gem"></div>
+                    <div class="mine-ball"></div>
+                    <div class="red-gem"></div>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Mines</span>
-                    <div class="edge-text">3% edge</div>
+                    <span class="edge-text">3% edge</span>
                 </div>
             </div>
 
             <!-- Towers -->
             <div class="game-card card-towers">
                 <div class="graphic-wrap">
-                    <div class="tower-castle"></div>
+                    <div class="tower-icon"></div>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Towers</span>
-                    <div class="edge-text">3% edge</div>
+                    <span class="edge-text">3% edge</span>
                 </div>
             </div>
 
             <!-- Coinflip -->
-            <div class="game-card card-coinflip-custom">
+            <div class="game-card card-coinflip">
                 <div class="graphic-wrap">
-                    <div class="coin-3d"></div>
+                    <div class="coin-3d-glow"></div>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Coinflip</span>
-                    <div class="edge-text">2.5% edge</div>
+                    <span class="edge-text">2.5% edge</span>
                 </div>
             </div>
 
             <!-- Blackjack -->
-            <div class="game-card card-blackjack-custom">
+            <div class="game-card card-blackjack">
                 <div class="graphic-wrap">
-                    <div class="mini-card card-1">
-                        <span>A</span>
-                        <span style="text-align: right;">♠</span>
-                    </div>
-                    <div class="mini-card card-2">
-                        <span>10</span>
-                        <span style="text-align: right;">♠</span>
-                    </div>
+                    <div class="card-shape card-left">A ♠</div>
+                    <div class="card-shape card-right">10 ♠</div>
                 </div>
                 <div class="game-info">
                     <span class="game-title">Blackjack</span>
-                    <div class="edge-text">0.5% edge</div>
+                    <span class="edge-text">0.5% edge</span>
                 </div>
             </div>
 
         </div>
 
-    </div>
+    </main>
 
 </body>
 </html>
