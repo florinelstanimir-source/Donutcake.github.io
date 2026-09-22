@@ -2,548 +2,308 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Donut Flip</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonBet - Il portale definitivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --bg-base: #0a0e17;
+            --bg-panel: #121826;
+            --bg-hover: #1c2438;
+            --bg-input: #0f141e;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
         }
 
-        body {
-            background-color: #0b0f19;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
 
-        /* Top Navbar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #121826;
-            padding: 10px 14px;
-            border-bottom: 1px solid #1e2638;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        body { background-color: var(--bg-base); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        /* HEADER */
+        .header { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--bg-panel); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 15px; font-size: 22px; font-weight: 900; letter-spacing: -1px; width: 220px; }
+        .logo-area i { color: var(--accent-purple); font-size: 26px; }
+        
+        .header-controls { display: flex; align-items: center; gap: 15px; }
+        .balance-pill { display: flex; align-items: center; background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border-color); padding: 5px; }
+        .balance-amount { font-weight: 800; padding: 0 15px; font-size: 15px; }
+        .balance-amount span { color: var(--accent-green); }
+        .btn-wallet { background: var(--accent-blue); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-wallet:hover { background: #2563eb; }
+        .user-profile { width: 40px; height: 40px; background: var(--bg-hover); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--border-color); }
 
-        .logo-dice {
-            background: #1e2638;
-            padding: 5px 8px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #a0aec0;
-        }
+        /* LAYOUT PRINCIPALE */
+        .layout { display: flex; width: 100%; height: calc(100vh - 70px); margin-top: 70px; }
 
-        .logo-text {
-            font-size: 16px;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            line-height: 1.1;
-        }
+        /* SIDEBAR SINISTRA */
+        .sidebar { width: 240px; background: var(--bg-panel); border-right: 1px solid var(--border-color); padding: 20px 10px; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; color: var(--text-muted); font-weight: 600; font-size: 14px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .nav-item i { font-size: 18px; width: 20px; text-align: center; }
+        .nav-item:hover, .nav-item.active { background: var(--bg-hover); color: var(--text-main); }
+        .nav-item.active i { color: var(--accent-blue); }
+        .nav-divider { height: 1px; background: var(--border-color); margin: 15px 10px; }
 
-        .logo-text span {
-            display: block;
-            font-size: 11px;
-            color: #4ade80;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-        }
+        /* CONTENUTO CENTRALE */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; position: relative; }
+        
+        .hero-banner { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)), url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=1200') center/cover; height: 250px; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; padding: 40px; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
+        .hero-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, var(--bg-base) 0%, transparent 100%); }
+        .hero-content { position: relative; z-index: 1; max-width: 400px; }
+        .hero-content h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; line-height: 1.1; }
+        .hero-content p { color: var(--text-muted); font-weight: 600; margin-bottom: 20px; }
+        .btn-hero { background: var(--text-main); color: var(--bg-base); border: none; padding: 12px 24px; font-weight: 800; border-radius: 8px; font-size: 14px; cursor: pointer; }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .section-title { font-size: 20px; font-weight: 800; margin: 30px 0 15px 0; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--accent-purple); }
 
-        .balance-box {
-            display: flex;
-            align-items: center;
-            background: #182030;
-            border: 1px solid #25304a;
-            border-radius: 8px;
-            padding: 4px 8px;
-            gap: 6px;
-        }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .game-card { background: var(--bg-panel); border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid var(--border-color); transition: 0.3s; aspect-ratio: 3/4; display: flex; flex-direction: column; }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .game-img { flex: 1; background-size: cover; background-position: center; position: relative; }
+        .game-card::after { content: 'PLAY'; position: absolute; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; opacity: 0; transition: 0.3s; letter-spacing: 2px; }
+        .game-card:hover::after { opacity: 1; }
+        .game-info { padding: 12px; background: var(--bg-panel); text-align: center; z-index: 2; position: relative; border-top: 1px solid var(--border-color); }
+        .game-info h3 { font-size: 14px; font-weight: 800; }
+        .game-info span { font-size: 11px; color: var(--text-muted); font-weight: 700; }
 
-        .coin-icon {
-            width: 16px;
-            height: 16px;
-            background: radial-gradient(circle, #facc15 0%, #ca8a04 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 9px;
-            font-weight: 900;
-            color: #422006;
-            box-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
-        }
+        /* LIVE BETS TABLE */
+        .table-container { background: var(--bg-panel); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; margin-top: 20px; }
+        .live-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .live-table th { background: var(--bg-hover); color: var(--text-muted); padding: 15px; font-weight: 700; font-size: 12px; text-transform: uppercase; }
+        .live-table td { padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 600; }
+        .live-table tr { animation: fadeDown 0.3s ease; }
+        .user-td { display: flex; align-items: center; gap: 8px; }
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .balance-amount {
-            font-size: 12px;
-            font-weight: 700;
-            color: #f3f4f6;
-        }
+        /* RIGHT CHAT */
+        .chat-sidebar { width: 300px; background: var(--bg-panel); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .chat-header { padding: 15px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); }
+        .chat-header span { display: flex; align-items: center; gap: 8px; }
+        .online-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green); }
+        
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { font-size: 13px; line-height: 1.4; }
+        .msg-time { color: var(--text-muted); font-size: 10px; margin-right: 5px; }
+        .msg-user { font-weight: 800; cursor: pointer; }
+        .msg-user.vip { color: #facc15; }
+        .msg-user.mod { color: var(--accent-blue); }
+        .msg-text { color: #cbd5e1; font-weight: 500; }
+        
+        .chat-input-area { padding: 15px; border-top: 1px solid var(--border-color); }
+        .chat-input-box { display: flex; background: var(--bg-input); border-radius: 8px; padding: 5px; border: 1px solid var(--border-color); }
+        .chat-input-box input { flex: 1; background: transparent; border: none; color: white; padding: 10px; outline: none; font-size: 13px; }
+        .chat-input-box button { background: var(--accent-purple); color: white; border: none; width: 35px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .chat-input-box button:hover { background: #7c3aed; }
 
-        .btn-plus {
-            background: #16a34a;
-            color: white;
-            border: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(22, 163, 74,.3);
-        }
-
-        .btn-signin {
-            background: #16a34a;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
-        }
-
-        /* View Containers */
-        .view-container {
-            display: none; /* Nascosto di default */
-            padding: 14px;
-            flex: 1;
-            flex-direction: column;
-            gap: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .view-active {
-            display: flex; /* Mostra la vista attiva */
-        }
-
-        /* Section Header */
-        .section-header h2 {
-            font-size: 15px;
-            font-weight: 800;
-            color: #f9fafb;
-            margin-bottom: 2px;
-        }
-
-        .section-header p {
-            font-size: 11px;
-            color: #9ca3af;
-        }
-
-        /* Top Promos */
-        .top-cards-scroll {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none;
-        }
-
-        .top-cards-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .promo-card {
-            min-width: 180px;
-            height: 95px;
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 1px solid rgba(255,255,255,0.08);
-            cursor: pointer;
-        }
-
-        .card-race { background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%); }
-        .card-referrals { background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%); }
-
-        .promo-card h3 {
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            z-index: 2;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-
-        .promo-card p {
-            font-size: 9px;
-            color: #d1d5db;
-            z-index: 2;
-            margin-top: 2px;
-            line-height: 1.2;
-        }
-
-        .promo-card .card-icon-bg {
-            position: absolute;
-            right: 8px;
-            top: 8px;
-            font-size: 32px;
-            opacity: 0.25;
-            z-index: 1;
-        }
-
-        /* Games Grid */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .game-card {
-            background-size: cover;
-            background-position: center;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 12px 6px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            text-align: center;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.1s, border-color 0.1s;
-            overflow: hidden;
-            min-height: 125px;
-        }
-
-        .game-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.2) 65%, transparent 100%);
-            z-index: 1;
-        }
-
-        .game-card:active {
-            transform: scale(0.96);
-            border-color: #16a34a;
-        }
-
-        .game-info {
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .game-card span.game-title {
-            font-size: 12px;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
-        }
-
-        .game-card .edge-text {
-            font-size: 9px;
-            color: #fca5a5;
-            font-weight: 600;
-            margin-top: 1px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
-        }
-
-        .card-mines { background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop'); }
-        .card-coinflip { background-image: url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop'); }
-        .card-blackjack { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
-
-        /* Generic Back Button */
-        .btn-back {
-            background: #1e293b;
-            color: white;
-            border: 1px solid #334155;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            align-self: flex-start;
-            margin-bottom: 10px;
-        }
-
-        /* Mines Game UI */
-        .mines-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            background: #121826;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #1e2638;
-        }
-
-        .mine-tile {
-            aspect-ratio: 1;
-            background: #1e293b;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .mine-tile:hover {
-            background: #334155;
-        }
-
-        .game-controls {
-            background: #121826;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #1e2638;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .bet-input {
-            width: 100%;
-            background: #0b0f19;
-            border: 1px solid #334155;
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .btn-bet {
-            background: #16a34a;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
+        /* RESPONSIVE */
+        @media (max-width: 1024px) { .chat-sidebar { display: none; } }
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .header { padding: 0 10px; }
+            .main-content { padding: 15px; }
+            .logo-area span { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Navigation Bar -->
-    <header class="navbar">
-        <div class="nav-left">
-            <div class="logo-dice"><i class="fa-solid fa-dice"></i></div>
-            <div class="logo-text">
-                DONUT
-                <span>FLIP</span>
-            </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-area">
+            <i class="fa-solid fa-dice-d20"></i>
+            <span>NEONBET</span>
         </div>
-        <div class="nav-right">
-            <div class="balance-box">
-                <div class="coin-icon">DF</div>
-                <span class="balance-amount">100.00</span>
-                <button class="btn-plus">+</button>
+        <div class="header-controls">
+            <div class="balance-pill">
+                <div class="balance-amount"><span>$</span><span id="main-balance">4,250.00</span></div>
+                <button class="btn-wallet">Wallet</button>
             </div>
-            <button class="btn-signin">
-                <i class="fa-solid fa-right-to-bracket"></i> Sign In
-            </button>
+            <div class="user-profile"><i class="fa-solid fa-user"></i></div>
         </div>
     </header>
 
-    <!-- VISTA PRINCIPALE (HOME) -->
-    <div id="view-home" class="view-container view-active">
+    <!-- Layout Container -->
+    <div class="layout">
         
-        <!-- Top Promos -->
-        <div class="top-cards-scroll">
-            <div class="promo-card card-race" onclick="switchView('view-race')">
-                <i class="fa-solid fa-trophy card-icon-bg"></i>
-                <h3>RACE</h3>
-                <p>Climb the board, win the pot</p>
-            </div>
-            <div class="promo-card card-referrals" onclick="switchView('view-referrals')">
-                <i class="fa-solid fa-users card-icon-bg"></i>
-                <h3>REFERRALS</h3>
-                <p>Invite friends, earn commission</p>
-            </div>
-        </div>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="nav-item active"><i class="fa-solid fa-gamepad"></i> Casino</div>
+            <div class="nav-item"><i class="fa-solid fa-trophy"></i> Sports</div>
+            <div class="nav-divider"></div>
+            <div class="nav-item"><i class="fa-solid fa-bolt"></i> Originals</div>
+            <div class="nav-item"><i class="fa-solid fa-slot-machine"></i> Slots</div>
+            <div class="nav-item"><i class="fa-solid fa-headset"></i> Live Casino</div>
+            <div class="nav-divider"></div>
+            <div class="nav-item"><i class="fa-solid fa-gift"></i> VIP Club</div>
+            <div class="nav-item"><i class="fa-solid fa-tags"></i> Promotions</div>
+            <div class="nav-item"><i class="fa-solid fa-users"></i> Affiliate</div>
+        </aside>
 
-        <!-- Games Section Header -->
-        <div class="section-header" style="margin-top: 4px;">
-            <h2>Games</h2>
-            <p>Play using site balance</p>
-        </div>
-
-        <!-- Games Grid -->
-        <div class="games-grid">
-            <div class="game-card card-mines" onclick="switchView('view-mines')">
-                <div class="game-info">
-                    <span class="game-title">Mines</span>
-                    <div class="edge-text">3% edge</div>
+        <!-- Main Content (Lobby) -->
+        <main class="main-content">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h1>100% Bonus sul<br>Primo Deposito</h1>
+                    <p>Fino a $1000 in crypto. Registrati oggi e inizia a vincere ai nostri Originals.</p>
+                    <button class="btn-hero">Richiedi Bonus</button>
                 </div>
             </div>
 
-            <div class="game-card card-coinflip" onclick="alert('Coinflip in arrivo!')">
-                <div class="game-info">
-                    <span class="game-title">Coinflip</span>
-                    <div class="edge-text">2.5% edge</div>
+            <div class="section-title"><i class="fa-solid fa-bolt"></i> Neon Originals</div>
+            <div class="games-grid">
+                <!-- Questi sono i contenitori dove potrai inserire i giochi veri (Blackjack, Crash, Mines) -->
+                <div class="game-card" onclick="alert('Qui puoi caricare il codice HTML del Crash Game!')">
+                    <div class="game-img" style="background-image: url('https://images.unsplash.com/photo-1642427749670-f20e2e76ed8c?auto=format&fit=crop&w=400&q=80');"></div>
+                    <div class="game-info"><h3>Crash</h3><span>1% Edge</span></div>
+                </div>
+                <div class="game-card" onclick="alert('Qui puoi caricare il codice HTML del Blackjack!')">
+                    <div class="game-img" style="background-image: url('https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=400&q=80');"></div>
+                    <div class="game-info"><h3>Blackjack</h3><span>0.5% Edge</span></div>
+                </div>
+                <div class="game-card" onclick="alert('Qui puoi caricare il codice HTML di Mines!')">
+                    <div class="game-img" style="background-image: url('https://images.unsplash.com/photo-1635322966219-b75ed372eb01?auto=format&fit=crop&w=400&q=80');"></div>
+                    <div class="game-info"><h3>Mines</h3><span>1% Edge</span></div>
+                </div>
+                <div class="game-card">
+                    <div class="game-img" style="background-image: url('https://images.unsplash.com/photo-1623910270634-8697664879de?auto=format&fit=crop&w=400&q=80');"></div>
+                    <div class="game-info"><h3>Roulette</h3><span>2.7% Edge</span></div>
+                </div>
+                <div class="game-card">
+                    <div class="game-img" style="background-image: url('https://images.unsplash.com/photo-1622323758558-8d1513e61e9b?auto=format&fit=crop&w=400&q=80');"></div>
+                    <div class="game-info"><h3>Plinko</h3><span>1% Edge</span></div>
                 </div>
             </div>
 
-            <div class="game-card card-blackjack" onclick="alert('Blackjack in arrivo!')">
-                <div class="game-info">
-                    <span class="game-title">Blackjack</span>
-                    <div class="edge-text">0.5% edge</div>
+            <div class="section-title"><i class="fa-solid fa-chart-line"></i> Live Bets</div>
+            <div class="table-container">
+                <table class="live-table">
+                    <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>User</th>
+                            <th>Time</th>
+                            <th>Bet Amount</th>
+                            <th>Multiplier</th>
+                            <th>Payout</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-bets-body">
+                        <!-- Generato dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- Right Chat Sidebar -->
+        <aside class="chat-sidebar">
+            <div class="chat-header">
+                <span><div class="online-dot"></div> English Room</span>
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="chat-messages" id="chat-box">
+                <!-- Generato dinamicamente -->
+            </div>
+            <div class="chat-input-area">
+                <div class="chat-input-box">
+                    <input type="text" placeholder="Scrivi un messaggio..." id="chat-input" onkeypress="if(event.key==='Enter') sendChat()">
+                    <button onclick="sendChat()"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
-        </div>
+        </aside>
+
     </div>
 
-    <!-- VISTA MINES -->
-    <div id="view-mines" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
-        
-        <div class="section-header">
-            <h2>Mines</h2>
-            <p>Trova le gemme, evita le mine.</p>
-        </div>
-
-        <div class="mines-grid" id="mines-board">
-            <!-- Griglia generata via JS -->
-        </div>
-
-        <div class="game-controls">
-            <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
-            <input type="number" class="bet-input" value="10.00" min="1">
-            <button class="btn-bet" onclick="startMines()">BET</button>
-        </div>
-    </div>
-
-    <!-- VISTA REFERRALS -->
-    <div id="view-referrals" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
-        
-        <div class="section-header">
-            <h2>Referrals</h2>
-            <p>Condividi il tuo link e guadagna.</p>
-        </div>
-
-        <div class="game-controls" style="text-align: center; padding: 30px 10px;">
-            <i class="fa-solid fa-link" style="font-size: 40px; color: #16a34a; margin-bottom: 10px;"></i>
-            <h3 style="margin-bottom: 5px;">Il tuo link di invito:</h3>
-            <div style="background: #0b0f19; padding: 10px; border-radius: 6px; border: 1px solid #334155; color: #4ade80; font-size: 12px; margin-bottom: 15px;">
-                donutflip.com/r/tua_id
-            </div>
-            <button class="btn-bet">COPIA LINK</button>
-        </div>
-    </div>
-
-    <!-- VISTA RACE -->
-    <div id="view-race" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
-        
-        <div class="section-header">
-            <h2>Weekly Race</h2>
-            <p>I migliori giocatori della settimana.</p>
-        </div>
-
-        <div class="game-controls">
-            <p style="text-align: center; font-size: 14px; color: #9ca3af; padding: 20px;">Classifica attualmente vuota. Gioca per salire di livello!</p>
-        </div>
-    </div>
-
-    <!-- Script per Logica UI -->
     <script>
-        // Funzione per navigare tra le schermate
-        function switchView(viewId) {
-            // Nascondi tutte le viste
-            const views = document.querySelectorAll('.view-container');
-            views.forEach(view => view.classList.remove('view-active'));
-
-            // Mostra la vista richiesta
-            document.getElementById(viewId).classList.add('view-active');
-        }
-
-        // Setup base della griglia di Mines (5x5)
-        function initMinesBoard() {
-            const board = document.getElementById('mines-board');
-            board.innerHTML = '';
-            for(let i = 0; i < 25; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'mine-tile';
-                btn.onclick = function() { clickTile(this); };
-                board.appendChild(btn);
-            }
-        }
-
-        // Simulazione di una partita a Mines
-        let isPlaying = false;
-        function startMines() {
-            initMinesBoard();
-            isPlaying = true;
-            document.querySelector('.btn-bet').innerText = 'CASHOUT';
-            document.querySelector('.btn-bet').style.background = '#eab308'; // Giallo per cashout
-            document.querySelector('.btn-bet').onclick = cashoutMines;
-        }
-
-        function clickTile(btn) {
-            if(!isPlaying || btn.innerHTML !== '') return;
+        // === GENERATORE FAKE LIVE BETS ===
+        const games = ['Crash', 'Mines', 'Blackjack', 'Plinko', 'Roulette'];
+        const users = ['CryptoKing', 'Hidden', 'Whale99', 'Satoshi', 'JohnD', 'NeonPlayer'];
+        
+        function formatMoney(n) { return '$' + n.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); }
+        
+        function addLiveBet() {
+            const tbody = document.getElementById('live-bets-body');
+            const row = document.createElement('tr');
             
-            // Simula logica: 80% probabilità di gemma, 20% mina
-            const isMine = Math.random() < 0.2;
+            const game = games[Math.floor(Math.random()*games.length)];
+            const user = users[Math.floor(Math.random()*users.length)];
+            const time = new Date().toLocaleTimeString('it-IT', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" });
+            const bet = (Math.random() * 500 + 10).toFixed(2);
             
-            if(isMine) {
-                btn.innerHTML = '💣';
-                btn.style.background = '#ef4444'; // Rosso
-                endGame(false);
-            } else {
-                btn.innerHTML = '💎';
-                btn.style.background = '#22c55e'; // Verde
+            // Simula probabilità di vincita
+            const isWin = Math.random() > 0.6;
+            const mult = isWin ? (Math.random() * 4 + 1.1).toFixed(2) : 0.00;
+            const payout = isWin ? (bet * mult) : 0;
+            
+            const payoutStr = isWin 
+                ? `<span style="color: var(--accent-green)">${formatMoney(payout)}</span>` 
+                : `<span style="color: var(--text-muted)">${formatMoney(payout)}</span>`;
+
+            row.innerHTML = `
+                <td><i class="fa-solid fa-gamepad" style="color:var(--text-muted); margin-right:8px;"></i> ${game}</td>
+                <td class="user-td"><i class="fa-solid fa-user-circle" style="color:var(--text-muted)"></i> ${user}</td>
+                <td>${time}</td>
+                <td>${formatMoney(parseFloat(bet))}</td>
+                <td>${mult > 0 ? mult+'x' : '-'}</td>
+                <td>${payoutStr}</td>
+            `;
+            
+            tbody.prepend(row);
+            if(tbody.children.length > 8) tbody.removeChild(tbody.lastChild);
+        }
+        setInterval(addLiveBet, 2500);
+        for(let i=0; i<8; i++) addLiveBet(); // Popola all'avvio
+
+        // === SIMULATORE CHAT ===
+        const chatBox = document.getElementById('chat-box');
+        const chatMsgs = [
+            {u: 'DealerDan', t: 'mod', m: 'Benvenuti nella chat globale! Rispettate le regole.'},
+            {u: 'Whale99', t: 'vip', m: 'Appena hittato un 50x su Crash! Let\'s gooo 🚀'},
+            {u: 'Satoshi', t: 'normal', m: 'Qualcuno gioca a Blackjack oggi?'},
+            {u: 'CryptoKing', t: 'normal', m: 'Mines mi sta distruggendo, ho bisogno di fortuna.'}
+        ];
+
+        function renderChatMsg(data) {
+            const time = new Date().toLocaleTimeString('it-IT', { hour: "numeric", minute: "numeric" });
+            let userClass = 'msg-user';
+            if(data.t === 'vip') userClass += ' vip';
+            if(data.t === 'mod') userClass += ' mod';
+            
+            const div = document.createElement('div');
+            div.className = 'msg';
+            div.innerHTML = `<span class="msg-time">${time}</span> <span class="${userClass}">${data.u}:</span> <span class="msg-text">${data.m}</span>`;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        chatMsgs.forEach(renderChatMsg);
+
+        // Simulazione utenti in chat
+        const randomTexts = ["GG", "LMAO", "Qual è la strategia migliore per plinko?", "Crash sta pagando bene ora", "Rip il mio balance", "🚀🚀🚀"];
+        setInterval(() => {
+            if(Math.random() > 0.6) {
+                renderChatMsg({
+                    u: users[Math.floor(Math.random()*users.length)],
+                    t: Math.random() > 0.8 ? 'vip' : 'normal',
+                    m: randomTexts[Math.floor(Math.random()*randomTexts.length)]
+                });
             }
-        }
+        }, 4000);
 
-        function cashoutMines() {
-            if(!isPlaying) return;
-            endGame(true);
+        // Invio chat utente
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            const txt = input.value.trim();
+            if(!txt) return;
+            renderChatMsg({ u: 'Tu', t: 'normal', m: txt });
+            input.value = '';
         }
-
-        function endGame(won) {
-            isPlaying = false;
-            const btnBet = document.querySelector('.btn-bet');
-            btnBet.innerText = won ? 'Vittoria! Rigioca' : 'Perso! Rigioca';
-            btnBet.style.background = won ? '#16a34a' : '#ef4444';
-            btnBet.onclick = startMines;
-        }
-
-        // Inizializza la board vuota all'avvio
-        initMinesBoard();
     </script>
 </body>
 </html>
