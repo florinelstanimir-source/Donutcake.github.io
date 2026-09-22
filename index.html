@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Donut Flip - Animated</title>
+    <title>Donut Flip</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -132,7 +132,7 @@
             box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
         }
 
-        /* View Containers & Transition */
+        /* View Containers */
         .view-container {
             display: none;
             padding: 14px;
@@ -142,15 +142,10 @@
             max-width: 600px;
             margin: 0 auto;
             width: 100%;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
         .view-active {
             display: flex;
-            opacity: 1;
-            transform: translateY(0);
         }
 
         /* Section Header */
@@ -192,12 +187,6 @@
             flex-shrink: 0;
             border: 1px solid rgba(255,255,255,0.08);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .promo-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
         .card-race { background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%); }
@@ -226,11 +215,6 @@
             font-size: 32px;
             opacity: 0.25;
             z-index: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .promo-card:hover .card-icon-bg {
-            transform: scale(1.15) rotate(5deg);
         }
 
         /* Games Grid */
@@ -253,7 +237,7 @@
             text-align: center;
             position: relative;
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.2s;
+            transition: transform 0.1s, border-color 0.1s;
             overflow: hidden;
             min-height: 125px;
         }
@@ -266,14 +250,9 @@
             z-index: 1;
         }
 
-        .game-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            border-color: #4ade80;
-            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.25);
-        }
-
         .game-card:active {
             transform: scale(0.96);
+            border-color: #16a34a;
         }
 
         .game-info {
@@ -299,9 +278,8 @@
         }
 
         .card-mines { background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop'); }
+        .card-tower { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
         .card-coinflip { background-image: url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop'); }
-        .card-blackjack { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
-        .card-crash { background-image: url('https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?q=80&w=300&auto=format&fit=crop'); }
 
         /* Generic Back Button */
         .btn-back {
@@ -314,30 +292,13 @@
             font-weight: 700;
             cursor: pointer;
             align-self: flex-start;
-            transition: background 0.2s, transform 0.1s;
+            margin-bottom: 10px;
         }
 
-        .btn-back:hover {
-            background: #334155;
-            transform: translateX(-2px);
-        }
-
-        /* Shared Game Box / Controls */
-        .game-display-box {
-            background: #121826;
-            border: 1px solid #1e2638;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
-        }
-
+        /* Controls Base */
         .game-controls {
             background: #121826;
-            padding: 14px;
+            padding: 12px;
             border-radius: 12px;
             border: 1px solid #1e2638;
             display: flex;
@@ -353,12 +314,6 @@
             padding: 10px;
             border-radius: 6px;
             font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .bet-input:focus {
-            border-color: #16a34a;
         }
 
         .btn-bet {
@@ -370,19 +325,9 @@
             font-weight: 800;
             font-size: 14px;
             cursor: pointer;
-            transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
         }
 
-        .btn-bet:hover {
-            background: #15803d;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
-        }
-
-        .btn-bet:active {
-            transform: scale(0.97);
-        }
-
-        /* Mines Animations */
+        /* Mines UI */
         .mines-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -399,153 +344,57 @@
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, box-shadow 0.2s;
+            transition: background 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
         }
 
-        .mine-tile:hover:not(:disabled) {
+        .mine-tile:hover {
             background: #334155;
-            transform: scale(1.05);
         }
 
-        .mine-tile.revealed-gem {
-            background: #22c55e !important;
-            animation: popTile 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
-        }
-
-        .mine-tile.revealed-mine {
-            background: #ef4444 !important;
-            animation: shakeTile 0.4s ease-in-out forwards;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
-        }
-
-        /* Coinflip Selectors & Animation */
-        .coin-selectors {
+        /* Tower UI */
+        .tower-container {
             display: flex;
-            gap: 10px;
-        }
-
-        .coin-btn {
-            flex: 1;
+            flex-direction: column-reverse;
+            gap: 8px;
+            background: #121826;
             padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #1e2638;
+        }
+
+        .tower-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            opacity: 0.4;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .tower-row.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .tower-tile {
+            height: 45px;
             background: #1e293b;
-            border: 2px solid transparent;
-            color: white;
-            font-weight: 800;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .coin-btn:hover {
-            background: #334155;
-        }
-
-        .coin-btn.selected {
-            border-color: #16a34a;
-            background: #0f172a;
-            box-shadow: 0 0 10px rgba(22, 163, 74, 0.3);
-        }
-
-        .coin-animated {
-            display: inline-block;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .coin-flipping {
-            animation: flipCoinAnim 0.6s infinite linear;
-        }
-
-        /* Blackjack UI & Animations */
-        .bj-cards-row {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            min-height: 70px;
-            align-items: center;
-        }
-
-        .playing-card {
-            background: #ffffff;
-            color: #0f172a;
-            width: 46px;
-            height: 64px;
-            border-radius: 6px;
-            font-weight: 900;
-            font-size: 13px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 4px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            animation: dealCard 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .playing-card.red {
-            color: #dc2626;
-        }
-
-        .bj-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-bj-sub {
-            flex: 1;
-            background: #1e293b;
-            color: white;
             border: 1px solid #334155;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 12px;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: background 0.2s;
         }
 
-        .btn-bj-sub:hover:not(:disabled) {
+        .tower-tile:hover {
             background: #334155;
-        }
-
-        .btn-bj-sub:active:not(:disabled) {
-            transform: scale(0.96);
-        }
-
-        /* Crash Animation */
-        .crash-multiplier-display {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: #4ade80;
-            text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
-            transition: color 0.2s;
-        }
-
-        /* Keyframes */
-        @keyframes popTile {
-            0% { transform: scale(0.6); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes shakeTile {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-
-        @keyframes flipCoinAnim {
-            0% { transform: rotateY(0deg) scale(1); }
-            50% { transform: rotateY(180deg) scale(1.15); }
-            100% { transform: rotateY(360deg) scale(1); }
-        }
-
-        @keyframes dealCard {
-            0% { transform: translateY(-30px) scale(0.7); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -563,17 +412,19 @@
         <div class="nav-right">
             <div class="balance-box">
                 <div class="coin-icon">DF</div>
-                <span class="balance-amount" id="balance-value">100.00</span>
-                <button class="btn-plus" onclick="addBalance()">+</button>
+                <span class="balance-amount" id="user-balance">100.00</span>
+                <button class="btn-plus">+</button>
             </div>
-            <button class="btn-signin" onclick="alert('Accesso demo attivo!')">
+            <button class="btn-signin">
                 <i class="fa-solid fa-right-to-bracket"></i> Sign In
             </button>
         </div>
     </header>
 
-    <!-- HOME -->
+    <!-- VISTA PRINCIPALE (HOME) -->
     <div id="view-home" class="view-container view-active">
+        
+        <!-- Top Promos -->
         <div class="top-cards-scroll">
             <div class="promo-card card-race" onclick="switchView('view-race')">
                 <i class="fa-solid fa-trophy card-icon-bg"></i>
@@ -587,11 +438,13 @@
             </div>
         </div>
 
+        <!-- Games Section Header -->
         <div class="section-header" style="margin-top: 4px;">
             <h2>Games</h2>
             <p>Play using site balance</p>
         </div>
 
+        <!-- Games Grid -->
         <div class="games-grid">
             <div class="game-card card-mines" onclick="switchView('view-mines')">
                 <div class="game-info">
@@ -600,169 +453,104 @@
                 </div>
             </div>
 
-            <div class="game-card card-coinflip" onclick="switchView('view-coinflip')">
+            <div class="game-card card-tower" onclick="switchView('view-tower')">
+                <div class="game-info">
+                    <span class="game-title">Tower</span>
+                    <div class="edge-text">2.0% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-coinflip" onclick="alert('Coinflip in arrivo!')">
                 <div class="game-info">
                     <span class="game-title">Coinflip</span>
                     <div class="edge-text">2.5% edge</div>
                 </div>
             </div>
-
-            <div class="game-card card-blackjack" onclick="switchView('view-blackjack')">
-                <div class="game-info">
-                    <span class="game-title">Blackjack</span>
-                    <div class="edge-text">0.5% edge</div>
-                </div>
-            </div>
-
-            <div class="game-card card-crash" onclick="switchView('view-crash')">
-                <div class="game-info">
-                    <span class="game-title">Crash</span>
-                    <div class="edge-text">1.5% edge</div>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- MINES -->
+    <!-- VISTA MINES -->
     <div id="view-mines" class="view-container">
         <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
         <div class="section-header">
             <h2>Mines</h2>
             <p>Trova le gemme, evita le mine.</p>
         </div>
-        <div class="mines-grid" id="mines-board"></div>
+
+        <div class="mines-grid" id="mines-board">
+            <!-- Griglia generata via JS -->
+        </div>
+
         <div class="game-controls">
             <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
-            <input type="number" id="mines-bet-input" class="bet-input" value="10.00" min="1">
-            <button class="btn-bet" id="mines-action-btn" onclick="startMines()">BET</button>
+            <input type="number" class="bet-input" value="10.00" min="1">
+            <button class="btn-bet" onclick="startMines()">BET</button>
         </div>
     </div>
 
-    <!-- COINFLIP -->
-    <div id="view-coinflip" class="view-container">
+    <!-- VISTA TOWER -->
+    <div id="view-tower" class="view-container">
         <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
         <div class="section-header">
-            <h2>Coinflip</h2>
-            <p>Testa o croce, raddoppia o perdi.</p>
+            <h2>Tower</h2>
+            <p>Scalato la torre, trova i diamanti ed evita le bombe!</p>
         </div>
-        <div class="game-display-box">
-            <div id="coin-stage">
-                <h1 id="coin-result" class="coin-animated" style="font-size: 3.5rem;">🪙</h1>
-            </div>
-            <p id="coin-status" style="font-size: 12px; color: #9ca3af;">Scegli un lato e lancia</p>
-        </div>
-        <div class="game-controls">
-            <div class="coin-selectors">
-                <button class="coin-btn selected" id="btn-heads" onclick="selectCoinSide('heads')">TESTA</button>
-                <button class="coin-btn" id="btn-tails" onclick="selectCoinSide('tails')">CROCE</button>
-            </div>
-            <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
-            <input type="number" id="coin-bet-input" class="bet-input" value="10.00" min="1">
-            <button class="btn-bet" id="coin-action-btn" onclick="playCoinflip()">LANCIA MONETA</button>
-        </div>
-    </div>
 
-    <!-- BLACKJACK -->
-    <div id="view-blackjack" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
-        <div class="section-header">
-            <h2>Blackjack</h2>
-            <p>Avvicinati a 21 senza sballare.</p>
+        <div class="tower-container" id="tower-board">
+            <!-- Griglia Tower generata via JS -->
         </div>
-        <div class="game-display-box" style="gap: 16px;">
-            <div>
-                <p style="font-size: 11px; color: #9ca3af; margin-bottom: 6px;">BANCO (<span id="bj-dealer-score">0</span>)</p>
-                <div class="bj-cards-row" id="bj-dealer-cards"></div>
-            </div>
-            <hr style="border-color: #1e2638;">
-            <div>
-                <p style="font-size: 11px; color: #9ca3af; margin-bottom: 6px;">TU (<span id="bj-player-score">0</span>)</p>
-                <div class="bj-cards-row" id="bj-player-cards"></div>
-            </div>
-            <p id="bj-status" style="font-size: 12px; color: #4ade80;">Piazza una puntata per iniziare</p>
-        </div>
-        <div class="game-controls">
-            <div class="bj-actions" id="bj-controls-play" style="display: none;">
-                <button class="btn-bj-sub" onclick="bjHit()">Carta</button>
-                <button class="btn-bj-sub" style="background:#16a34a; border-color:#16a34a; color:white;" onclick="bjStand()"> സ്റ്റاند / Ferma</button>
-            </div>
-            <div id="bj-controls-bet">
-                <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
-                <input type="number" id="bj-bet-input" class="bet-input" value="10.00" min="1" style="margin-top:4px; margin-bottom:8px;">
-                <button class="btn-bet" style="width:100%;" onclick="startBlackjack()">GIOCA</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- CRASH -->
-    <div id="view-crash" class="view-container">
-        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
-        <div class="section-header">
-            <h2>Crash</h2>
-            <p>Esci prima che il moltiplicatore scoppi.</p>
-        </div>
-        <div class="game-display-box" style="padding: 35px 20px;">
-            <div class="crash-multiplier-display" id="crash-multiplier">1.00x</div>
-            <p id="crash-status" style="font-size: 12px; color: #9ca3af;">Pronto a decollare</p>
-        </div>
         <div class="game-controls">
             <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
-            <input type="number" id="crash-bet-input" class="bet-input" value="10.00" min="1">
-            <button class="btn-bet" id="crash-action-btn" onclick="startCrash()">DECOLLA (BET)</button>
+            <input type="number" id="tower-bet-input" class="bet-input" value="10.00" min="1">
+            <button id="tower-btn" class="btn-bet" onclick="startTower()">BET</button>
         </div>
     </div>
 
-    <!-- REFERRALS -->
+    <!-- VISTA REFERRALS -->
     <div id="view-referrals" class="view-container">
         <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
         <div class="section-header">
             <h2>Referrals</h2>
             <p>Condividi il tuo link e guadagna.</p>
         </div>
+
         <div class="game-controls" style="text-align: center; padding: 30px 10px;">
             <i class="fa-solid fa-link" style="font-size: 40px; color: #16a34a; margin-bottom: 10px;"></i>
             <h3 style="margin-bottom: 5px;">Il tuo link di invito:</h3>
             <div style="background: #0b0f19; padding: 10px; border-radius: 6px; border: 1px solid #334155; color: #4ade80; font-size: 12px; margin-bottom: 15px;">
-                donutflip.com/r/demo_user
+                donutflip.com/r/tua_id
             </div>
-            <button class="btn-bet" onclick="alert('Link copiato negli appunti!')">COPIA LINK</button>
+            <button class="btn-bet">COPIA LINK</button>
         </div>
     </div>
 
-    <!-- RACE -->
+    <!-- VISTA RACE -->
     <div id="view-race" class="view-container">
         <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
         <div class="section-header">
             <h2>Weekly Race</h2>
             <p>I migliori giocatori della settimana.</p>
         </div>
+
         <div class="game-controls">
-            <p style="text-align: center; font-size: 14px; color: #9ca3af; padding: 20px;">Classifica in aggiornamento. Gioca per scalare la vetta!</p>
+            <p style="text-align: center; font-size: 14px; color: #9ca3af; padding: 20px;">Classifica attualmente vuota. Gioca per salire di livello!</p>
         </div>
     </div>
 
+    <!-- Script Logica -->
     <script>
-        let balance = 100.00;
-        let updateBalanceDisplay = () => {
-            document.getElementById('balance-value').innerText = balance.toFixed(2);
-        };
-
-        function addBalance() {
-            balance += 50.00;
-            updateBalanceDisplay();
-        }
-
         function switchView(viewId) {
             const views = document.querySelectorAll('.view-container');
             views.forEach(view => view.classList.remove('view-active'));
             document.getElementById(viewId).classList.add('view-active');
         }
 
-        // --- MINES LOGIC ---
-        let minesBet = 10;
-        let minesPlaying = false;
-        let minesMult = 1.0;
-
+        /* --- LOGICA MINES --- */
         function initMinesBoard() {
             const board = document.getElementById('mines-board');
             board.innerHTML = '';
@@ -774,246 +562,137 @@
             }
         }
 
+        let isMinesPlaying = false;
         function startMines() {
-            const val = parseFloat(document.getElementById('mines-bet-input').value) || 0;
-            if (val <= 0 || val > balance) { alert('Saldo non valido!'); return; }
-            minesBet = val;
-            balance -= minesBet;
-            updateBalanceDisplay();
             initMinesBoard();
-            minesPlaying = true;
-            minesMult = 1.0;
-            const btn = document.getElementById('mines-action-btn');
-            btn.innerText = 'CASHOUT (1.00x)';
+            isMinesPlaying = true;
+            const btn = document.querySelector('#view-mines .btn-bet');
+            btn.innerText = 'CASHOUT';
             btn.style.background = '#eab308';
             btn.onclick = cashoutMines;
         }
 
         function clickMineTile(btn) {
-            if(!minesPlaying || btn.innerHTML !== '') return;
-            if(Math.random() < 0.2) {
-                btn.classList.add('revealed-mine');
-                setTimeout(() => { btn.innerHTML = '💣'; }, 100);
+            if(!isMinesPlaying || btn.innerHTML !== '') return;
+            const isMine = Math.random() < 0.2;
+            if(isMine) {
+                btn.innerHTML = '💣';
+                btn.style.background = '#ef4444';
                 endMines(false);
             } else {
-                btn.classList.add('revealed-gem');
-                setTimeout(() => { btn.innerHTML = '💎'; }, 100);
-                minesMult += 0.25;
-                document.getElementById('mines-action-btn').innerText = `CASHOUT (${minesMult.toFixed(2)}x)`;
+                btn.innerHTML = '💎';
+                btn.style.background = '#22c55e';
             }
         }
 
         function cashoutMines() {
-            if(!minesPlaying) return;
-            const payout = minesBet * minesMult;
-            balance += payout;
-            updateBalanceDisplay();
-            endMines(true, payout);
+            if(!isMinesPlaying) return;
+            endMines(true);
         }
 
-        function endMines(won, payout = 0) {
-            minesPlaying = false;
-            const btn = document.getElementById('mines-action-btn');
-            btn.innerText = won ? `Vinto +${payout.toFixed(2)}! Rigioca` : 'Perso! Rigioca';
+        function endMines(won) {
+            isMinesPlaying = false;
+            const btn = document.querySelector('#view-mines .btn-bet');
+            btn.innerText = won ? 'Vittoria! Rigioca' : 'Perso! Rigioca';
             btn.style.background = won ? '#16a34a' : '#ef4444';
             btn.onclick = startMines;
         }
 
-        // --- COINFLIP LOGIC ---
-        let coinChoice = 'heads';
-        function selectCoinSide(side) {
-            coinChoice = side;
-            document.getElementById('btn-heads').classList.toggle('selected', side === 'heads');
-            document.getElementById('btn-tails').classList.toggle('selected', side === 'tails');
-        }
+        /* --- LOGICA TOWER --- */
+        const TOWER_ROWS = 8;
+        const TILES_PER_ROW = 4;
+        let currentTowerRow = 0;
+        let isTowerPlaying = false;
+        let towerData = [];
 
-        function playCoinflip() {
-            const bet = parseFloat(document.getElementById('coin-bet-input').value) || 0;
-            if (bet <= 0 || bet > balance) { alert('Saldo non valido!'); return; }
-            balance -= bet;
-            updateBalanceDisplay();
+        function initTowerBoard() {
+            const board = document.getElementById('tower-board');
+            board.innerHTML = '';
+            towerData = [];
 
-            const resEl = document.getElementById('coin-result');
-            const statusEl = document.getElementById('coin-status');
-            resEl.classList.add('coin-flipping');
-            statusEl.innerText = 'Lancio in corso...';
-            document.getElementById('coin-action-btn').disabled = true;
+            for(let r = 0; r < TOWER_ROWS; r++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'tower-row';
+                rowDiv.id = `tower-row-${r}`;
 
-            setTimeout(() => {
-                resEl.classList.remove('coin-flipping');
-                const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
-                resEl.innerText = outcome === 'heads' ? '🟡' : '⚪';
-                document.getElementById('coin-action-btn').disabled = false;
+                // 1 bomba casuale per riga
+                const bombIndex = Math.floor(Math.random() * TILES_PER_ROW);
+                towerData.push(bombIndex);
 
-                if (outcome === coinChoice) {
-                    const payout = bet * 1.95;
-                    balance += payout;
-                    statusEl.innerText = `Vinto +${payout.toFixed(2)}!`;
-                } else {
-                    statusEl.innerText = 'Perso!';
+                for(let c = 0; c < TILES_PER_ROW; c++) {
+                    const tile = document.createElement('button');
+                    tile.className = 'tower-tile';
+                    tile.onclick = function() { clickTowerTile(r, c, tile); };
+                    rowDiv.appendChild(tile);
                 }
-                updateBalanceDisplay();
-            }, 600);
-        }
-
-        // --- BLACKJACK LOGIC ---
-        let bjBet = 10;
-        let bjPlayerCards = [];
-        let bjDealerCards = [];
-
-        function getRandomCard() {
-            const suits = ['♠', '♥', '♦', '♣'];
-            const vals = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-            return {
-                val: vals[Math.floor(Math.random() * vals.length)],
-                suit: suits[Math.floor(Math.random() * suits.length)],
-                red: suits.indexOf(suits[Math.floor(Math.random()*suits.length)]) === 1
-            };
-        }
-
-        function calcBJScore(cards) {
-            let score = 0;
-            let aces = 0;
-            cards.forEach(c => {
-                if(['J','Q','K'].includes(c.val)) score += 10;
-                else if(c.val === 'A') { score += 11; aces++; }
-                else score += parseInt(c.val);
-            });
-            while(score > 21 && aces > 0) { score -= 10; aces--; }
-            return score;
-        }
-
-        function renderBJCards() {
-            const pDiv = document.getElementById('bj-player-cards');
-            const dDiv = document.getElementById('bj-dealer-cards');
-            pDiv.innerHTML = '';
-            dDiv.innerHTML = '';
-            bjPlayerCards.forEach(c => {
-                pDiv.innerHTML += `<div class="playing-card ${c.suit==='♥'||c.suit==='♦'?'red':''}"><span>${c.val}</span><span>${c.suit}</span><span>${c.val}</span></div>`;
-            });
-            bjDealerCards.forEach(c => {
-                dDiv.innerHTML += `<div class="playing-card ${c.suit==='♥'||c.suit==='♦'?'red':''}"><span>${c.val}</span><span>${c.suit}</span><span>${c.val}</span></div>`;
-            });
-            document.getElementById('bj-player-score').innerText = calcBJScore(bjPlayerCards);
-            document.getElementById('bj-dealer-score').innerText = calcBJScore(bjDealerCards);
-        }
-
-        function startBlackjack() {
-            const val = parseFloat(document.getElementById('bj-bet-input').value) || 0;
-            if (val <= 0 || val > balance) { alert('Saldo non valido!'); return; }
-            bjBet = val;
-            balance -= bjBet;
-            updateBalanceDisplay();
-
-            bjPlayerCards = [getRandomCard(), getRandomCard()];
-            bjDealerCards = [getRandomCard()];
-            renderBJCards();
-
-            document.getElementById('bj-status').innerText = 'Fai la tua mossa';
-            document.getElementById('bj-controls-bet').style.display = 'none';
-            document.getElementById('bj-controls-play').style.display = 'flex';
-
-            if(calcBJScore(bjPlayerCards) === 21) {
-                endBlackjack('blackjack');
+                board.appendChild(rowDiv);
             }
         }
 
-        function bjHit() {
-            bjPlayerCards.push(getRandomCard());
-            renderBJCards();
-            if(calcBJScore(bjPlayerCards) > 21) {
-                endBlackjack('bust');
-            }
-        }
+        function startTower() {
+            initTowerBoard();
+            isTowerPlaying = true;
+            currentTowerRow = 0;
+            
+            updateTowerRows();
 
-        function bjStand() {
-            while(calcBJScore(bjDealerCards) < 17) {
-                bjDealerCards.push(getRandomCard());
-            }
-            renderBJCards();
-            const pScore = calcBJScore(bjPlayerCards);
-            const dScore = calcBJScore(bjDealerCards);
-
-            if(dScore > 21 || pScore > dScore) endBlackjack('win');
-            else if(pScore === dScore) endBlackjack('push');
-            else endBlackjack('loss');
-        }
-
-        function endBlackjack(result) {
-            const statusEl = document.getElementById('bj-status');
-            if(result === 'blackjack') {
-                const win = bjBet * 2.5;
-                balance += win;
-                statusEl.innerText = `Blackjack! Vinto +${win.toFixed(2)}`;
-            } else if(result === 'win') {
-                const win = bjBet * 2;
-                balance += win;
-                statusEl.innerText = `Vinto +${win.toFixed(2)}!`;
-            } else if(result === 'push') {
-                balance += bjBet;
-                statusEl.innerText = 'Pareggio (Push)';
-            } else {
-                statusEl.innerText = 'Sballato / Perso!';
-            }
-            updateBalanceDisplay();
-            document.getElementById('bj-controls-bet').style.display = 'block';
-            document.getElementById('bj-controls-play').style.display = 'none';
-        }
-
-        // --- CRASH LOGIC ---
-        let crashInterval = null;
-        let crashMult = 1.0;
-        let crashRunning = false;
-        let crashBet = 10;
-
-        function startCrash() {
-            if(crashRunning) {
-                // Cashout
-                crashRunning = false;
-                clearInterval(crashInterval);
-                const win = crashBet * crashMult;
-                balance += win;
-                updateBalanceDisplay();
-                document.getElementById('crash-status').innerText = `Cashout a ${crashMult.toFixed(2)}x! Vinto +${win.toFixed(2)}`;
-                document.getElementById('crash-action-btn').innerText = 'DECOLLA (BET)';
-                document.getElementById('crash-action-btn').style.background = '#16a34a';
-                return;
-            }
-
-            const val = parseFloat(document.getElementById('crash-bet-input').value) || 0;
-            if (val <= 0 || val > balance) { alert('Saldo non valido!'); return; }
-            crashBet = val;
-            balance -= crashBet;
-            updateBalanceDisplay();
-
-            crashMult = 1.0;
-            crashRunning = true;
-            const targetCrash = 1.0 + Math.random() * 3.5;
-            const el = document.getElementById('crash-multiplier');
-            const statusEl = document.getElementById('crash-status');
-            const btn = document.getElementById('crash-action-btn');
-
-            btn.innerText = 'CASHOUT ORA!';
+            const btn = document.getElementById('tower-btn');
+            btn.innerText = 'CASHOUT';
             btn.style.background = '#eab308';
-            statusEl.innerText = 'Volo in corso...';
-            el.style.color = '#4ade80';
-
-            crashInterval = setInterval(() => {
-                crashMult += 0.05;
-                el.innerText = crashMult.toFixed(2) + 'x';
-                if(crashMult >= targetCrash) {
-                    clearInterval(crashInterval);
-                    crashRunning = false;
-                    el.style.color = '#ef4444';
-                    statusEl.innerText = `CRASHED @ ${crashMult.toFixed(2)}x!`;
-                    btn.innerText = 'RIprova (BET)';
-                    btn.style.background = '#16a34a';
-                }
-            }, 100);
+            btn.onclick = cashoutTower;
         }
 
+        function updateTowerRows() {
+            for(let r = 0; r < TOWER_ROWS; r++) {
+                const row = document.getElementById(`tower-row-${r}`);
+                if(r === currentTowerRow && isTowerPlaying) {
+                    row.classList.add('active');
+                } else {
+                    row.classList.remove('active');
+                }
+            }
+        }
+
+        function clickTowerTile(row, col, tileBtn) {
+            if(!isTowerPlaying || row !== currentTowerRow) return;
+
+            const isBomb = (towerData[row] === col);
+
+            if(isBomb) {
+                tileBtn.innerHTML = '💣';
+                tileBtn.style.background = '#ef4444';
+                endTower(false);
+            } else {
+                tileBtn.innerHTML = '💎';
+                tileBtn.style.background = '#22c55e';
+                currentTowerRow++;
+
+                if(currentTowerRow >= TOWER_ROWS) {
+                    endTower(true);
+                } else {
+                    updateTowerRows();
+                }
+            }
+        }
+
+        function cashoutTower() {
+            if(!isTowerPlaying) return;
+            endTower(true);
+        }
+
+        function endTower(won) {
+            isTowerPlaying = false;
+            updateTowerRows();
+
+            const btn = document.getElementById('tower-btn');
+            btn.innerText = won ? 'Vittoria! Rigioca' : 'Perso! Rigioca';
+            btn.style.background = won ? '#16a34a' : '#ef4444';
+            btn.onclick = startTower;
+        }
+
+        // Inizializzazione iniziale
         initMinesBoard();
-        updateBalanceDisplay();
+        initTowerBoard();
     </script>
 </body>
 </html>
