@@ -1,31 +1,611 @@
-const crypto = require('crypto');
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Donut Flip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-function calcolaRisultato(serverSeed, clientSeed, nonce) {
-    // 1. Combiniamo il seed dell'utente con il numero della giocata
-    const message = `${clientSeed}:${nonce}`;
-    
-    // 2. Creiamo un hash HMAC-SHA256 usando il Server Seed come chiave segreta
-    const hash = crypto.createHmac('sha256', serverSeed)
-                       .update(message)
-                       .digest('hex');
-                       
-    // 3. Prendiamo i primi 8 caratteri dell'hash esadecimale
-    const partialHash = hash.substring(0, 8);
-    
-    // 4. Lo convertiamo in un numero decimale
-    const decimalValue = parseInt(partialHash, 16);
-    
-    // 5. Calcoliamo un risultato da 0.00 a 100.00 (Standard per i dadi)
-    // 4294967295 è il valore massimo per 8 caratteri hex (0xffffffff)
-    const roll = (decimalValue / 4294967295) * 100;
-    
-    return roll.toFixed(2);
-}
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
 
-// --- SIMULAZIONE ---
-const serverSeed = 'stringa_segreta_del_server_generata_prima_del_roll'; 
-const clientSeed = 'stringa_casuale_scelta_dal_giocatore'; 
-const nonce = 1; 
+        /* Top Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #121826;
+            padding: 10px 14px;
+            border-bottom: 1px solid #1e2638;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-const risultato = calcolaRisultato(serverSeed, clientSeed, nonce);
-console.log(`Il risultato del lancio è: ${risultato}`);
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-dice {
+            background: #1e2638;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 11px;
+            color: #4ade80;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-box {
+            display: flex;
+            align-items: center;
+            background: #182030;
+            border: 1px solid #25304a;
+            border-radius: 8px;
+            padding: 4px 8px;
+            gap: 6px;
+        }
+
+        .coin-icon {
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle, #facc15 0%, #ca8a04 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 900;
+            color: #422006;
+            box-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
+        }
+
+        .balance-amount {
+            font-size: 12px;
+            font-weight: 700;
+            color: #f3f4f6;
+        }
+
+        .btn-plus {
+            background: #16a34a;
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(22, 163, 74,.3);
+        }
+
+        .btn-signin {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.4);
+        }
+
+        /* View Containers */
+        .view-container {
+            display: none;
+            padding: 14px;
+            flex: 1;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .view-active {
+            display: flex;
+        }
+
+        /* Section Header */
+        .section-header h2 {
+            font-size: 15px;
+            font-weight: 800;
+            color: #f9fafb;
+            margin-bottom: 2px;
+        }
+
+        .section-header p {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        /* Top Promos */
+        .top-cards-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .top-cards-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .promo-card {
+            min-width: 180px;
+            height: 95px;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+        }
+
+        .card-race { background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%); }
+        .card-referrals { background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%); }
+
+        .promo-card h3 {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .promo-card p {
+            font-size: 9px;
+            color: #d1d5db;
+            z-index: 2;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        .promo-card .card-icon-bg {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            font-size: 32px;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .game-card {
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 12px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.1s, border-color 0.1s;
+            overflow: hidden;
+            min-height: 125px;
+        }
+
+        .game-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.2) 65%, transparent 100%);
+            z-index: 1;
+        }
+
+        .game-card:active {
+            transform: scale(0.96);
+            border-color: #16a34a;
+        }
+
+        .game-info {
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-card span.game-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+        }
+
+        .game-card .edge-text {
+            font-size: 9px;
+            color: #fca5a5;
+            font-weight: 600;
+            margin-top: 1px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+        }
+
+        .card-mines { background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop'); }
+        .card-coinflip { background-image: url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop'); }
+        .card-blackjack { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
+        .card-dice { background-image: url('https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?q=80&w=300&auto=format&fit=crop'); }
+        .card-crash { background-image: url('https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?q=80&w=300&auto=format&fit=crop'); }
+        .card-roulette { background-image: url('https://images.unsplash.com/photo-1606167668580-2d8d939665bc?q=80&w=300&auto=format&fit=crop'); }
+        .card-plinko { background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=300&auto=format&fit=crop'); }
+        .card-slots { background-image: url('https://images.unsplash.com/photo-1594854375086-44473855ebc0?q=80&w=300&auto=format&fit=crop'); }
+
+        /* Generic Back Button */
+        .btn-back {
+            background: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        /* Mines Game UI */
+        .mines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            background: #121826;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #1e2638;
+        }
+
+        .mine-tile {
+            aspect-ratio: 1;
+            background: #1e293b;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .mine-tile:hover {
+            background: #334155;
+        }
+
+        .game-controls {
+            background: #121826;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #1e2638;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bet-input {
+            width: 100%;
+            background: #0b0f19;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn-bet {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="logo-dice"><i class="fa-solid fa-dice"></i></div>
+            <div class="logo-text">
+                DONUT
+                <span>FLIP</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="balance-box">
+                <div class="coin-icon">DF</div>
+                <span class="balance-amount" id="balance-value">100.00</span>
+                <button class="btn-plus" onclick="addBalance()">+</button>
+            </div>
+            <button class="btn-signin" onclick="alert('Accesso demo attivo!')">
+                <i class="fa-solid fa-right-to-bracket"></i> Sign In
+            </button>
+        </div>
+    </header>
+
+    <!-- VISTA PRINCIPALE (HOME) -->
+    <div id="view-home" class="view-container view-active">
+        <div class="top-cards-scroll">
+            <div class="promo-card card-race" onclick="switchView('view-race')">
+                <i class="fa-solid fa-trophy card-icon-bg"></i>
+                <h3>RACE</h3>
+                <p>Climb the board, win the pot</p>
+            </div>
+            <div class="promo-card card-referrals" onclick="switchView('view-referrals')">
+                <i class="fa-solid fa-users card-icon-bg"></i>
+                <h3>REFERRALS</h3>
+                <p>Invite friends, earn commission</p>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 4px;">
+            <h2>Games</h2>
+            <p>Play using site balance</p>
+        </div>
+
+        <div class="games-grid">
+            <div class="game-card card-mines" onclick="switchView('view-mines')">
+                <div class="game-info">
+                    <span class="game-title">Mines</span>
+                    <div class="edge-text">3% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-coinflip" onclick="alert('Coinflip: 50/50 test rapido!')">
+                <div class="game-info">
+                    <span class="game-title">Coinflip</span>
+                    <div class="edge-text">2.5% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-blackjack" onclick="alert('Blackjack in arrivo!')">
+                <div class="game-info">
+                    <span class="game-title">Blackjack</span>
+                    <div class="edge-text">0.5% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-dice" onclick="alert('Dice in arrivo!')">
+                <div class="game-info">
+                    <span class="game-title">Dice</span>
+                    <div class="edge-text">1.0% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-crash" onclick="alert('Crash in arrivo!')">
+                <div class="game-info">
+                    <span class="game-title">Crash</span>
+                    <div class="edge-text">1.5% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-roulette" onclick="alert('Roulette in arrivo!')">
+                <div class="game-info">
+                    <span class="game-title">Roulette</span>
+                    <div class="edge-text">2.7% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-plinko" onclick="alert('Plinko in arrivo!')">
+                <div class="game-info">
+                    <span class="game-title">Plinko</span>
+                    <div class="edge-text">1.0% edge</div>
+                </div>
+            </div>
+
+            <div class="game-card card-slots" onclick="alert('Slots in arrivo!')">
+                <div class="game-info">
+                    <span class="game-title">Slots</span>
+                    <div class="edge-text">4.0% edge</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA MINES -->
+    <div id="view-mines" class="view-container">
+        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
+        <div class="section-header">
+            <h2>Mines</h2>
+            <p>Trova le gemme, evita le mine.</p>
+        </div>
+
+        <div class="mines-grid" id="mines-board"></div>
+
+        <div class="game-controls">
+            <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
+            <input type="number" id="mines-bet-input" class="bet-input" value="10.00" min="1">
+            <button class="btn-bet" id="mines-action-btn" onclick="startMines()">BET</button>
+        </div>
+    </div>
+
+    <!-- VISTA REFERRALS -->
+    <div id="view-referrals" class="view-container">
+        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
+        <div class="section-header">
+            <h2>Referrals</h2>
+            <p>Condividi il tuo link e guadagna.</p>
+        </div>
+
+        <div class="game-controls" style="text-align: center; padding: 30px 10px;">
+            <i class="fa-solid fa-link" style="font-size: 40px; color: #16a34a; margin-bottom: 10px;"></i>
+            <h3 style="margin-bottom: 5px;">Il tuo link di invito:</h3>
+            <div style="background: #0b0f19; padding: 10px; border-radius: 6px; border: 1px solid #334155; color: #4ade80; font-size: 12px; margin-bottom: 15px;">
+                donutflip.com/r/demo_user
+            </div>
+            <button class="btn-bet" onclick="alert('Link copiato negli appunti!')">COPIA LINK</button>
+        </div>
+    </div>
+
+    <!-- VISTA RACE -->
+    <div id="view-race" class="view-container">
+        <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        
+        <div class="section-header">
+            <h2>Weekly Race</h2>
+            <p>I migliori giocatori della settimana.</p>
+        </div>
+
+        <div class="game-controls">
+            <p style="text-align: center; font-size: 14px; color: #9ca3af; padding: 20px;">Classifica in aggiornamento. Gioca per scalare la vetta!</p>
+        </div>
+    </div>
+
+    <!-- Script Completo UI + Logica Demo -->
+    <script>
+        let balance = 100.00;
+        let currentBet = 10.00;
+        let isPlaying = false;
+        let activeMultiplier = 1.0;
+
+        function updateBalanceDisplay() {
+            document.getElementById('balance-value').innerText = balance.toFixed(2);
+        }
+
+        function addBalance() {
+            balance += 50.00;
+            updateBalanceDisplay();
+        }
+
+        function switchView(viewId) {
+            const views = document.querySelectorAll('.view-container');
+            views.forEach(view => view.classList.remove('view-active'));
+            document.getElementById(viewId).classList.add('view-active');
+        }
+
+        function initMinesBoard() {
+            const board = document.getElementById('mines-board');
+            board.innerHTML = '';
+            for(let i = 0; i < 25; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'mine-tile';
+                btn.onclick = function() { clickTile(this); };
+                board.appendChild(btn);
+            }
+        }
+
+        function startMines() {
+            const inputVal = parseFloat(document.getElementById('mines-bet-input').value) || 0;
+            if (inputVal <= 0 || inputVal > balance) {
+                alert('Saldo insufficiente o importo non valido!');
+                return;
+            }
+            currentBet = inputVal;
+            balance -= currentBet;
+            updateBalanceDisplay();
+
+            initMinesBoard();
+            isPlaying = true;
+            activeMultiplier = 1.0;
+
+            const btnBet = document.getElementById('mines-action-btn');
+            btnBet.innerText = 'CASHOUT (1.00x)';
+            btnBet.style.background = '#eab308';
+            btnBet.onclick = cashoutMines;
+        }
+
+        function clickTile(btn) {
+            if(!isPlaying || btn.innerHTML !== '') return;
+            
+            const isMine = Math.random() < 0.2;
+            
+            if(isMine) {
+                btn.innerHTML = '💣';
+                btn.style.background = '#ef4444';
+                endGame(false);
+            } else {
+                btn.innerHTML = '💎';
+                btn.style.background = '#22c55e';
+                activeMultiplier += 0.25;
+                const btnBet = document.getElementById('mines-action-btn');
+                btnBet.innerText = `CASHOUT (${activeMultiplier.toFixed(2)}x)`;
+            }
+        }
+
+        function cashoutMines() {
+            if(!isPlaying) return;
+            const payout = currentBet * activeMultiplier;
+            balance += payout;
+            updateBalanceDisplay();
+            endGame(true, payout);
+        }
+
+        function endGame(won, payout = 0) {
+            isPlaying = false;
+            const btnBet = document.getElementById('mines-action-btn');
+            if (won) {
+                btnBet.innerText = `Vinto +${payout.toFixed(2)}! Rigioca`;
+                btnBet.style.background = '#16a34a';
+            } else {
+                btnBet.innerText = 'Perso! Rigioca';
+                btnBet.style.background = '#ef4444';
+            }
+            btnBet.onclick = startMines;
+        }
+
+        initMinesBoard();
+        updateBalanceDisplay();
+    </script>
+</body>
+</html>
