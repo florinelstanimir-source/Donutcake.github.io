@@ -277,7 +277,7 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        /* Sfondo personalizzato per Mines (come prima) */
+        /* Sfondo personalizzato per Mines */
         .card-mines { 
             background: radial-gradient(circle at top, #7f1d1d 0%, #1a0505 100%);
             border-color: #991b1b;
@@ -297,7 +297,7 @@
             transform: scale(1.1) rotate(4deg);
         }
 
-        /* Nuove foto/sfondi stilizzati per Tower e Coinflip */
+        /* Sfondi per Tower e Coinflip */
         .card-tower { 
             background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
             border-color: #1d4ed8;
@@ -567,7 +567,7 @@
         </div>
 
         <div class="games-grid">
-            <!-- CARDS MINES CON BOMBA TNT IN COPERTINA (come prima) -->
+            <!-- CARDS MINES CON BOMBA TNT IN COPERTINA -->
             <div class="game-card card-mines" onclick="switchView('view-mines')">
                 <svg class="main-card-icon" viewBox="0 0 64 64" fill="none">
                     <polygon points="32,62 12,52 32,42 52,52" fill="rgba(0,0,0,0.4)"/>
@@ -602,9 +602,33 @@
                 </div>
             </div>
 
-            <!-- TOWER CON ICONA STILIZZATA IN COPERTINA -->
+            <!-- TOWER CON VERA TORRE 3D IN COPERTINA -->
             <div class="game-card card-tower" onclick="switchView('view-tower')">
-                <i class="main-card-icon fa-solid fa-layer-group" style="color: #60a5fa; top: 18px; font-size: 42px;"></i>
+                <svg class="main-card-icon" viewBox="0 0 64 64" fill="none" style="top: 10px; width: 68px; height: 68px;">
+                    <defs>
+                        <linearGradient id="tw-block" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#60a5fa"/>
+                            <stop offset="100%" stop-color="#1d4ed8"/>
+                        </linearGradient>
+                    </defs>
+                    <ellipse cx="32" cy="58" rx="20" ry="4" fill="rgba(0,0,0,0.5)"/>
+                    <path d="M16 46 L32 54 L48 46 L32 38 Z" fill="#1e3a8a"/>
+                    <path d="M16 46 L32 54 L32 58 L16 50 Z" fill="#172554"/>
+                    <path d="M48 46 L32 54 L32 58 L48 50 Z" fill="#1e40af"/>
+                    
+                    <path d="M18 36 L32 44 L46 36 L32 28 Z" fill="#2563eb"/>
+                    <path d="M18 36 L32 44 L32 48 L18 40 Z" fill="#1d4ed8"/>
+                    <path d="M46 36 L32 44 L32 48 L46 40 Z" fill="#1e40af"/>
+                    
+                    <path d="M20 26 L32 34 L44 26 L32 18 Z" fill="#3b82f6"/>
+                    <path d="M20 26 L32 34 L32 38 L20 30 Z" fill="#2563eb"/>
+                    <path d="M44 26 L32 34 L32 38 L44 30 Z" fill="#1d4ed8"/>
+                    
+                    <path d="M22 16 L32 24 L42 16 L32 8 Z" fill="url(#tw-block)"/>
+                    <path d="M22 16 L32 24 L32 28 L22 20 Z" fill="#3b82f6"/>
+                    <path d="M42 16 L32 24 L32 28 L42 20 Z" fill="#2563eb"/>
+                    <circle cx="32" cy="16" r="3" fill="#fde047" style="filter: drop-shadow(0 0 6px #facc15);"/>
+                </svg>
                 <div class="game-info">
                     <span class="game-title">Tower</span>
                     <div class="edge-text">2.0% edge</div>
