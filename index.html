@@ -278,7 +278,7 @@
         }
 
         .card-mines { background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=300&auto=format&fit=crop'); }
-        .card-tower { background-image: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=300&auto=format&fit=crop'); }
+        .card-tower { background-image: url('https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=300&auto=format&fit=crop'); }
         .card-coinflip { background-image: url('https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop'); }
 
         /* Generic Back Button */
@@ -325,76 +325,174 @@
             font-weight: 800;
             font-size: 14px;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+            transition: all 0.2s;
         }
 
-        /* Mines UI */
+        .btn-bet:hover {
+            filter: brightness(1.1);
+        }
+
+        /* --- STILI MINES 3D --- */
         .mines-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
             background: #121826;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 14px;
             border: 1px solid #1e2638;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
         .mine-tile {
             aspect-ratio: 1;
-            background: #1e293b;
-            border-radius: 8px;
-            border: none;
+            background: linear-gradient(145deg, #25334d, #172033);
+            border-radius: 10px;
+            border: 1px solid #334466;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            box-shadow: 0 4px 0 #0f1624, inset 0 1px 1px rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         .mine-tile:hover {
-            background: #334155;
+            background: linear-gradient(145deg, #2e3e5c, #1e2942);
         }
 
-        /* Tower UI */
+        .mine-tile:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0f1624;
+        }
+
+        .mine-tile.revealed-gem {
+            background: radial-gradient(circle, #10b981 0%, #064e3b 100%) !important;
+            border-color: #34d399 !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.6) !important;
+            transform: none !important;
+        }
+
+        .mine-tile.revealed-bomb {
+            background: radial-gradient(circle, #ef4444 0%, #7f1d1d 100%) !important;
+            border-color: #f87171 !important;
+            box-shadow: 0 0 18px rgba(239, 68, 68, 0.7) !important;
+            transform: none !important;
+        }
+
+        /* --- STILI TOWER 3D --- */
+        .tower-viewport {
+            perspective: 1000px;
+            background: #121826;
+            padding: 16px 12px;
+            border-radius: 14px;
+            border: 1px solid #1e2638;
+            box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
+        }
+
         .tower-container {
             display: flex;
             flex-direction: column-reverse;
-            gap: 8px;
-            background: #121826;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #1e2638;
+            gap: 10px;
+            transform: rotateX(8deg);
+            transform-style: preserve-3d;
         }
 
         .tower-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 45px repeat(4, 1fr);
             gap: 8px;
-            opacity: 0.4;
+            align-items: center;
+            opacity: 0.35;
             pointer-events: none;
-            transition: opacity 0.2s;
+            transition: all 0.3s ease;
+            filter: grayscale(40%);
         }
 
         .tower-row.active {
             opacity: 1;
             pointer-events: auto;
+            filter: grayscale(0%);
+            transform: scale(1.02) translateZ(10px);
+        }
+
+        .tower-row.passed {
+            opacity: 0.95;
+            filter: grayscale(0%);
+        }
+
+        .tower-badge {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #4ade80;
+            font-size: 10px;
+            font-weight: 800;
+            border-radius: 6px;
+            height: 42px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+
+        .tower-badge span {
+            font-size: 8px;
+            color: #9ca3af;
+            font-weight: 600;
         }
 
         .tower-tile {
-            height: 45px;
-            background: #1e293b;
+            height: 42px;
+            background: linear-gradient(145deg, #222f47, #151d2e);
             border-radius: 8px;
-            border: 1px solid #334155;
+            border: 1px solid #324566;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #0d131f, inset 0 1px 1px rgba(255,255,255,0.15);
+            position: relative;
         }
 
-        .tower-tile:hover {
-            background: #334155;
+        .tower-row.active .tower-tile {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 0 #1d4ed8, inset 0 1px 2px rgba(255,255,255,0.3);
+        }
+
+        .tower-row.active .tower-tile:hover {
+            background: linear-gradient(145deg, #2d3f61, #1e2b45);
+            transform: translateY(-2px);
+        }
+
+        .tower-tile.revealed-gem {
+            background: radial-gradient(circle, #059669 0%, #064e3b 100%) !important;
+            border-color: #34d399 !important;
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.6) !important;
+        }
+
+        .tower-tile.revealed-bomb {
+            background: radial-gradient(circle, #dc2626 0%, #7f1d1d 100%) !important;
+            border-color: #f87171 !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.7) !important;
+        }
+
+        /* --- ICONOGRAFIA SVG 3D REALISTICA --- */
+        .icon-3d {
+            width: 26px;
+            height: 26px;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.5));
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
     </style>
 </head>
@@ -424,7 +522,6 @@
     <!-- VISTA PRINCIPALE (HOME) -->
     <div id="view-home" class="view-container view-active">
         
-        <!-- Top Promos -->
         <div class="top-cards-scroll">
             <div class="promo-card card-race" onclick="switchView('view-race')">
                 <i class="fa-solid fa-trophy card-icon-bg"></i>
@@ -438,13 +535,11 @@
             </div>
         </div>
 
-        <!-- Games Section Header -->
         <div class="section-header" style="margin-top: 4px;">
             <h2>Games</h2>
             <p>Play using site balance</p>
         </div>
 
-        <!-- Games Grid -->
         <div class="games-grid">
             <div class="game-card card-mines" onclick="switchView('view-mines')">
                 <div class="game-info">
@@ -474,32 +569,30 @@
         <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
         
         <div class="section-header">
-            <h2>Mines</h2>
-            <p>Trova le gemme, evita le mine.</p>
+            <h2>Mines 3D</h2>
+            <p>Trova i diamanti brillanti, evita le bombe incandescenti.</p>
         </div>
 
-        <div class="mines-grid" id="mines-board">
-            <!-- Griglia generata via JS -->
-        </div>
+        <div class="mines-grid" id="mines-board"></div>
 
         <div class="game-controls">
             <label style="font-size: 11px; color: #9ca3af;">Bet Amount</label>
-            <input type="number" class="bet-input" value="10.00" min="1">
-            <button class="btn-bet" onclick="startMines()">BET</button>
+            <input type="number" id="mines-bet-input" class="bet-input" value="10.00" min="1">
+            <button id="mines-btn" class="btn-bet" onclick="startMines()">BET</button>
         </div>
     </div>
 
-    <!-- VISTA TOWER -->
+    <!-- VISTA TOWER 3D -->
     <div id="view-tower" class="view-container">
         <button class="btn-back" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
         
         <div class="section-header">
-            <h2>Tower</h2>
-            <p>Scalato la torre, trova i diamanti ed evita le bombe!</p>
+            <h2>Tower 3D</h2>
+            <p>Sali piano per piano. Scegli le mattonelle con i diamanti ed evita la bomba!</p>
         </div>
 
-        <div class="tower-container" id="tower-board">
-            <!-- Griglia Tower generata via JS -->
+        <div class="tower-viewport">
+            <div class="tower-container" id="tower-board"></div>
         </div>
 
         <div class="game-controls">
@@ -542,8 +635,65 @@
         </div>
     </div>
 
-    <!-- Script Logica -->
+    <!-- Script Logica e Vettori 3D -->
     <script>
+        // SVG Grafica 3D Sfumata
+        const SVG_DIAMOND_3D = `
+        <svg class="icon-3d" viewBox="0 0 64 64" fill="none">
+            <defs>
+                <linearGradient id="d-top" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e0f2fe"/>
+                    <stop offset="100%" stop-color="#38bdf8"/>
+                </linearGradient>
+                <linearGradient id="d-side1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8"/>
+                    <stop offset="100%" stop-color="#0284c7"/>
+                </linearGradient>
+                <linearGradient id="d-side2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#0284c7"/>
+                    <stop offset="100%" stop-color="#0369a1"/>
+                </linearGradient>
+            </defs>
+            <path d="M20 12 L44 12 L56 26 L32 54 L8 26 Z" fill="url(#d-side1)"/>
+            <path d="M20 12 L32 26 L44 12 L56 26 L32 26 L8 26 Z" fill="url(#d-top)"/>
+            <path d="M8 26 L32 54 L32 26 Z" fill="url(#d-side1)"/>
+            <path d="M56 26 L32 54 L32 26 Z" fill="url(#d-side2)"/>
+            <polygon points="20,12 26,26 8,26" fill="rgba(255,255,255,0.4)"/>
+            <polygon points="44,12 38,26 56,26" fill="rgba(255,255,255,0.2)"/>
+        </svg>`;
+
+        const SVG_BOMB_3D = `
+        <svg class="icon-3d" viewBox="0 0 64 64" fill="none">
+            <defs>
+                <radialGradient id="bomb-body" cx="35%" cy="35%" r="65%">
+                    <stop offset="0%" stop-color="#64748b"/>
+                    <stop offset="40%" stop-color="#1e293b"/>
+                    <stop offset="100%" stop-color="#0f172a"/>
+                </radialGradient>
+                <radialGradient id="spark-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#fef08a"/>
+                    <stop offset="50%" stop-color="#f97316"/>
+                    <stop offset="100%" stop-color="#dc2626"/>
+                </radialGradient>
+            </defs>
+            <!-- Miccia -->
+            <path d="M38 22 C42 16, 46 16, 48 10" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+            <!-- Scintilla -->
+            <circle cx="49" cy="9" r="5" fill="url(#spark-glow)"/>
+            <!-- Corpo Bomba -->
+            <circle cx="30" cy="38" r="20" fill="url(#bomb-body)"/>
+            <rect x="33" y="19" width="10" height="6" rx="2" transform="rotate(-25 33 19)" fill="#475569"/>
+            <!-- Sfumatura Riflesso Lucido -->
+            <ellipse cx="23" cy="29" rx="5" ry="3" transform="rotate(-30 23 29)" fill="rgba(255,255,255,0.3)"/>
+        </svg>`;
+
+        let balance = 100.00;
+
+        function updateBalance(amount) {
+            balance += amount;
+            document.getElementById('user-balance').innerText = balance.toFixed(2);
+        }
+
         function switchView(viewId) {
             const views = document.querySelectorAll('.view-container');
             views.forEach(view => view.classList.remove('view-active'));
@@ -551,6 +701,7 @@
         }
 
         /* --- LOGICA MINES --- */
+        let isMinesPlaying = false;
         function initMinesBoard() {
             const board = document.getElementById('mines-board');
             board.innerHTML = '';
@@ -562,11 +713,16 @@
             }
         }
 
-        let isMinesPlaying = false;
         function startMines() {
+            const betInput = document.getElementById('mines-bet-input');
+            const bet = parseFloat(betInput.value) || 0;
+            if(bet > balance) return alert('Saldo insufficiente!');
+
+            updateBalance(-bet);
             initMinesBoard();
             isMinesPlaying = true;
-            const btn = document.querySelector('#view-mines .btn-bet');
+
+            const btn = document.getElementById('mines-btn');
             btn.innerText = 'CASHOUT';
             btn.style.background = '#eab308';
             btn.onclick = cashoutMines;
@@ -574,50 +730,60 @@
 
         function clickMineTile(btn) {
             if(!isMinesPlaying || btn.innerHTML !== '') return;
-            const isMine = Math.random() < 0.2;
+            const isMine = Math.random() < 0.22;
+
             if(isMine) {
-                btn.innerHTML = '💣';
-                btn.style.background = '#ef4444';
+                btn.innerHTML = SVG_BOMB_3D;
+                btn.classList.add('revealed-bomb');
                 endMines(false);
             } else {
-                btn.innerHTML = '💎';
-                btn.style.background = '#22c55e';
+                btn.innerHTML = SVG_DIAMOND_3D;
+                btn.classList.add('revealed-gem');
             }
         }
 
         function cashoutMines() {
             if(!isMinesPlaying) return;
+            const bet = parseFloat(document.getElementById('mines-bet-input').value) || 10;
+            updateBalance(bet * 1.4);
             endMines(true);
         }
 
         function endMines(won) {
             isMinesPlaying = false;
-            const btn = document.querySelector('#view-mines .btn-bet');
-            btn.innerText = won ? 'Vittoria! Rigioca' : 'Perso! Rigioca';
+            const btn = document.getElementById('mines-btn');
+            btn.innerText = won ? 'VITTORIA! RIGIOCA' : 'PERSO! RIGIOCA';
             btn.style.background = won ? '#16a34a' : '#ef4444';
             btn.onclick = startMines;
         }
 
-        /* --- LOGICA TOWER --- */
+        /* --- LOGICA TOWER 3D --- */
         const TOWER_ROWS = 8;
         const TILES_PER_ROW = 4;
+        const MULTIPLIERS = [1.30, 1.75, 2.35, 3.15, 4.25, 5.70, 7.80, 10.50];
         let currentTowerRow = 0;
         let isTowerPlaying = false;
-        let towerData = [];
+        let towerBombPositions = [];
 
         function initTowerBoard() {
             const board = document.getElementById('tower-board');
             board.innerHTML = '';
-            towerData = [];
+            towerBombPositions = [];
 
             for(let r = 0; r < TOWER_ROWS; r++) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'tower-row';
                 rowDiv.id = `tower-row-${r}`;
 
-                // 1 bomba casuale per riga
+                // Badge moltiplicatore per piano
+                const badge = document.createElement('div');
+                badge.className = 'tower-badge';
+                badge.innerHTML = `${MULTIPLIERS[r]}x<span>Lvl ${r+1}</span>`;
+                rowDiv.appendChild(badge);
+
+                // Posiziona 1 bomba casuale per livello
                 const bombIndex = Math.floor(Math.random() * TILES_PER_ROW);
-                towerData.push(bombIndex);
+                towerBombPositions.push(bombIndex);
 
                 for(let c = 0; c < TILES_PER_ROW; c++) {
                     const tile = document.createElement('button');
@@ -630,11 +796,16 @@
         }
 
         function startTower() {
+            const betInput = document.getElementById('tower-bet-input');
+            const bet = parseFloat(betInput.value) || 0;
+            if(bet > balance) return alert('Saldo insufficiente!');
+
+            updateBalance(-bet);
             initTowerBoard();
             isTowerPlaying = true;
             currentTowerRow = 0;
-            
-            updateTowerRows();
+
+            updateTowerRowsUI();
 
             const btn = document.getElementById('tower-btn');
             btn.innerText = 'CASHOUT';
@@ -642,13 +813,14 @@
             btn.onclick = cashoutTower;
         }
 
-        function updateTowerRows() {
+        function updateTowerRowsUI() {
             for(let r = 0; r < TOWER_ROWS; r++) {
                 const row = document.getElementById(`tower-row-${r}`);
+                row.classList.remove('active', 'passed');
                 if(r === currentTowerRow && isTowerPlaying) {
                     row.classList.add('active');
-                } else {
-                    row.classList.remove('active');
+                } else if(r < currentTowerRow) {
+                    row.classList.add('passed');
                 }
             }
         }
@@ -656,41 +828,44 @@
         function clickTowerTile(row, col, tileBtn) {
             if(!isTowerPlaying || row !== currentTowerRow) return;
 
-            const isBomb = (towerData[row] === col);
+            const isBomb = (towerBombPositions[row] === col);
 
             if(isBomb) {
-                tileBtn.innerHTML = '💣';
-                tileBtn.style.background = '#ef4444';
+                tileBtn.innerHTML = SVG_BOMB_3D;
+                tileBtn.classList.add('revealed-bomb');
                 endTower(false);
             } else {
-                tileBtn.innerHTML = '💎';
-                tileBtn.style.background = '#22c55e';
+                tileBtn.innerHTML = SVG_DIAMOND_3D;
+                tileBtn.classList.add('revealed-gem');
                 currentTowerRow++;
 
                 if(currentTowerRow >= TOWER_ROWS) {
-                    endTower(true);
+                    cashoutTower();
                 } else {
-                    updateTowerRows();
+                    updateTowerRowsUI();
                 }
             }
         }
 
         function cashoutTower() {
             if(!isTowerPlaying) return;
+            const bet = parseFloat(document.getElementById('tower-bet-input').value) || 10;
+            const winFactor = currentTowerRow > 0 ? MULTIPLIERS[currentTowerRow - 1] : 1;
+            updateBalance(bet * winFactor);
             endTower(true);
         }
 
         function endTower(won) {
             isTowerPlaying = false;
-            updateTowerRows();
+            updateTowerRowsUI();
 
             const btn = document.getElementById('tower-btn');
-            btn.innerText = won ? 'Vittoria! Rigioca' : 'Perso! Rigioca';
+            btn.innerText = won ? 'VITTORIA! RIGIOCA' : 'PERSO! RIGIOCA';
             btn.style.background = won ? '#16a34a' : '#ef4444';
             btn.onclick = startTower;
         }
 
-        // Inizializzazione iniziale
+        // Inizializzazione griglie
         initMinesBoard();
         initTowerBoard();
     </script>
